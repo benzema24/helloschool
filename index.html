@@ -221,7 +221,17 @@ tbody tr:hover{background:var(--surface-2)}
 
 /* ---------- misc widgets ---------- */
 .photo{border-radius:var(--r);overflow:hidden;background:var(--surface-3);position:relative;display:block;aspect-ratio:4/3}
-.photo svg{width:100%;height:100%;display:block}
+.photo svg,.photo img,.photo video{width:100%;height:100%;display:block;object-fit:cover;background:#000}
+.photo.vid video{object-fit:contain}
+.photo .cap.top{top:0;bottom:auto;padding:8px 10px 16px;background:linear-gradient(to bottom,rgba(16,24,40,.6),transparent)}
+.photo-x.save{right:auto;left:6px;opacity:.85}
+.photo-x{position:absolute;top:6px;right:6px;width:24px;height:24px;border-radius:50%;border:0;cursor:pointer;
+  background:rgba(16,24,40,.62);color:#fff;display:grid;place-items:center;padding:0}
+.uploader{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;
+  padding:22px 16px;border:1.5px dashed var(--border-2);border-radius:var(--r);background:var(--surface-2);
+  color:var(--muted);font-family:var(--ui);font-weight:600;font-size:14px;cursor:pointer;transition:border-color .12s,background .12s}
+.uploader:hover{border-color:var(--brand);background:var(--brand-50);color:var(--brand-700)}
+.uploader input[type=file]{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
 .photo .cap{position:absolute;left:0;right:0;bottom:0;padding:16px 10px 8px;color:#fff;font-size:11.5px;font-weight:600;font-family:var(--ui);
   background:linear-gradient(to top,rgba(6,10,24,.62),rgba(6,10,24,0))}
 .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
@@ -364,6 +374,15 @@ tbody tr:hover{background:var(--surface-2)}
   .content{padding-top:14px}
 }
 @media (prefers-reduced-motion: reduce){ *{animation:none !important;transition:none !important} }
+@media print{
+  .sidebar,.topbar,.bottombar,.toasts,#overlay,.seg,.btn,.pill-tabs,.scrim{display:none !important}
+  body{background:#fff}
+  .content{padding:0;max-width:none}
+  .card,.sheet-print{box-shadow:none;border:0}
+  .sheet-print .card-b{padding:0}
+  table{font-size:12px}
+  a[href]:after{content:""}
+}
 </style>
 </head>
 <body>
@@ -443,6 +462,9 @@ function hashHue(str){ let h=0; for(let i=0;i<str.length;i++) h=(h*31+str.charCo
 function initials(name){ return name.split(' ').filter(Boolean).slice(0,2).map(w=>w[0]).join('').toUpperCase(); }
 function avatar(name, size, id){
   const hue=hashHue(id||name), s=size||36;
+  const pic = id && typeof AVATARS!=='undefined' ? AVATARS[id] : null;
+  if(pic) return '<img class="avatar" src="'+esc(pic)+'" alt="'+esc(name||'')+'" '+
+    'style="width:'+s+'px;height:'+s+'px;object-fit:cover" loading="lazy">';
   return '<div class="avatar" style="width:'+s+'px;height:'+s+'px;font-size:'+Math.round(s*0.38)+'px;'+
     'background:linear-gradient(145deg,hsl('+hue+' 42% 52%),hsl('+((hue+26)%360)+' 46% 40%))">'+esc(initials(name))+'</div>';
 }
@@ -532,9 +554,11 @@ sq:{
  login_head:'Mirë se vini në Hello Academy',
  login_sub:'Zgjidhni një rol demonstrimi për të hyrë. Kjo është një version demo — asnjë e dhënë reale nuk përdoret.',
  demo_access:'Hyrje e shpejtë demo',
- role_parent:'Prind', role_teacher:'Mësues/e', role_admin:'Administratë', role_super:'Super Admin',
+ role_parent:'Prind', role_teacher:'Mësues/e', role_educator:'Edukator/e', role_admin:'Administratë', role_super:'Super Admin',
+ educator:'Edukatorja', educators:'Edukatoret', teaching_staff:'Stafi mësimor',
+ educator_note:'Shënim nga edukatorja', early_group:'Grupi', age_band:'Mosha',
  login_parent_d:'Arta Krasniqi — Emma dhe Rroni',
- login_kg_d:'Teuta Hoxha — Kopshti, Grupi Lulet',
+ login_kg_d:'Albina Sylejmani — Kopshti, Grupi Lulet',
  login_gt_d:'Blerim Gashi — Matematikë, klasat 5/A dhe 8/A',
  login_admin_d:'Mimoza Bajrami — Drejtoreshë',
  demo_note:'Demo: të dhënat janë fiktive dhe ruhen vetëm në kujtesën e shfletuesit.',
@@ -545,7 +569,7 @@ sq:{
  nav_notifications:'Njoftimet', nav_profile:'Profili',
  nav_dashboard:'Paneli', nav_classes:'Klasat e mia', nav_students:'Nxënësit', nav_attendance:'Prezenca',
  nav_activities:'Aktivitetet', nav_grades:'Notat', nav_daysheet:'Dita e sotme',
- nav_parents:'Prindërit', nav_teachers:'Mësuesit', nav_subjects:'Lëndët', nav_announcements:'Njoftime',
+ nav_parents:'Prindërit', nav_teachers:'Stafi mësimor', nav_subjects:'Lëndët', nav_announcements:'Njoftime',
  nav_reports_admin:'Raporte', nav_settings:'Cilësimet', nav_school:'Shkolla',
  /* general */
  today:'Sot', yesterday:'Dje', tomorrow:'Nesër', just_now:'tani', min_ago:'min më parë', hr_ago:'orë më parë', day_ago:'ditë më parë',
@@ -573,7 +597,7 @@ sq:{
  add_activity:'Shto aktivitet', activity_added:'Aktiviteti u shtua',
  /* daily report */
  daily_report:'Raporti ditor', daily_reports:'Raportet ditore', day_timeline:'Rrjedha e ditës',
- teacher_note:'Shënim nga mësuesja', publish_day:'Publiko ditën', day_published:'Dita u publikua për prindërit',
+ teacher_note:'Shënim nga edukatorja', publish_day:'Publiko ditën', day_published:'Dita u publikua për prindërit',
  not_published:'Ende i papublikuar', report_for:'Raporti për',
  /* academics */
  academics:'Mësimi', overall:'Mesatarja', subjects:'Lëndët', recent_grades:'Notat e fundit',
@@ -609,7 +633,7 @@ sq:{
  /* parent home */
  good_morning:'Mirëmëngjes', good_afternoon:'Mirëdita', good_evening:'Mirëmbrëma',
  todays_overview:'Dita e sotme', no_report_yet:'Raporti i sotëm ende nuk është publikuar',
- no_report_hint:'Mësuesja e publikon zakonisht pas orës 15:00.',
+ no_report_hint:'Edukatorja e publikon zakonisht pas orës 15:00.',
  upcoming_events:'Ngjarjet e ardhshme', latest_photos:'Fotot e fundit', see_day:'Shiko ditën e plotë',
  /* teacher */
  my_classes:'Klasat e mia', todays_classes:'Orët e sotme', to_do:'Për t\'u bërë', quick_actions:'Veprime të shpejta',
@@ -618,16 +642,45 @@ sq:{
  day_sheet:'Fletorja e ditës', bulk_hint:'Vendos për gjithë klasën, pastaj ndrysho përjashtimet.',
  apply_to_class:'Zbato për klasën', exceptions:'përjashtime', per_student:'Për nxënës',
  /* admin */
- total_students:'Nxënës gjithsej', total_teachers:'Mësues', total_classes:'Klasa',
+ total_students:'Nxënës gjithsej', total_teachers:'Staf mësimor', total_classes:'Klasa',
  attendance_today:'Prezenca sot', absent_today:'Mungojnë sot', student_distribution:'Shpërndarja e nxënësve',
  recent_activity:'Aktiviteti i fundit', weekly_attendance:'Prezenca javore',
- manage:'Menaxho', school_year:'Viti shkollor', add_student:'Shto nxënës', add_teacher:'Shto mësues',
+ manage:'Menaxho', school_year:'Viti shkollor', add_student:'Shto nxënës', add_teacher:'Shto staf',
  /* privacy */
  privacy_title:'Privatësia e të dhënave', data_export:'Shkarko të dhënat', data_delete:'Kërko fshirjen e të dhënave',
  parent_scope:'Ju shihni vetëm fëmijët tuaj.', demo_only:'Vetëm demo',
  coming_soon:'Vjen së shpejti në versionin e plotë',
  /* profile completion + intake */
- school:'Shkolla', complete_profile:'Plotëso profilin', profile_completion:'Profili i plotësuar',
+ /* absence, messaging, menu, timetable, report card */
+ report_absence:'Njofto mungesë', absence_reported:'Mungesa u njoftua',
+ absence_for:'Mungesa për', absence_reason:'Arsyeja', absence_note:'Shënim për shkollën',
+ absence_note_ph:'Diçka që duhet ta dijë shkolla (opsionale)',
+ reason_illness:'Sëmundje', reason_doctor:'Vizitë mjekësore', reason_family:'Arsye familjare', reason_other:'Tjetër',
+ reported_by_parent:'Njoftuar nga prindi', absences_today:'Mungesa të njoftuara',
+ absence_none:'Asnjë mungesë e njoftuar', absence_hint:'Njoftoni shkollën para orës 08:00 nëse mundeni.',
+ date_today:'Sot', date_tomorrow:'Nesër', already_reported:'Mungesa është njoftuar tashmë',
+ new_message:'Mesazh i ri', write_to:'Shkruaj te', subject_line:'Tema', message_body:'Mesazhi',
+ message_sent:'Mesazhi u dërgua', pick_recipient:'Zgjidhni marrësin', administration:'Administrata',
+ broadcast:'Njoftim për grupin', broadcast_sent:'Njoftimi u dërgua te prindërit',
+ broadcast_hint:'Shkon te të gjithë prindërit e grupit njëherësh.',
+ nav_menu:'Menyja', weekly_menu:'Menyja e javës', this_week:'Kjo javë', next_week:'Java e ardhshme',
+ menu_not_published:'Menyja nuk është publikuar ende', edit_menu:'Ndrysho menynë', menu_saved:'Menyja u ruajt',
+ nav_timetable:'Orari', timetable:'Orari i mësimit', period:'Ora', no_lessons_today:'Sot nuk ka orë mësimi',
+ nav_reportcard:'Dëftesa', report_card:'Dëftesa', term:'Semestri', final_mark:'Nota përfundimtare',
+ subject_col:'Lënda', marks_count:'Notat', term_average:'Mesatarja', homeroom_comment:'Vlerësimi i kujdestarit',
+ print:'Printo', no_marks_yet:'Ende pa nota', general_average:'Mesatarja e përgjithshme',
+ attendance_pct:'Prezenca', absences_count:'Mungesa',
+ download:'Shkarko', save_photo:'Ruaj foton', issued_on:'Lëshuar më',
+ school:'Shkolla', complete_profile:'Plotëso profilin',
+ add_media:'Shto foto ose video', choose_media:'Zgjidh foto ose video',
+ choose_media_hint:'Nga galeria ose direkt me kamerë. Deri në 12 skedarë.',
+ child_photo:'Fotoja e fëmijës', change_photo:'Ndrysho foton',
+ child_photo_hint:'Shfaqet në profilin e fëmijës dhe në listat e klasës.',
+ choose_photo:'Zgjidh një foto', caption:'Përshkrimi', caption_ph:'p.sh. Pikturim i pemëve të vjeshtës',
+ caption_default:'Nga dita jonë', video:'Video', reading_files:'Po lexohen skedarët…',
+ upload_failed:'Skedari nuk u lexua dot', publish_n_media:'Publiko {n} skedarë',
+ no_access:'Nuk keni qasje',
+ media_session_note:'Në këtë demo skedarët ruhen vetëm në këtë shfletues dhe zhduken kur faqja rifreskohet.', profile_completion:'Profili i plotësuar',
  profile_incomplete:'{n} — profili nuk është i plotë',
  profile_incomplete_hint:'Disa të dhëna që shkolla i kërkon çdo vit ende mungojnë.',
  profile_complete_title:'Profili është i plotë', profile_confirmed_on:'Konfirmuar më {d}',
@@ -635,12 +688,12 @@ sq:{
  sections_done:'{a} nga {b} seksione',
  step_health:'Shëndeti', step_doctor:'Mjeku', step_contacts:'Kontaktet',
  step_pickup:'Marrja e fëmijës', step_consent:'Pëlqimet', step_confirm:'Konfirmo',
- health_intro:'Këto të dhëna i sheh mësuesja e klasës dhe stafi i autorizuar. Ato përdoren për sigurinë e fëmijës gjatë ditës.',
+ health_intro:'Këto të dhëna i sheh edukatorja ose mësuesja e klasës dhe stafi i autorizuar. Ato përdoren për sigurinë e fëmijës gjatë ditës.',
  allergies_q:'A ka fëmija alergji?', add_allergy:'Shto alergji', allergy_ph:'p.sh. arra, qumësht',
  no_allergies_yet:'Asnjë alergji e regjistruar', remove:'Hiq',
  food_restrictions_q:'Kufizime ushqimore', food_ph:'p.sh. pa mish derri',
  medications_q:'Barna që merr rregullisht', medications_ph:'Shkruani emrin dhe orarin, ose lëreni bosh',
- med_notes_q:'Diçka tjetër që duhet ta dijë mësuesja?', med_notes_ph:'p.sh. astmë e lehtë, inhalatori në çantë',
+ med_notes_q:'Diçka tjetër që duhet ta dijë edukatorja ose mësuesja?', med_notes_ph:'p.sh. astmë e lehtë, inhalatori në çantë',
  no_medications:'Asnjë', doctor_name:'Emri i mjekut', doctor_phone:'Telefoni i mjekut',
  clinic:'Klinika ose qendra shëndetësore', doctor_intro:'Kë ta kontaktojmë nëse fëmija sëmuret gjatë orarit të shkollës.',
  contacts_intro:'Numri juaj dhe një kontakt rezervë nëse ne nuk ju gjejmë dot.',
@@ -657,7 +710,7 @@ sq:{
  confirm_intro:'Kontrolloni të dhënat dhe konfirmoni se janë të sakta për këtë vit shkollor.',
  confirm_profile:'Konfirmo profilin', profile_saved:'Profili u ruajt',
  profile_confirmed:'Faleminderit — profili u konfirmua',
- teacher_notified:'Mësuesja e klasës u njoftua për ndryshimet.',
+ teacher_notified:'Edukatorja ose mësuesja e klasës u njoftua për ndryshimet.',
  review_health:'Shëndeti dhe alergjitë', not_filled:'Pa plotësuar', filled:'E plotësuar',
  back_step:'Prapa', next_step:'Vazhdo',
  /* intake / import */
@@ -681,9 +734,11 @@ en:{
  login_head:'Welcome to Hello Academy',
  login_sub:'Pick a demo role to continue. This is a demo build — no real data is used.',
  demo_access:'Quick demo access',
- role_parent:'Parent', role_teacher:'Teacher', role_admin:'Administration', role_super:'Super Admin',
+ role_parent:'Parent', role_teacher:'Teacher', role_educator:'Educator', role_admin:'Administration', role_super:'Super Admin',
+ educator:'Educator', educators:'Educators', teaching_staff:'Teaching staff',
+ educator_note:'Note from the educator', early_group:'Group', age_band:'Age',
  login_parent_d:'Arta Krasniqi — Emma and Rron',
- login_kg_d:'Teuta Hoxha — Kindergarten, Lulet group',
+ login_kg_d:'Albina Sylejmani — Kindergarten, Lulet group',
  login_gt_d:'Blerim Gashi — Mathematics, grades 5/A and 8/A',
  login_admin_d:'Mimoza Bajrami — Head of school',
  demo_note:'Demo: all data is fictional and lives only in browser memory.',
@@ -693,7 +748,7 @@ en:{
  nav_notifications:'Notifications', nav_profile:'Profile',
  nav_dashboard:'Dashboard', nav_classes:'My classes', nav_students:'Students', nav_attendance:'Attendance',
  nav_activities:'Activities', nav_grades:'Grades', nav_daysheet:'Today',
- nav_parents:'Parents', nav_teachers:'Teachers', nav_subjects:'Subjects', nav_announcements:'Announcements',
+ nav_parents:'Parents', nav_teachers:'Teaching staff', nav_subjects:'Subjects', nav_announcements:'Announcements',
  nav_reports_admin:'Reports', nav_settings:'Settings', nav_school:'School',
  today:'Today', yesterday:'Yesterday', tomorrow:'Tomorrow', just_now:'just now', min_ago:'min ago', hr_ago:'hr ago', day_ago:'d ago',
  save:'Save', cancel:'Cancel', close:'Close', open:'Open', add:'Add', edit:'Edit', delete:'Delete', publish:'Publish',
@@ -751,7 +806,7 @@ en:{
  pending_reports:'Unpublished daily reports', recent_messages:'Recent messages',
  day_sheet:'Day sheet', bulk_hint:'Set it for the whole class, then fix the exceptions.',
  apply_to_class:'Apply to class', exceptions:'exceptions', per_student:'Per student',
- total_students:'Students', total_teachers:'Teachers', total_classes:'Classes',
+ total_students:'Students', total_teachers:'Teaching staff', total_classes:'Classes',
  attendance_today:'Attendance today', absent_today:'Absent today', student_distribution:'Students by level',
  recent_activity:'Recent activity', weekly_attendance:'Attendance this week',
  manage:'Manage', school_year:'School year', add_student:'Add student', add_teacher:'Add teacher',
@@ -759,7 +814,36 @@ en:{
  parent_scope:'You only see your own children.', demo_only:'Demo only',
  coming_soon:'Coming in the full version',
  /* profile completion + intake */
- school:'School', complete_profile:'Complete profile', profile_completion:'Profile completion',
+ /* absence, messaging, menu, timetable, report card */
+ report_absence:'Report an absence', absence_reported:'The absence was reported',
+ absence_for:'Absence for', absence_reason:'Reason', absence_note:'Note for the school',
+ absence_note_ph:'Anything the school should know (optional)',
+ reason_illness:'Illness', reason_doctor:'Medical appointment', reason_family:'Family reason', reason_other:'Other',
+ reported_by_parent:'Reported by the guardian', absences_today:'Reported absences',
+ absence_none:'No absences reported', absence_hint:'Let the school know before 08:00 if you can.',
+ date_today:'Today', date_tomorrow:'Tomorrow', already_reported:'This absence is already reported',
+ new_message:'New message', write_to:'Write to', subject_line:'Subject', message_body:'Message',
+ message_sent:'Message sent', pick_recipient:'Choose a recipient', administration:'Administration',
+ broadcast:'Message the whole group', broadcast_sent:'Sent to the guardians',
+ broadcast_hint:'Goes to every guardian in the group at once.',
+ nav_menu:'Menu', weekly_menu:'Menu of the week', this_week:'This week', next_week:'Next week',
+ menu_not_published:'The menu has not been published yet', edit_menu:'Edit the menu', menu_saved:'Menu saved',
+ nav_timetable:'Timetable', timetable:'Lesson timetable', period:'Period', no_lessons_today:'No lessons today',
+ nav_reportcard:'Report card', report_card:'Report card', term:'Term', final_mark:'Final mark',
+ subject_col:'Subject', marks_count:'Marks', term_average:'Average', homeroom_comment:'Homeroom comment',
+ print:'Print', no_marks_yet:'No marks yet', general_average:'Overall average',
+ attendance_pct:'Attendance', absences_count:'Absences',
+ download:'Download', save_photo:'Save photo', issued_on:'Issued on',
+ school:'School', complete_profile:'Complete profile',
+ add_media:'Add photos or video', choose_media:'Choose photos or video',
+ choose_media_hint:'From the gallery or straight from the camera. Up to 12 files.',
+ child_photo:'Child photo', change_photo:'Change photo',
+ child_photo_hint:'Shown on the child profile and in class lists.',
+ choose_photo:'Choose a photo', caption:'Caption', caption_ph:'e.g. Painting autumn trees',
+ caption_default:'From our day', video:'Video', reading_files:'Reading files…',
+ upload_failed:'That file could not be read', publish_n_media:'Publish {n} files',
+ no_access:'No access',
+ media_session_note:'In this demo files are kept in this browser only and disappear when the page is reloaded.', profile_completion:'Profile completion',
  profile_incomplete:'{n}\u2019s profile is not complete',
  profile_incomplete_hint:'A few details the school asks for every year are still missing.',
  profile_complete_title:'Profile is complete', profile_confirmed_on:'Confirmed on {d}',
@@ -873,6 +957,7 @@ const pick = (r,arr) => arr[Math.floor(r()*arr.length)];
 /* =========================================================================
    SEED
    ========================================================================= */
+function classStage(db,cid){ const c=db.classes.find(x=>x.id===cid); return c?c.stage:null; }
 function seed(){
   const db = {
     schools:[], schoolYears:[], users:[], parents:[], teachers:[], students:[],
@@ -880,7 +965,7 @@ function seed(){
     attendance:[], meals:[], activities:[], naps:[], moods:[], teacherNotes:[],
     dailyReports:[], grades:[], homework:[], homeworkStatus:[], photos:[],
     announcements:[], events:[], conversations:[], messages:[], notifications:[],
-    medical:[], pickups:[], emergencyContacts:[], auditLog:[]
+    medical:[], pickups:[], emergencyContacts:[], absences:[], periods:[], menus:[], terms:[], auditLog:[]
   };
   const T0 = today();
   const SCHOOL = uuid('school-hello-academy');
@@ -915,33 +1000,71 @@ function seed(){
     db.users.push(Object.assign({id, schoolId:SCHOOL, name, email, role, active:true, created_at:nowISO()}, extra||{}));
     return id;
   }
+  const U_ALBINA= addUser('Albina Sylejmani','albina.sylejmani@helloacademy.example','teacher');
   const U_TEUTA = addUser('Teuta Hoxha','teuta.hoxha@dituria.example','teacher');
+  const U_EDONA = addUser('Edona Nikçi','edona.nikci@helloacademy.example','teacher');
   const U_BLERIM= addUser('Blerim Gashi','blerim.gashi@dituria.example','teacher');
   const U_ARTAD = addUser('Arta Dervishi','arta.dervishi@dituria.example','teacher');
+  const U_VJOLLCA=addUser('Vjollca Berisha','vjollca.berisha@helloacademy.example','teacher');
+  const U_SHPEND =addUser('Shpend Rama','shpend.rama@helloacademy.example','teacher');
+  const U_LINDITA=addUser('Lindita Kurti','lindita.kurti@helloacademy.example','teacher');
+  const U_FATOS  =addUser('Fatos Lleshi','fatos.lleshi@helloacademy.example','teacher');
   const U_ADMIN = addUser('Mimoza Bajrami','mimoza.bajrami@dituria.example','admin');
-  const T_TEUTA = uuid('t-teuta'), T_BLERIM=uuid('t-blerim'), T_ARTAD=uuid('t-artad');
+  const T_ALBINA=uuid('t-albina'), T_TEUTA = uuid('t-teuta'), T_EDONA=uuid('t-edona'),
+        T_BLERIM=uuid('t-blerim'), T_ARTAD=uuid('t-artad'),
+        T_VJOLLCA=uuid('t-vjollca'), T_SHPEND=uuid('t-shpend'),
+        T_LINDITA=uuid('t-lindita'), T_FATOS=uuid('t-fatos');
   db.teachers.push(
-    {id:T_TEUTA, userId:U_TEUTA, schoolId:SCHOOL, title:{sq:'Edukatore',en:'Early years teacher'}, subjects:[], phone:'+383 44 210 771'},
+    {id:T_ALBINA,userId:U_ALBINA,schoolId:SCHOOL, title:{sq:'Edukatore',en:'Early years educator'}, stage:'early', subjects:[], phone:'+383 44 118 440'},
+    {id:T_TEUTA, userId:U_TEUTA, schoolId:SCHOOL, title:{sq:'Edukatore',en:'Early years educator'}, stage:'early', subjects:[], phone:'+383 44 210 771'},
+    {id:T_EDONA, userId:U_EDONA, schoolId:SCHOOL, title:{sq:'Edukatore',en:'Early years educator'}, stage:'early', subjects:[], phone:'+383 45 662 330'},
     {id:T_BLERIM,userId:U_BLERIM,schoolId:SCHOOL, title:{sq:'Mësues i Matematikës',en:'Mathematics teacher'}, subjects:[SUBJ.math,SUBJ.tech], phone:'+383 44 318 902'},
-    {id:T_ARTAD, userId:U_ARTAD, schoolId:SCHOOL, title:{sq:'Mësuese e Shkencës',en:'Science teacher'}, subjects:[SUBJ.sci,SUBJ.geo], phone:'+383 44 662 118'}
+    {id:T_ARTAD, userId:U_ARTAD, schoolId:SCHOOL, title:{sq:'Mësuese e Shkencës',en:'Science teacher'}, subjects:[SUBJ.sci,SUBJ.geo], phone:'+383 44 662 118'},
+    {id:T_VJOLLCA,userId:U_VJOLLCA,schoolId:SCHOOL, title:{sq:'Mësuese e Gjuhës Shqipe',en:'Albanian language teacher'}, subjects:[SUBJ.alb], phone:'+383 44 771 220'},
+    {id:T_SHPEND, userId:U_SHPEND, schoolId:SCHOOL, title:{sq:'Mësues i Anglishtes',en:'English teacher'}, subjects:[SUBJ.eng], phone:'+383 45 118 334'},
+    {id:T_LINDITA,userId:U_LINDITA,schoolId:SCHOOL, title:{sq:'Mësuese e Historisë dhe Gjeografisë',en:'History and geography teacher'}, subjects:[SUBJ.hist,SUBJ.geo], phone:'+383 44 909 771'},
+    {id:T_FATOS,  userId:U_FATOS,  schoolId:SCHOOL, title:{sq:'Mësues i Edukatës Fizike dhe Artit',en:'PE and art teacher'}, subjects:[SUBJ.pe,SUBJ.art,SUBJ.tech], phone:'+383 49 330 118'}
   );
 
   /* ---- classes ---- */
-  const C_KG=uuid('cls-kg'), C_5A=uuid('cls-5a'), C_8A=uuid('cls-8a');
+  const C_KG=uuid('cls-kg'), C_KG2=uuid('cls-kg2'), C_KG3=uuid('cls-kg3'),
+        C_5A=uuid('cls-5a'), C_8A=uuid('cls-8a');
   db.classes.push(
     {id:C_KG, schoolId:SCHOOL, yearId:YEAR, gradeLevelId:LVL.kg, name:'Grupi Lulet', shortName:'Lulet', room:'A-01',
+     ageLabel:{sq:'5–6 vjeç',en:'5–6 years'},
+     homeroomTeacherId:T_ALBINA, stage:'early', startTime:'08:00', endTime:'16:00'},
+    {id:C_KG2, schoolId:SCHOOL, yearId:YEAR, gradeLevelId:LVL.kg, name:'Grupi Bletët', shortName:'Bletët', room:'A-02',
+     ageLabel:{sq:'4–5 vjeç',en:'4–5 years'},
      homeroomTeacherId:T_TEUTA, stage:'early', startTime:'08:00', endTime:'16:00'},
+    {id:C_KG3, schoolId:SCHOOL, yearId:YEAR, gradeLevelId:LVL.kg, name:'Grupi Yjet', shortName:'Yjet', room:'A-03',
+     ageLabel:{sq:'3–4 vjeç',en:'3–4 years'},
+     homeroomTeacherId:T_EDONA, stage:'early', startTime:'08:00', endTime:'16:00'},
     {id:C_5A, schoolId:SCHOOL, yearId:YEAR, gradeLevelId:LVL.g5, name:'Klasa 5/A', shortName:'5/A', room:'B-12',
      homeroomTeacherId:T_BLERIM, stage:'primary', startTime:'08:00', endTime:'13:30'},
     {id:C_8A, schoolId:SCHOOL, yearId:YEAR, gradeLevelId:LVL.g8, name:'Klasa 8/A', shortName:'8/A', room:'C-04',
      homeroomTeacherId:T_ARTAD, stage:'primary', startTime:'08:00', endTime:'14:20'}
   );
   db.teacherClass.push(
-    {id:uuid('tc1'), teacherId:T_TEUTA, classId:C_KG, role:'homeroom', subjectId:null},
+    {id:uuid('tc1'), teacherId:T_ALBINA,classId:C_KG,  role:'homeroom', subjectId:null},
+    {id:uuid('tc1b'),teacherId:T_TEUTA, classId:C_KG2, role:'homeroom', subjectId:null},
+    {id:uuid('tc1c'),teacherId:T_EDONA, classId:C_KG3, role:'homeroom', subjectId:null},
     {id:uuid('tc2'), teacherId:T_BLERIM,classId:C_5A, role:'homeroom', subjectId:SUBJ.math},
     {id:uuid('tc3'), teacherId:T_BLERIM,classId:C_8A, role:'subject',  subjectId:SUBJ.math},
     {id:uuid('tc4'), teacherId:T_ARTAD, classId:C_8A, role:'homeroom', subjectId:SUBJ.sci},
-    {id:uuid('tc5'), teacherId:T_ARTAD, classId:C_5A, role:'subject',  subjectId:SUBJ.sci}
+    {id:uuid('tc5'), teacherId:T_ARTAD, classId:C_5A, role:'subject',  subjectId:SUBJ.sci},
+    {id:uuid('tc6'), teacherId:T_VJOLLCA,classId:C_5A, role:'subject',  subjectId:SUBJ.alb},
+    {id:uuid('tc7'), teacherId:T_VJOLLCA,classId:C_8A, role:'subject',  subjectId:SUBJ.alb},
+    {id:uuid('tc8'), teacherId:T_SHPEND, classId:C_5A, role:'subject',  subjectId:SUBJ.eng},
+    {id:uuid('tc9'), teacherId:T_SHPEND, classId:C_8A, role:'subject',  subjectId:SUBJ.eng},
+    {id:uuid('tc10'),teacherId:T_LINDITA,classId:C_5A, role:'subject',  subjectId:SUBJ.hist},
+    {id:uuid('tc11'),teacherId:T_LINDITA,classId:C_8A, role:'subject',  subjectId:SUBJ.hist},
+    {id:uuid('tc12'),teacherId:T_LINDITA,classId:C_8A, role:'subject',  subjectId:SUBJ.geo},
+    {id:uuid('tc13'),teacherId:T_FATOS,  classId:C_5A, role:'subject',  subjectId:SUBJ.pe},
+    {id:uuid('tc14'),teacherId:T_FATOS,  classId:C_8A, role:'subject',  subjectId:SUBJ.pe},
+    {id:uuid('tc15'),teacherId:T_FATOS,  classId:C_5A, role:'subject',  subjectId:SUBJ.art},
+    {id:uuid('tc16'),teacherId:T_FATOS,  classId:C_8A, role:'subject',  subjectId:SUBJ.art},
+    {id:uuid('tc17'),teacherId:T_FATOS,  classId:C_8A, role:'subject',  subjectId:SUBJ.tech},
+    {id:uuid('tc18'),teacherId:T_ARTAD,  classId:C_5A, role:'subject',  subjectId:SUBJ.geo}
   );
 
   /* ---- students ---- */
@@ -952,6 +1075,17 @@ function seed(){
     ['Endrit','Hoxha',C_KG,'2021-06-25','m',true,   [],'Astmë e lehtë sezonale. Inhalatori te edukatorja.','Mild seasonal asthma. Inhaler kept with the teacher.'],
     ['Dea','Rexhepi',C_KG,'2022-02-14','f',true,    [],'',''],
     ['Ilir','Morina',C_KG,'2021-08-30','m',true,    ['Vezë'],'Alergji ndaj vezëve.','Egg allergy.'],
+    /* Grupi Bletët — 4–5 vjeç */
+    ['Jon','Bytyqi',C_KG2,'2022-03-11','m',true,    [],'',''],
+    ['Ela','Nikçi',C_KG2,'2022-01-27','f',true,     ['Luleshtrydhe'],'Skuqje e lehtë nga luleshtrydhet.','Mild rash from strawberries.'],
+    ['Dion','Sopi',C_KG2,'2022-07-04','m',false,    [],'',''],
+    ['Kaltrina','Hasani',C_KG2,'2022-05-19','f',true,[],'',''],
+    ['Reon','Vokshi',C_KG2,'2022-09-08','m',true,   ['Laktozë'],'Intolerancë ndaj laktozës.','Lactose intolerant.'],
+    /* Grupi Yjet — 3–4 vjeç */
+    ['Ari','Mustafa',C_KG3,'2023-02-02','m',true,   [],'',''],
+    ['Mira','Selimi',C_KG3,'2023-04-23','f',true,   [],'Ende në përshtatje me gjumin e ditës.','Still settling into the afternoon nap.'],
+    ['Luan','Beqiri',C_KG3,'2023-06-15','m',true,   [],'',''],
+    ['Sara','Ismajli',C_KG3,'2023-01-30','f',false, ['Arra'],'Alergji ndaj arrave.','Nut allergy.'],
     ['Rron','Krasniqi',C_5A,'2016-03-07','m',true,  [],'',''],
     ['Erza','Bytyqi',C_5A,'2015-12-19','f',true,    [],'',''],
     ['Leon','Shala',C_5A,'2016-05-11','m',true,     [],'Syze për lexim.','Reading glasses.'],
@@ -997,7 +1131,16 @@ function seed(){
     ['Vlora Zeqiri','vlora.zeqiri@example.com','+383 44 220 990','Nënë','Mother',['Ardit']],
     ['Gëzim Maloku','gezim.maloku@example.com','+383 49 771 552','Baba','Father',['Elsa']],
     ['Lume Ahmeti','lume.ahmeti@example.com','+383 44 330 118','Nënë','Mother',['Blend']],
-    ['Arben Dobruna','arben.dobruna@example.com','+383 45 664 220','Baba','Father',['Rina']]
+    ['Arben Dobruna','arben.dobruna@example.com','+383 45 664 220','Baba','Father',['Rina']],
+    ['Diellza Bytyqi','diellza.bytyqi@example.com','+383 44 505 118','Nënë','Mother',['Jon']],
+    ['Petrit Nikçi','petrit.nikci@example.com','+383 44 771 909','Baba','Father',['Ela']],
+    ['Albulena Sopi','albulena.sopi@example.com','+383 45 330 224','Nënë','Mother',['Dion']],
+    ['Kushtrim Hasani','kushtrim.hasani@example.com','+383 44 118 007','Baba','Father',['Kaltrina']],
+    ['Fjolla Vokshi','fjolla.vokshi@example.com','+383 49 220 663','Nënë','Mother',['Reon']],
+    ['Granit Mustafa','granit.mustafa@example.com','+383 44 909 330','Baba','Father',['Ari']],
+    ['Blerta Selimi','blerta.selimi@example.com','+383 45 442 771','Nënë','Mother',['Mira']],
+    ['Astrit Beqiri','astrit.beqiri@example.com','+383 44 663 550','Baba','Father',['Luan']],
+    ['Learta Ismajli','learta.ismajli@example.com','+383 49 118 990','Nënë','Mother',['Sara']]
   ];
   const P = {};
   parentDefs.forEach(([name,email,phone,relSq,relEn,kids])=>{
@@ -1031,7 +1174,7 @@ function seed(){
       const cls = byId(db.classes, s.classId);
       /* Kindergarten attendance for today is deliberately NOT taken yet:
          it is the starting point of the live teacher demo flow. */
-      if(isToday && cls.id===C_KG) return;
+      if(isToday && cls.stage==='early') return;
       let status='present';
       const x=r();
       if(x>0.965) status='absent'; else if(x>0.93) status='late'; else if(x>0.915) status='excused';
@@ -1068,62 +1211,80 @@ function seed(){
     language:{sq:'Fjalë të reja dhe tregim i shkurtër me figura.',en:'New words and a short picture story.'},
     social:{sq:'Bisedë për ndarjen e lodrave dhe radhën.',en:'Talking about sharing toys and taking turns.'}
   };
-  const kgStudents = db.students.filter(s=>s.classId===C_KG);
+  const earlyGroups = db.classes.filter(c=>c.stage==='early').map(c=>({
+    cls:c, teacher:c.homeroomTeacherId, students:db.students.filter(s=>s.classId===c.id)
+  }));
+  const kgStudents = earlyGroups[0].students;
   const rk = rng('kg-days');
-  days.slice(1,11).forEach((d,i)=>{
-    const menu = MENUS[i%MENUS.length];
-    const actA = ACTIVITY_CATALOG[(i*3)%ACTIVITY_CATALOG.length];
-    const actB = ACTIVITY_CATALOG[(i*5+4)%ACTIVITY_CATALOG.length];
-    [[actA,'09:30'],[actB,'15:00']].forEach(([a,time])=>{
-      const aid=uuid('act-'+ymd(d)+a.key+time);
-      db.activities.push({
-        id:aid, schoolId:SCHOOL, classId:C_KG, date:ymd(d), time, category:a.key,
-        name:{sq:a.sq,en:a.en}, description:ACT_DESC[a.key]||{sq:'Aktivitet i planifikuar i grupit.',en:'Planned group activity.'},
-        studentIds:kgStudents.map(s=>s.id),
-        participation:Object.fromEntries(kgStudents.map(s=>[s.id, rk()>0.75?'good':'excellent'])),
-        recordedBy:T_TEUTA, created_at:nowISO()
+  earlyGroups.forEach((g,gi)=>{
+    const T = g.teacher, CID = g.cls.id, kids = g.students;
+    days.slice(1,11).forEach((d,i)=>{
+      const menu = MENUS[i%MENUS.length];
+      const actA = ACTIVITY_CATALOG[(i*3+gi)%ACTIVITY_CATALOG.length];
+      const actB = ACTIVITY_CATALOG[(i*5+4+gi)%ACTIVITY_CATALOG.length];
+      [[actA,'09:30'],[actB,'15:00']].forEach(([a,time])=>{
+        db.activities.push({
+          id:uuid('act-'+CID+ymd(d)+a.key+time), schoolId:SCHOOL, classId:CID, date:ymd(d), time, category:a.key,
+          name:{sq:a.sq,en:a.en}, description:ACT_DESC[a.key]||{sq:'Aktivitet i planifikuar i grupit.',en:'Planned group activity.'},
+          studentIds:kids.map(s=>s.id),
+          participation:Object.fromEntries(kids.map(s=>[s.id, rk()>0.75?'good':'excellent'])),
+          recordedBy:T, created_at:nowISO()
+        });
       });
+      db.activities.push({
+        id:uuid('act-out-'+CID+ymd(d)), schoolId:SCHOOL, classId:CID, date:ymd(d), time:'10:30', category:'outdoor',
+        name:{sq:'Lojë në oborr',en:'Outdoor play'}, description:{sq:'Lojë e lirë në oborrin e kopshtit.',en:'Free play in the school yard.'},
+        studentIds:kids.map(s=>s.id), participation:{}, recordedBy:T, created_at:nowISO()
+      });
+      kids.forEach(s=>{
+        const att = db.attendance.find(a=>a.studentId===s.id && a.date===ymd(d));
+        if(att && att.status==='absent') return;
+        db.meals.push(
+          {id:uuid('ml-b'+s.id+ymd(d)), studentId:s.id, classId:CID, date:ymd(d), type:'breakfast', time:'08:30',
+           consumption: rk()>0.35?'most':'all', menu:menu.b, recordedBy:T},
+          {id:uuid('ml-s'+s.id+ymd(d)), studentId:s.id, classId:CID, date:ymd(d), type:'snack_am', time:'10:00',
+           consumption:'all', menu:{sq:'Frutë sezonale',en:'Seasonal fruit'}, recordedBy:T},
+          {id:uuid('ml-l'+s.id+ymd(d)), studentId:s.id, classId:CID, date:ymd(d), type:'lunch', time:'12:00',
+           consumption: rk()>0.5?'most':(rk()>0.4?'half':'all'), menu:menu.l, recordedBy:T}
+        );
+        db.naps.push({id:uuid('nap-'+s.id+ymd(d)), studentId:s.id, date:ymd(d), startTime:'13:00',
+          minutes: 60+Math.round(rk()*45), recordedBy:T});
+        db.moods.push({id:uuid('md-'+s.id+ymd(d)), studentId:s.id, date:ymd(d), time:'08:05',
+          mood: rk()>0.7?'happy':'very_happy', recordedBy:T});
+        db.dailyReports.push({id:uuid('dr-'+s.id+ymd(d)), studentId:s.id, classId:CID, date:ymd(d),
+          published:true, publishedAt:new Date(atTime(d,15,40)).toISOString(), publishedBy:T});
+      });
+      /* one personal note a day per group, so no parent opens an empty note card */
+      const noteFor = {
+        0:[{sq:'Emma ndihmoi një shok të vendoste lodrat në rregull. Ditë shumë e qetë.', en:'Emma helped a friend tidy the toys away. A very calm day.'},
+           {sq:'Sot Emma tregoi një histori para grupit. Foli qartë dhe me vetëbesim.', en:'Emma told a story in front of the group today. She spoke clearly and with confidence.'},
+           {sq:'Emma hëngri mirë dhe fjeti pa vështirësi.', en:'Emma ate well and fell asleep easily.'},
+           {sq:'Emma punoi me ngjyrat dhe njohu të gjitha ngjyrat kryesore.', en:'Emma worked with colours and recognised every primary colour.'}],
+        1:[{sq:'Jon ndau lodrat me shokët pa u kujtuar.', en:'Jon shared his toys without being reminded.'},
+           {sq:'Ela këndoi e para para grupit sot.', en:'Ela was the first to sing in front of the group today.'},
+           {sq:'Kaltrina ndihmoi në shtrimin e tavolinës për drekë.', en:'Kaltrina helped set the table for lunch.'},
+           {sq:'Reon punoi gjatë me kubet dhe ndërtoi një kullë të lartë.', en:'Reon worked with the blocks for a long time and built a tall tower.'}],
+        2:[{sq:'Ari u qetësua shpejt në mëngjes dhe iu bashkua grupit.', en:'Ari settled quickly this morning and joined the group.'},
+           {sq:'Mira fjeti tërë kohën e gjumit të ditës sot.', en:'Mira slept through the whole afternoon nap today.'},
+           {sq:'Luan mësoi të lajë duart vetë para drekës.', en:'Luan learned to wash his hands by himself before lunch.'},
+           {sq:'Sara ndoqi këngën me lëvizje dhe qeshi shumë.', en:'Sara followed the song with the movements and laughed a lot.'}]
+      }[gi] || [];
+      const target = gi===0 ? S.Emma : (kids[i % kids.length] || kids[0]).id;
+      if(noteFor.length){
+        db.teacherNotes.push({id:uuid('tn-'+CID+ymd(d)), studentId: gi===0? S.Emma : kids[i % kids.length].id,
+          classId:CID, date:ymd(d), text:noteFor[i%noteFor.length], authorId:T, visibility:'guardians', created_at:nowISO()});
+      }
     });
-    db.activities.push({
-      id:uuid('act-out-'+ymd(d)), schoolId:SCHOOL, classId:C_KG, date:ymd(d), time:'10:30', category:'outdoor',
-      name:{sq:'Lojë në oborr',en:'Outdoor play'}, description:{sq:'Lojë e lirë në oborrin e kopshtit.',en:'Free play in the school yard.'},
-      studentIds:kgStudents.map(s=>s.id), participation:{}, recordedBy:T_TEUTA, created_at:nowISO()
-    });
-    kgStudents.forEach(s=>{
-      const att = db.attendance.find(a=>a.studentId===s.id && a.date===ymd(d));
-      if(att && att.status==='absent') return;
-      db.meals.push(
-        {id:uuid('ml-b'+s.id+ymd(d)), studentId:s.id, classId:C_KG, date:ymd(d), type:'breakfast', time:'08:30',
-         consumption: rk()>0.35?'most':'all', menu:menu.b, recordedBy:T_TEUTA},
-        {id:uuid('ml-s'+s.id+ymd(d)), studentId:s.id, classId:C_KG, date:ymd(d), type:'snack_am', time:'10:00',
-         consumption:'all', menu:{sq:'Frutë sezonale',en:'Seasonal fruit'}, recordedBy:T_TEUTA},
-        {id:uuid('ml-l'+s.id+ymd(d)), studentId:s.id, classId:C_KG, date:ymd(d), type:'lunch', time:'12:00',
-         consumption: rk()>0.5?'most':(rk()>0.4?'half':'all'), menu:menu.l, recordedBy:T_TEUTA}
-      );
-      db.naps.push({id:uuid('nap-'+s.id+ymd(d)), studentId:s.id, date:ymd(d), startTime:'13:00',
-        minutes: 60+Math.round(rk()*45), recordedBy:T_TEUTA});
-      db.moods.push({id:uuid('md-'+s.id+ymd(d)), studentId:s.id, date:ymd(d), time:'08:05',
-        mood: rk()>0.7?'happy':'very_happy', recordedBy:T_TEUTA});
-      db.dailyReports.push({id:uuid('dr-'+s.id+ymd(d)), studentId:s.id, classId:C_KG, date:ymd(d),
-        published:true, publishedAt:new Date(atTime(d,15,40)).toISOString(), publishedBy:T_TEUTA});
-    });
-    /* one personal note per day for Emma, plus rotating notes for others */
-    const emmaNotes = [
-      {sq:'Emma ndihmoi një shok të vendoste lodrat në rregull. Ditë shumë e qetë.', en:'Emma helped a friend tidy the toys away. A very calm day.'},
-      {sq:'Sot Emma tregoi një histori para grupit. Foli qartë dhe me vetëbesim.', en:'Emma told a story in front of the group today. She spoke clearly and with confidence.'},
-      {sq:'Emma hëngri mirë dhe fjeti pa vështirësi.', en:'Emma ate well and fell asleep easily.'},
-      {sq:'Emma punoi me ngjyrat dhe njohu të gjitha ngjyrat kryesore.', en:'Emma worked with colours and recognised every primary colour.'}
-    ];
-    db.teacherNotes.push({id:uuid('tn-emma-'+ymd(d)), studentId:S.Emma, classId:C_KG, date:ymd(d),
-      text:emmaNotes[i%emmaNotes.length], authorId:T_TEUTA, visibility:'guardians', created_at:nowISO()});
   });
   /* yesterday's photo album for the kindergarten */
   const yday = ymd(days[1]);
   [['Lojë me kubet','Building with blocks','play'],['Ora e leximit','Story time','read'],['Drekë së bashku','Lunch together','food']]
     .forEach(([sq,en,kind],i)=>{
-      db.photos.push({id:uuid('ph-'+yday+i), schoolId:SCHOOL, classId:C_KG, date:yday, kind,
-        caption:{sq,en}, studentIds:kgStudents.filter(s=>s.photoConsent).map(s=>s.id),
-        authorId:T_TEUTA, storage:'private', created_at:nowISO()});
+      earlyGroups.forEach(g=>{
+        db.photos.push({id:uuid('ph-'+g.cls.id+yday+i), schoolId:SCHOOL, classId:g.cls.id, date:yday, kind,
+          caption:{sq,en}, studentIds:g.students.filter(s=>s.photoConsent).map(s=>s.id),
+          authorId:g.teacher, storage:'private', created_at:nowISO()});
+      });
     });
   db.photos.push({id:uuid('ph-5a-sci'), schoolId:SCHOOL, classId:C_5A, date:yday, kind:'science',
     caption:{sq:'Eksperiment: cikli i ujit',en:'Experiment: the water cycle'},
@@ -1139,7 +1300,7 @@ function seed(){
     {sq:'Pjesëmarrje shumë aktive gjatë orës.',en:'Very active participation during the lesson.'},
     {sq:'Përgjigje të sakta, shpjegim i qartë.',en:'Correct answers, clear explanation.'}
   ];
-  db.students.filter(s=>s.classId!==C_KG).forEach(s=>{
+  db.students.filter(s=>classStage(db,s.classId)!=='early').forEach(s=>{
     CORE.forEach((sk,si)=>{
       const n = ['math','alb','eng','sci'].includes(sk) ? 4 : 2;
       for(let i=0;i<n;i++){
@@ -1252,8 +1413,77 @@ function seed(){
     detail:'Demo dataset generated in browser memory only.'});
 
   /* handy references used by the demo flows */
-  db._ref = {SCHOOL, YEAR, C_KG, C_5A, C_8A, S, P, SUBJ, LVL,
-             T_TEUTA, T_BLERIM, T_ARTAD, U_ADMIN, P_ARTA, U_TEUTA, U_BLERIM, U_ARTAD};
+  /* ---- terms (for the end-of-term report card) ---- */
+  const TERM1=uuid('term-1'), TERM2=uuid('term-2');
+  db.terms.push(
+    {id:TERM1, schoolId:SCHOOL, yearId:YEAR, name:{sq:'Semestri I',en:'First term'},  start:'2026-09-01', end:'2027-01-23', current:true},
+    {id:TERM2, schoolId:SCHOOL, yearId:YEAR, name:{sq:'Semestri II',en:'Second term'}, start:'2027-01-26', end:'2027-06-12', current:false}
+  );
+
+  /* ---- timetable for grades 1-9 ---- */
+  const SLOTS=[['08:00','08:45'],['08:50','09:35'],['09:55','10:40'],['10:45','11:30'],['11:40','12:25'],['12:30','13:15']];
+  const WEEK5A=[
+    ['math','alb','eng','sci','art'],
+    ['alb','math','hist','geo','pe'],
+    ['math','sci','alb','eng','tech'],
+    ['alb','eng','math','hist','art'],
+    ['math','alb','sci','pe','geo']
+  ];
+  const WEEK8A=[
+    ['alb','math','sci','hist','eng','tech'],
+    ['math','sci','alb','geo','art','pe'],
+    ['sci','alb','math','eng','hist','tech'],
+    ['math','eng','sci','alb','pe','geo'],
+    ['alb','math','hist','sci','eng','art']
+  ];
+  function teacherForSubject(cid, sk){
+    const row=db.teacherClass.find(r=>r.classId===cid && r.subjectId===SUBJ[sk]);
+    if(row) return row.teacherId;
+    return byId2(db.classes,cid).homeroomTeacherId;
+  }
+  function byId2(arr,id){ return arr.find(x=>x.id===id); }
+  [[C_5A,WEEK5A,'B-12'],[C_8A,WEEK8A,'C-04']].forEach(([cid,week,room])=>{
+    week.forEach((dayRow,di)=>{
+      dayRow.forEach((sk,pi)=>{
+        db.periods.push({id:uuid('pd-'+cid+di+pi), schoolId:SCHOOL, classId:cid, day:di+1, order:pi+1,
+          start:SLOTS[pi][0], end:SLOTS[pi][1], subjectId:SUBJ[sk], teacherId:teacherForSubject(cid,sk), room});
+      });
+    });
+  });
+
+  /* ---- weekly menu, published a week ahead ---- */
+  const MENU_WEEK=[
+    {b:{sq:'Qumësht, bukë integrale, mjaltë',en:'Milk, wholegrain bread, honey'},
+     s:{sq:'Mollë',en:'Apple'},
+     l:{sq:'Supë pule me perime, oriz',en:'Chicken and vegetable soup, rice'},
+     p:{sq:'Jogurt',en:'Yoghurt'}},
+    {b:{sq:'Vezë të ziera, bukë, çaj',en:'Boiled eggs, bread, tea'},
+     s:{sq:'Banane',en:'Banana'},
+     l:{sq:'Mish pule, pure patatesh, sallatë',en:'Chicken, mashed potato, salad'},
+     p:{sq:'Biskota tërshëre',en:'Oat biscuits'}},
+    {b:{sq:'Qumësht me tërshërë, fruta',en:'Porridge with fruit'},
+     s:{sq:'Dardhë',en:'Pear'},
+     l:{sq:'Makarona me salcë domatesh',en:'Pasta with tomato sauce'},
+     p:{sq:'Kifle me gjizë',en:'Cheese roll'}},
+    {b:{sq:'Bukë me djathë, qumësht',en:'Bread with cheese, milk'},
+     s:{sq:'Portokall',en:'Orange'},
+     l:{sq:'Peshk i pjekur, oriz, perime',en:'Baked fish, rice, vegetables'},
+     p:{sq:'Kompost frutash',en:'Stewed fruit'}},
+    {b:{sq:'Petulla, mjaltë, qumësht',en:'Pancakes, honey, milk'},
+     s:{sq:'Rrush',en:'Grapes'},
+     l:{sq:'Fasule me perime, bukë misri',en:'Bean stew, cornbread'},
+     p:{sq:'Frutë sezonale',en:'Seasonal fruit'}}
+  ];
+  function mondayOf(d){ const x=new Date(d); const wd=(x.getDay()+6)%7; return addDays(x,-wd); }
+  [0,1].forEach(wk=>{
+    const ws=addDays(mondayOf(T0), wk*7);
+    db.menus.push({id:uuid('menu-'+ymd(ws)), schoolId:SCHOOL, weekStart:ymd(ws),
+      publishedAt:nowISO(), publishedBy:U_ADMIN,
+      days: MENU_WEEK.map((m,i)=>({date:ymd(addDays(ws,i)), breakfast:m.b, snack_am:m.s, lunch:m.l, snack_pm:m.p}))});
+  });
+
+  db._ref = {SCHOOL, YEAR, TERM1, TERM2, C_KG, C_KG2, C_KG3, C_5A, C_8A, S, P, SUBJ, LVL,
+             T_ALBINA, T_TEUTA, T_EDONA, T_BLERIM, T_ARTAD, T_VJOLLCA, T_SHPEND, T_LINDITA, T_FATOS, U_ADMIN, P_ARTA, U_TEUTA, U_BLERIM, U_ARTAD};
   return db;
 }
 /* =========================================================================
@@ -1324,7 +1554,14 @@ function audit(action, detail){
 }
 
 /* ---------- derived helpers ---------- */
+const AVATARS = {};   /* entity id -> uploaded picture, session only */
 function classOf(student){ return byId(DB.classes, student.classId); }
+/* kindergarten staff are edukatore, not mësues — the word follows the class */
+function isEarlyClass(cls){ return !!cls && cls.stage==='early'; }
+function staffWord(cls){ return isEarlyClass(cls) ? t('educator') : t('teacher'); }
+function staffRoleWord(cls){ return isEarlyClass(cls) ? t('role_educator') : t('role_teacher'); }
+function teacherIsEarly(tt){ return !!tt && (tt.stage==='early' ||
+  DB.teacherClass.some(r=>r.teacherId===tt.id && isEarlyClass(byId(DB.classes,r.classId)))); }
 function levelOf(student){ const c=classOf(student); return c? byId(DB.gradeLevels,c.gradeLevelId) : null; }
 function isEarlyYears(student){ const c=classOf(student); return c && c.stage==='early'; }
 function subjectsForClass(classId){
@@ -1514,6 +1751,9 @@ const NAV = {
     {r:'parent/reports',ic:'sun',k:'nav_reports'},
     {r:'parent/academics',ic:'cap',k:'nav_academics'},
     {r:'parent/homework',ic:'clipboard',k:'nav_homework'},
+    {r:'parent/timetable',ic:'clock',k:'nav_timetable'},
+    {r:'parent/reportcard',ic:'award',k:'nav_reportcard'},
+    {r:'parent/menu',ic:'utensils',k:'nav_menu'},
     {r:'parent/photos',ic:'image',k:'nav_photos'},
     {r:'parent/calendar',ic:'calendar',k:'nav_calendar'},
     {r:'parent/messages',ic:'message',k:'nav_messages'},
@@ -1529,6 +1769,8 @@ const NAV = {
     {r:'teacher/activities',ic:'palette',k:'nav_activities'},
     {r:'teacher/homework',ic:'file',k:'nav_homework'},
     {r:'teacher/grades',ic:'cap',k:'nav_grades'},
+    {r:'teacher/timetable',ic:'clock',k:'nav_timetable'},
+    {r:'teacher/menu',ic:'utensils',k:'nav_menu'},
     {r:'teacher/messages',ic:'message',k:'nav_messages'},
     {r:'teacher/calendar',ic:'calendar',k:'nav_calendar'}
   ],
@@ -1541,6 +1783,7 @@ const NAV = {
     {r:'admin/subjects',ic:'book',k:'nav_subjects'},
     {r:'admin/attendance',ic:'clipboard',k:'nav_attendance'},
     {r:'admin/announcements',ic:'bell',k:'nav_announcements'},
+    {r:'admin/menu',ic:'utensils',k:'nav_menu'},
     {r:'admin/calendar',ic:'calendar',k:'nav_calendar'},
     {r:'admin/reports',ic:'chart',k:'nav_reports_admin'},
     {r:'admin/settings',ic:'settings',k:'nav_settings'}
@@ -1572,7 +1815,8 @@ function routeTitle(){
   if(item) return t(item.k);
   const map={
     'parent/report':t('daily_report'), 'teacher/class':t('class'), 'teacher/student':t('student'),
-    'parent/messages':t('messages'), 'parent/setup':t('complete_profile'), 'admin/import':t('import_csv')
+    'parent/messages':t('messages'), 'parent/setup':t('complete_profile'), 'admin/import':t('import_csv'),
+    'teacher/reportcard':t('report_card')
   };
   return map[state.route] || t('nav_dashboard');
 }
@@ -1701,7 +1945,7 @@ function timelineHTML(entries){
         (e.meter? '<div class="row" style="margin-top:9px;gap:9px"><div class="progress teal" style="flex:1"><i style="width:'+e.meter.value+'%"></i></div>'+
                   '<span class="tiny" style="font-weight:700;font-family:var(--ui)">'+esc(e.meter.label)+'</span></div>':'')+
         (e.photos? '<div class="gallery" style="margin-top:10px;grid-template-columns:repeat(auto-fill,minmax(110px,1fr))">'+
-          e.photos.map(p=>'<div class="photo">'+photoSVG(p.id,p.kind)+'<span class="cap">'+esc(L(p.caption))+'</span></div>').join('')+'</div>':'')+
+          e.photos.map(p=>mediaTile(p)).join('')+'</div>':'')+
       '</div></div>'+
     '</div>').join('')+'</div>';
 }
@@ -1830,6 +2074,12 @@ function ParentHome(){
 
   return childHeroCard(st)+
     profilePromptCard(st)+
+    absenceCard(st)+
+    (absenceFor(st.id,d)? '' :
+      '<div class="row wrap" style="gap:8px;margin-top:16px">'+
+        '<button class="btn" data-act="abs-open" data-s="'+st.id+'">'+icon('alert',16)+t('report_absence')+'</button>'+
+        '<button class="btn" data-act="msg-new">'+icon('send',16)+t('new_message')+'</button>'+
+      '</div>')+
     '<div class="sec-h" style="margin-top:20px"><h2>'+t('todays_overview')+'</h2><span class="small muted">'+esc(fmtDate(today(),'long'))+'</span></div>'+
     todayGrid(st)+
     '<div style="margin-top:16px" class="stack">'+
@@ -1856,7 +2106,7 @@ function ParentHome(){
         '<div class="card"><div class="card-b">'+hw.map(h=>homeworkRow(h,st)).join('')+'</div></div>' : '')
       : '')+
     (photos.length? sectionHead(t('latest_photos'), '<a class="btn sm ghost" href="#/parent/photos">'+t('view_all')+'</a>')+
-      '<div class="gallery">'+photos.map(p=>'<div class="photo">'+photoSVG(p.id,p.kind)+'<span class="cap">'+esc(L(p.caption))+'</span></div>').join('')+'</div>' : '')+
+      '<div class="gallery">'+photos.map(p=>mediaTile(p)).join('')+'</div>' : '')+
     sectionHead(t('upcoming_events'), '<a class="btn sm ghost" href="#/parent/calendar">'+t('view_all')+'</a>')+
     '<div class="card"><div class="card-b">'+(events.length? events.map(eventRow).join('') : '<p class="small muted">'+t('nothing_here')+'</p>')+'</div></div>'+
     sectionHead(t('announcements'))+
@@ -1902,7 +2152,9 @@ function ParentChild(){
         '<dl style="margin:0">'+
         '<div class="kv"><dt>'+t('date_of_birth')+'</dt><dd>'+esc(fmtDate(st.dob))+' · '+st.age+' '+t('years_old')+'</dd></div>'+
         '<div class="kv"><dt>'+t('class')+'</dt><dd>'+esc(cls.name)+' · '+esc(cls.room)+'</dd></div>'+
-        '<div class="kv"><dt>'+t('teacher')+'</dt><dd>'+esc(teacherName(cls.homeroomTeacherId))+'</dd></div>'+
+        '<div class="kv"><dt>'+staffWord(cls)+'</dt><dd>'+esc(teacherName(cls.homeroomTeacherId))+'</dd></div>'+
+        '<div class="kv"><dt>'+t('child_photo')+'</dt><dd><button class="btn sm" data-act="kidphoto-open" data-s="'+st.id+'">'+
+          icon('camera',15)+(st.photoUrl? t('change_photo') : t('choose_photo'))+'</button></dd></div>'+
         '<div class="kv"><dt>'+t('school_year')+'</dt><dd>'+esc(DB.schoolYears[0].name)+'</dd></div>'+
         '<div class="kv"><dt>'+t('photo_consent')+'</dt><dd>'+(st.photoConsent?
           '<span class="chip ok">'+t('consent_given')+'</span>':'<span class="chip warn">'+t('consent_missing')+'</span>')+'</dd></div>'+
@@ -2131,7 +2383,7 @@ function ParentPhotos(){
       '</span></div>':'')+
     (dates.length? dates.map(d=>
       sectionHead(relDay(d))+'<div class="gallery">'+byDate[d].map(p=>
-        '<div class="photo">'+photoSVG(p.id,p.kind)+'<span class="cap">'+esc(L(p.caption))+'</span></div>').join('')+'</div>').join('')
+        mediaTile(p)).join('')+'</div>').join('')
       : '<div class="card" style="margin-top:16px"><div class="card-b">'+emptyState('nothing_here','nothing_here_hint','image')+'</div></div>');
 }
 
@@ -2198,7 +2450,9 @@ function messagesView(role){
         '<button class="btn primary" data-act="send-message" data-c="'+c.id+'">'+icon('send',16)+t('send')+'</button>'+
       '</div></div></div>';
   }
-  return '<div class="stack-sm">'+ (convos.length? convos.map(c=>{
+  return '<div class="rowb" style="margin-bottom:14px"><span class="small muted">'+convos.length+' '+t('messages').toLowerCase()+'</span>'+
+      '<button class="btn primary" data-act="msg-new">'+icon('send',16)+t('new_message')+'</button></div>'+
+    '<div class="stack-sm">'+ (convos.length? convos.map(c=>{
       const last=DB.messages.filter(m=>m.conversationId===c.id).sort((a,b)=>b.at.localeCompare(a.at))[0];
       const unread=(c.unreadFor||[]).includes(currentActorKey());
       const other=c.participants.find(p=>(p.kind+':'+p.id)!==currentActorKey());
@@ -2241,7 +2495,8 @@ function ParentProfile(){
   const p=myParent();
   return '<div class="card"><div class="card-b">'+
     '<div class="row" style="gap:13px">'+avatar(p.name,52,p.id)+
-    '<div><h2>'+esc(p.name)+'</h2><div class="small muted">'+esc(p.email)+' · '+esc(p.phone)+'</div></div></div>'+
+    '<div style="flex:1;min-width:0"><h2>'+esc(p.name)+'</h2><div class="small muted">'+esc(p.email)+' · '+esc(p.phone)+'</div></div>'+
+    '<button class="btn sm" data-act="kidphoto-open" data-s="'+p.id+'">'+icon('camera',15)+t('change_photo')+'</button></div>'+
     '<div class="divider"></div>'+
     '<div class="notice privacy">'+icon('shield',16)+'<span>'+t('parent_scope')+'</span></div>'+
     '<div style="margin-top:14px"><label class="fl">'+t('language')+'</label>'+
@@ -2362,7 +2617,7 @@ function TeacherClasses(){
     return '<a class="card" href="#/teacher/class?c='+c.id+'" style="display:block"><div class="card-b">'+
       '<div class="rowb"><h3>'+esc(c.name)+'</h3><span class="chip '+(c.stage==='early'?'teal':'brand')+'">'+
         esc(c.stage==='early'? (state.lang==='sq'?'Kopsht':'Early years') : L(byId(DB.gradeLevels,c.gradeLevelId).name))+'</span></div>'+
-      '<div class="small muted" style="margin-top:4px">'+esc(c.room)+' · '+c.startTime+'–'+c.endTime+'</div>'+
+      '<div class="small muted" style="margin-top:4px">'+esc(c.room)+(c.ageLabel? ' · '+esc(L(c.ageLabel)) : '')+' · '+c.startTime+'–'+c.endTime+'</div>'+
       '<div class="row" style="margin-top:12px">'+st.slice(0,6).map(s=>'<span style="margin-right:-8px">'+avatar(s.fullName,30,s.id)+'</span>').join('')+
         (st.length>6?'<span class="chip" style="margin-left:14px">+'+(st.length-6)+'</span>':'')+'</div>'+
       '<div class="divider"></div>'+
@@ -2397,9 +2652,10 @@ function classHeader(c){
     '<div class="rowb wrap" style="gap:12px">'+
       '<div><div class="row" style="gap:10px"><h2>'+esc(c.name)+'</h2>'+
         '<span class="chip '+(early?'teal':'brand')+'">'+esc(early?(state.lang==='sq'?'Kopsht':'Early years'):L(byId(DB.gradeLevels,c.gradeLevelId).name))+'</span></div>'+
-        '<div class="small muted" style="margin-top:3px">'+esc(c.room)+' · '+studentsOfClass(c.id).length+' '+t('students').toLowerCase()+' · '+esc(teacherName(c.homeroomTeacherId))+'</div></div>'+
+        '<div class="small muted" style="margin-top:3px">'+esc(c.room)+(c.ageLabel? ' · '+esc(L(c.ageLabel)) : '')+' · '+studentsOfClass(c.id).length+' '+t('students').toLowerCase()+' · '+esc(teacherName(c.homeroomTeacherId))+'</div></div>'+
       '<div class="row wrap" style="gap:8px">'+
         '<a class="btn" href="#/teacher/attendance?c='+c.id+'">'+icon('clipboard',16)+t('take_attendance')+'</a>'+
+        '<button class="btn" data-act="bc-open" data-c="'+c.id+'">'+icon('bell',16)+t('broadcast')+'</button>'+
         (early? '<a class="btn primary" href="#/teacher/daysheet?c='+c.id+'">'+icon('sun',16)+t('day_sheet')+'</a>'
               : '<button class="btn primary" data-act="new-grade" data-c="'+c.id+'">'+icon('cap',16)+t('add_grade')+'</button>')+
       '</div>'+
@@ -2432,7 +2688,12 @@ function TeacherStudent(){
   if(!st) return noAccessView();
   const d=ymd(today()), early=isEarlyYears(st), med=DB.medical.find(m=>m.studentId===st.id);
   const guardians=DB.parentStudent.filter(r=>r.studentId===st.id).map(r=>byId(DB.parents,r.parentId));
-  return '<div class="row" style="margin-bottom:14px"><a class="btn sm" href="#/teacher/class?c='+st.classId+'">'+icon('chevronL',15)+esc(classOf(st).name)+'</a></div>'+
+  return '<div class="rowb" style="margin-bottom:14px;gap:9px;flex-wrap:wrap">'+
+      '<a class="btn sm" href="#/teacher/class?c='+st.classId+'">'+icon('chevronL',15)+esc(classOf(st).name)+'</a>'+
+      '<div class="row" style="gap:8px">'+
+      (early? '' : '<a class="btn sm" href="#/teacher/reportcard?s='+st.id+'">'+icon('award',15)+t('report_card')+'</a>')+
+      '<button class="btn sm" data-act="kidphoto-open" data-s="'+st.id+'">'+icon('camera',15)+
+        (st.photoUrl? t('change_photo') : t('child_photo'))+'</button></div></div>'+
     '<div class="card"><div class="card-b">'+
       '<div class="rowb wrap" style="gap:14px"><div class="row" style="gap:13px">'+avatar(st.fullName,54,st.id)+
         '<div><h2>'+esc(st.fullName)+'</h2><div class="small muted">'+esc(classOf(st).name)+' · '+st.age+' '+t('years_old')+' · '+esc(fmtDate(st.dob))+'</div></div></div>'+
@@ -2486,6 +2747,11 @@ function TeacherAttendance(){
       '<div class="card-h"><h3>'+t('attendance')+' · '+esc(fmtDate(today(),'long'))+'</h3>'+
         '<span class="chip '+(marked===st.length?'ok':'warn')+'">'+marked+'/'+st.length+'</span></div>'+
       '<div class="card-b">'+
+        (function(){ const rep=absencesForClass(c.id,d);
+          if(!rep.length) return '';
+          return '<div class="notice" style="margin-bottom:14px">'+icon('info',16)+'<span><b>'+t('absences_today')+':</b> '+
+            esc(rep.map(a=>byId(DB.students,a.studentId).firstName+' ('+reasonLabel(a.reason)+')').join(' · '))+'</span></div>';
+        })()+
         '<div class="row wrap" style="gap:9px;padding-bottom:14px;border-bottom:1px solid var(--border)">'+
           '<button class="btn primary" data-act="att-all" data-c="'+c.id+'">'+icon('check',16)+t('mark_all_present')+'</button>'+
           '<span class="small muted">'+t('bulk_hint')+'</span></div>'+
@@ -2493,7 +2759,9 @@ function TeacherAttendance(){
           const a=attendanceFor(s.id,d), cur=a?a.status:null;
           return '<div class="list-row"><div class="row" style="gap:10px;flex:1;min-width:0">'+avatar(s.fullName,36,s.id)+
             '<div style="min-width:0"><div style="font-weight:600;font-family:var(--ui);font-size:13.5px">'+esc(s.fullName)+'</div>'+
-            '<div class="tiny muted">'+(a? (a.time||'')+' · '+t(ATT_STATUS[a.status].label) : t('pending'))+'</div></div></div>'+
+            '<div class="tiny muted">'+(a? (a.time||'')+' · '+t(ATT_STATUS[a.status].label) : t('pending'))+'</div>'+
+            (absenceFor(s.id,d)? '<span class="chip info" style="margin-top:4px">'+icon('info',11)+t('reported_by_parent')+'</span>':'')+
+            '</div></div>'+
             '<div class="seg sm">'+Object.keys(ATT_STATUS).map(k=>
               '<button class="'+(cur===k?'on':'')+'" data-tone="'+ATT_STATUS[k].tone+'" data-act="att-set" data-st="'+s.id+'" data-v="'+k+'">'+t(ATT_STATUS[k].label)+'</button>').join('')+
             '</div></div>';
@@ -2625,7 +2893,7 @@ function daySheetStep(c,step,st,d){
       '<div class="card-b">'+
         (noConsent.length? '<div class="notice warn" style="margin-bottom:12px">'+icon('shield',16)+'<span>'+
           esc(noConsent.map(s=>s.firstName).join(', '))+' — '+t('consent_missing')+'</span></div>':'')+
-        (ph.length? '<div class="gallery">'+ph.map(p=>'<div class="photo">'+photoSVG(p.id,p.kind)+'<span class="cap">'+esc(L(p.caption))+'</span></div>').join('')+'</div>'
+        (ph.length? '<div class="gallery">'+ph.map(p=>mediaTile(p)).join('')+'</div>'
           : emptyState('nothing_here','photos_private','image','<button class="btn primary" data-act="photo-add" data-c="'+c.id+'">'+t('add_photo')+'</button>'))+
       '</div><div class="card-f" style="text-align:right"><button class="btn primary" data-act="daysheet-step" data-v="publish">'+t('next')+icon('chevron',15)+'</button></div></div>';
   }
@@ -2853,11 +3121,12 @@ function AdminTeachers(){
 function AdminClasses(){
   const rows=DB.classes.map(c=>{
     const st=studentsOfClass(c.id), lvl=byId(DB.gradeLevels,c.gradeLevelId);
-    return '<tr><td><b style="font-family:var(--ui)">'+esc(c.name)+'</b></td><td class="muted">'+esc(L(lvl.name))+'</td>'+
+    return '<tr><td><b style="font-family:var(--ui)">'+esc(c.name)+'</b></td>'+
+      '<td class="muted">'+esc(L(lvl.name))+(c.ageLabel? ' · '+esc(L(c.ageLabel)) : '')+'</td>'+
       '<td class="muted">'+esc(teacherName(c.homeroomTeacherId))+'</td><td class="mono-num">'+st.length+'</td>'+
       '<td class="muted">'+esc(c.room)+'</td><td class="muted">'+c.startTime+'–'+c.endTime+'</td></tr>';
   });
-  return adminTable([t('class'),t('level'),t('teacher'),t('students'),t('room'),t('time')], rows, '', DB.classes.length+' '+t('total_classes').toLowerCase());
+  return adminTable([t('class'),t('level'),t('teaching_staff'),t('students'),t('room'),t('time')], rows, '', DB.classes.length+' '+t('total_classes').toLowerCase());
 }
 function AdminSubjects(){
   return '<div class="grid g3">'+DB.subjects.map(s=>{
@@ -2952,7 +3221,7 @@ function AdminSettings(){
   sectionHead(state.lang==='sq'?'Rolet dhe qasja':'Roles and access')+
   '<div class="card"><div class="card-b">'+
     [[t('role_parent'), state.lang==='sq'?'Sheh vetëm fëmijët e lidhur me llogarinë e vet. Nuk ka qasje në të dhëna të klasës.':'Sees only the children linked to their account. No access to class-wide data.'],
-     [t('role_teacher'), state.lang==='sq'?'Sheh dhe përditëson vetëm nxënësit e klasave ku është caktuar.':'Sees and updates only the students in the classes they are assigned to.'],
+     [t('role_teacher')+' / '+t('role_educator'), state.lang==='sq'?'Sheh dhe përditëson vetëm nxënësit e klasave ku është caktuar.':'Sees and updates only the students in the classes they are assigned to.'],
      [t('role_admin'), state.lang==='sq'?'Menaxhon shkollën. Të dhënat mjekësore hapen vetëm me arsye dhe regjistrohen.':'Manages the school. Medical data opens only with a reason and is logged.'],
      [t('role_super'), state.lang==='sq'?'Nivel platforme: shkollat, abonimet, konfigurimi. Jashtë MVP-së.':'Platform level: schools, subscriptions, configuration. Outside the MVP.']]
     .map(([r,desc])=>'<div class="list-row"><span class="chip brand" style="min-width:96px;justify-content:center">'+esc(r)+'</span>'+
@@ -2973,7 +3242,7 @@ function LoginView(){
   const R=DB._ref;
   const cards=[
     {act:'parent:'+R.P_ARTA, ic:'child',  bg:'var(--brand-50)',  fg:'var(--brand)', t:t('role_parent'),  d:t('login_parent_d')},
-    {act:'teacher:'+R.T_TEUTA, ic:'sun',  bg:'var(--teal-50)',   fg:'var(--teal)',  t:t('role_teacher')+' · '+(state.lang==='sq'?'Kopsht':'Early years'), d:t('login_kg_d')},
+    {act:'teacher:'+R.T_ALBINA,ic:'sun', bg:'var(--teal-50)',   fg:'var(--teal)',  t:t('role_educator')+' · '+(state.lang==='sq'?'Kopsht':'Early years'), d:t('login_kg_d')},
     {act:'teacher:'+R.T_BLERIM,ic:'cap',  bg:'var(--info-50)',   fg:'var(--info)',  t:t('role_teacher')+' · '+(state.lang==='sq'?'Klasat':'Grades'), d:t('login_gt_d')},
     {act:'admin:'+R.U_ADMIN,  ic:'building',bg:'var(--surface-3)',fg:'var(--muted)', t:t('role_admin'),   d:t('login_admin_d')}
   ];
@@ -3895,6 +4164,626 @@ function activeSetupStudent(){ return getStudentGuarded(state.params.s||state.ch
 
 /* keep the textarea in sync so a re-render does not lose typing */
 document.addEventListener('input', e=>{ if(e.target.id==='csvBox') state.ui.csvText=e.target.value; });
+
+
+/* =========================================================================
+   MEDIA — real photo and video upload
+   Everything here lives in the browser tab only. There is no server in this
+   build, so uploads disappear on reload. The UI says so, out loud.
+   ========================================================================= */
+
+/* images are re-encoded down to a sane size so a 12 MP phone photo does not
+   sit in memory at full resolution; video is referenced, never copied */
+function readImageFile(file, maxDim){
+  return new Promise((resolve,reject)=>{
+    const fr=new FileReader();
+    fr.onerror=()=>reject(new Error('read'));
+    fr.onload=()=>{
+      const img=new Image();
+      img.onerror=()=>resolve({type:'image', src:fr.result, name:file.name});
+      img.onload=()=>{
+        const m=maxDim||1600;
+        let w=img.naturalWidth||m, h=img.naturalHeight||m;
+        if(Math.max(w,h)>m){ const k=m/Math.max(w,h); w=Math.round(w*k); h=Math.round(h*k); }
+        try{
+          const c=document.createElement('canvas'); c.width=w; c.height=h;
+          c.getContext('2d').drawImage(img,0,0,w,h);
+          resolve({type:'image', src:c.toDataURL('image/jpeg',0.82), name:file.name, w, h});
+        }catch(e){ resolve({type:'image', src:fr.result, name:file.name}); }
+      };
+      img.src=fr.result;
+    };
+    fr.readAsDataURL(file);
+  });
+}
+function readMediaFile(file){
+  if(file.type && file.type.indexOf('video')===0){
+    return Promise.resolve({type:'video', src:URL.createObjectURL(file), name:file.name});
+  }
+  return readImageFile(file,1600);
+}
+function readMediaFiles(fileList){
+  return Promise.all(Array.prototype.slice.call(fileList||[],0,12).map(readMediaFile));
+}
+
+/* one renderer for every place media is shown */
+function mediaTile(p){
+  const cap=esc(L(p.caption)||'');
+  const save='<button class="photo-x save" data-act="media-download" data-v="'+p.id+'" aria-label="'+t('save_photo')+'">'+icon('download',13)+'</button>';
+  if(p.src && p.mediaType==='video'){
+    return '<div class="photo vid"><video src="'+esc(p.src)+'" controls playsinline preload="metadata"></video>'+
+      (cap? '<span class="cap top">'+cap+'</span>':'')+save+'</div>';
+  }
+  if(p.src){
+    return '<div class="photo"><img src="'+esc(p.src)+'" alt="'+cap+'" loading="lazy">'+
+      (cap? '<span class="cap">'+cap+'</span>':'')+save+'</div>';
+  }
+  return '<div class="photo">'+photoSVG(p.id,p.kind)+(cap? '<span class="cap">'+cap+'</span>':'')+save+'</div>';
+}
+
+/* ---------- profile picture: child, guardian or staff ---------- */
+function personById(id){
+  return byId(DB.students,id) || byId(DB.parents,id) || byId(DB.teachers,id) || null;
+}
+function personName(p){
+  if(p.fullName) return p.fullName;
+  if(p.name) return p.name;
+  const u=byId(DB.users,p.userId); return u? u.name : '—';
+}
+/* you may change your own picture, and a child's picture if you are allowed near them */
+function canEditPhoto(id){
+  if(byId(DB.students,id)) return canAccessStudent(id);
+  const s=state.session;
+  if(s.role==='parent') return id===s.parentId;
+  if(s.role==='teacher') return id===s.teacherId;
+  return s.role==='admin';
+}
+function modalChildPhoto(studentId){
+  const st=personById(studentId);
+  if(!st) return;
+  const staged=state.ui.kidPhoto;
+  const current=staged || st.photoUrl;
+  openModal({title:t('child_photo'), body:
+    '<div class="row" style="gap:16px;align-items:center;flex-wrap:wrap">'+
+      (current
+        ? '<img src="'+esc(current)+'" alt="" style="width:96px;height:96px;border-radius:50%;object-fit:cover;flex:none">'
+        : avatar(personName(st),96,st.id))+
+      '<div style="flex:1;min-width:170px">'+
+        '<div style="font-family:var(--ui);font-weight:700">'+esc(personName(st))+'</div>'+
+        '<p class="small muted" style="margin-top:4px">'+t('child_photo_hint')+'</p>'+
+      '</div>'+
+    '</div>'+
+    '<label class="uploader" style="margin-top:16px">'+icon('camera',20)+
+      '<span>'+t('choose_photo')+'</span>'+
+      '<input type="file" id="kidPhotoFile" accept="image/*">'+
+    '</label>'+
+    '<div class="notice" style="margin-top:12px">'+icon('info',16)+'<span>'+t('media_session_note')+'</span></div>',
+    footer:'<button class="btn" data-act="close-modal">'+t('cancel')+'</button>'+
+      (st.photoUrl? '<button class="btn ghost" data-act="kidphoto-clear" data-s="'+st.id+'">'+t('remove')+'</button>':'')+
+      '<button class="btn primary" data-act="kidphoto-save" data-s="'+st.id+'">'+t('save')+'</button>'});
+}
+
+/* ---------- daily activity media ---------- */
+function modalMedia(classId){
+  const cls=byId(DB.classes,classId);
+  const all=studentsOfClass(classId);
+  const consented=all.filter(s=>s.photoConsent);
+  const excluded=all.filter(s=>!s.photoConsent);
+  const staged=state.ui.upload||[];
+  return openModal({title:t('add_media'), body:
+    '<label class="uploader">'+icon('camera',22)+
+      '<span>'+t('choose_media')+'</span>'+
+      '<span class="tiny faint">'+t('choose_media_hint')+'</span>'+
+      '<input type="file" id="phFiles" accept="image/*,video/*" multiple>'+
+    '</label>'+
+    (staged.length
+      ? '<div class="gallery" style="margin-top:13px;grid-template-columns:repeat(auto-fill,minmax(96px,1fr))">'+
+        staged.map((m,i)=>'<div class="photo">'+
+          (m.type==='video'
+            ? '<video src="'+esc(m.src)+'" muted playsinline preload="metadata"></video><span class="cap top">'+t('video')+'</span>'
+            : '<img src="'+esc(m.src)+'" alt="">')+
+          '<button class="photo-x" data-act="media-drop" data-v="'+i+'" data-c="'+classId+'" aria-label="'+t('remove')+'">'+icon('x',13)+'</button>'+
+        '</div>').join('')+'</div>'
+      : '')+
+    '<div class="field" style="margin-top:14px"><label class="fl">'+t('caption')+'</label>'+
+      '<input type="text" id="phCap" value="'+esc(state.ui.uploadCap||'')+'" placeholder="'+t('caption_ph')+'" /></div>'+
+    (staged.length? '' :
+      '<div class="field"><label class="fl">'+(state.lang==='sq'?'Ose përdor një ilustrim':'Or use an illustration')+'</label><select id="phKind">'+
+      [['paint',state.lang==='sq'?'Pikturë':'Painting'],['play',state.lang==='sq'?'Lojë':'Play'],['read',state.lang==='sq'?'Lexim':'Reading'],
+       ['food',state.lang==='sq'?'Vakt':'Meal'],['group',state.lang==='sq'?'Grup':'Group'],['science',state.lang==='sq'?'Shkencë':'Science']]
+      .map(([k,l])=>'<option value="'+k+'">'+esc(l)+'</option>').join('')+'</select></div>')+
+    '<div class="notice privacy">'+icon('shield',16)+'<span>'+
+      (state.lang==='sq'?'Publikohet vetëm te prindërit e fëmijëve me pëlqim: ':'Published only to guardians of children with consent: ')+
+      esc(consented.map(s=>s.firstName).join(', '))+
+      (excluded.length? ' · '+(state.lang==='sq'?'Përjashtohen: ':'Left out: ')+esc(excluded.map(s=>s.firstName).join(', ')) : '')+
+      '</span></div>'+
+    '<div class="notice" style="margin-top:10px">'+icon('info',16)+'<span>'+t('media_session_note')+'</span></div>',
+    footer:'<button class="btn" data-act="close-modal">'+t('cancel')+'</button>'+
+      '<button class="btn primary" data-act="save-media" data-c="'+classId+'">'+
+        (staged.length? tf('publish_n_media',{n:staged.length}) : t('save'))+'</button>'});
+}
+
+Object.assign(ACTIONS, {
+  'kidphoto-open':(d)=>{ state.ui.kidPhoto=null; state.ui.kidPhotoStudent=d.s; modalChildPhoto(d.s); },
+  'kidphoto-save':(d)=>{
+    const st=personById(d.s);
+    if(!st || !canEditPhoto(d.s)){ toast(t('no_access'),'lock'); return; }
+    if(state.ui.kidPhoto){
+      st.photoUrl=state.ui.kidPhoto; AVATARS[st.id]=st.photoUrl; st.updated_at=nowISO();
+      audit('photo.profile_set', personName(st));
+      toast(t('photo_added'),'camera');
+    }
+    state.ui.kidPhoto=null; closeModal(); render();
+  },
+  'kidphoto-clear':(d)=>{
+    const st=personById(d.s);
+    if(!st || !canEditPhoto(d.s)) return;
+    st.photoUrl=null; delete AVATARS[st.id];
+    audit('photo.profile_clear', personName(st));
+    state.ui.kidPhoto=null; closeModal(); render();
+  },
+  'media-drop':(d)=>{
+    (state.ui.upload||[]).splice(+d.v,1);
+    const capEl=document.getElementById('phCap'); if(capEl) state.ui.uploadCap=capEl.value;
+    modalMedia(d.c);
+  },
+  'save-media':(d)=>{
+    if(!canAccessClass(d.c)){ toast(t('no_access'),'lock'); return; }
+    const capEl=document.getElementById('phCap');
+    const cap=(capEl? capEl.value.trim():'') || state.ui.uploadCap || t('caption_default');
+    const kindEl=document.getElementById('phKind');
+    const kind=kindEl? kindEl.value : 'group';
+    const date=ymd(today());
+    const consented=studentsOfClass(d.c).filter(s=>s.photoConsent);
+    const files=state.ui.upload||[];
+    const author=state.session.teacherId||null;
+    if(files.length){
+      files.forEach((m,i)=>{
+        DB.photos.push({id:uuid('ph'+Date.now()+i), schoolId:DB._ref.SCHOOL, classId:d.c, date,
+          kind, mediaType:m.type, src:m.src, caption:bi(cap),
+          studentIds:consented.map(s=>s.id), authorId:author, storage:'private', created_at:nowISO()});
+      });
+      audit('media.upload','class='+d.c+' files='+files.length+' consented='+consented.length);
+    } else {
+      DB.photos.push({id:uuid('ph'+Date.now()), schoolId:DB._ref.SCHOOL, classId:d.c, date, kind,
+        mediaType:'illustration', caption:bi(cap),
+        studentIds:consented.map(s=>s.id), authorId:author, storage:'private', created_at:nowISO()});
+      audit('photo.upload','class='+d.c+' consented='+consented.length);
+    }
+    state.ui.upload=[]; state.ui.uploadCap='';
+    closeModal(); toast(t('photo_added'),'camera'); render();
+  }
+});
+/* the old entry points now open the real uploader */
+ACTIONS['photo-add']=(d)=>{ state.ui.upload=[]; state.ui.uploadCap=''; state.ui.uploadClass=d.c; modalMedia(d.c); };
+ACTIONS['save-photo']=(d)=>ACTIONS['save-media'](d);
+
+document.addEventListener('change', e=>{
+  if(e.target.id==='phFiles'){
+    const capEl=document.getElementById('phCap');
+    if(capEl) state.ui.uploadCap=capEl.value;
+    const classId=state.ui.uploadClass;
+    toast(t('reading_files'),'image');
+    readMediaFiles(e.target.files).then(list=>{
+      state.ui.upload=(state.ui.upload||[]).concat(list).slice(0,12);
+      modalMedia(classId);
+    }).catch(()=>toast(t('upload_failed'),'alert'));
+  }
+  if(e.target.id==='kidPhotoFile'){
+    const sid=state.ui.kidPhotoStudent;
+    readImageFile(e.target.files[0],700).then(m=>{
+      state.ui.kidPhoto=m.src;
+      modalChildPhoto(sid);
+    }).catch(()=>toast(t('upload_failed'),'alert'));
+  }
+});
+
+
+/* =========================================================================
+   ABSENCE REPORTING  ·  MESSAGING  ·  MENU  ·  TIMETABLE  ·  REPORT CARD
+   ========================================================================= */
+
+/* ---------- absences reported by a guardian ---------- */
+function absenceFor(studentId, date){
+  return DB.absences.find(a=>a.studentId===studentId && a.date===date) || null;
+}
+function absencesForClass(classId, date){
+  return DB.absences.filter(a=>a.date===date &&
+    studentsOfClass(classId).some(s=>s.id===a.studentId));
+}
+const ABSENCE_REASONS=[
+  {key:'illness', label:'reason_illness'},
+  {key:'doctor',  label:'reason_doctor'},
+  {key:'family',  label:'reason_family'},
+  {key:'other',   label:'reason_other'}
+];
+function reasonLabel(k){ const r=ABSENCE_REASONS.find(x=>x.key===k); return r? t(r.label) : k; }
+
+function modalAbsence(studentId){
+  const st=getStudentGuarded(studentId); if(!st) return;
+  const d0=ymd(today()), d1=ymd(addDays(today(),1));
+  openModal({title:t('report_absence'), body:
+    '<div class="row" style="gap:10px;margin-bottom:14px">'+avatar(st.fullName,38,st.id)+
+      '<div><div style="font-family:var(--ui);font-weight:700">'+esc(st.fullName)+'</div>'+
+      '<div class="tiny muted">'+esc(classOf(st).name)+'</div></div></div>'+
+    '<div class="field"><label class="fl">'+t('absence_for')+'</label>'+
+      '<div class="seg"><button class="on" id="abD0" data-act="abs-date" data-v="'+d0+'">'+t('date_today')+'</button>'+
+      '<button id="abD1" data-act="abs-date" data-v="'+d1+'">'+t('date_tomorrow')+'</button></div>'+
+      '<input type="hidden" id="abDate" value="'+d0+'"></div>'+
+    '<div class="field"><label class="fl">'+t('absence_reason')+'</label><select id="abReason">'+
+      ABSENCE_REASONS.map(r=>'<option value="'+r.key+'">'+esc(t(r.label))+'</option>').join('')+'</select></div>'+
+    '<div class="field" style="margin-bottom:0"><label class="fl">'+t('absence_note')+'</label>'+
+      '<textarea id="abNote" rows="3" placeholder="'+t('absence_note_ph')+'"></textarea></div>'+
+    '<div class="notice" style="margin-top:13px">'+icon('info',16)+'<span>'+t('absence_hint')+'</span></div>',
+    footer:'<button class="btn" data-act="close-modal">'+t('cancel')+'</button>'+
+      '<button class="btn primary" data-act="abs-save" data-s="'+st.id+'">'+t('report_absence')+'</button>'});
+}
+
+/* the card a guardian sees on the home screen */
+function absenceCard(st){
+  const d=ymd(today()), a=absenceFor(st.id,d);
+  if(a){
+    return '<div class="card" style="margin-top:16px;border-color:var(--info-50)"><div class="card-b">'+
+      '<div class="rowb" style="gap:12px;flex-wrap:wrap"><div class="row" style="gap:11px">'+
+        '<span class="chip info">'+icon('info',13)+t('reported_by_parent')+'</span>'+
+        '<div><div style="font-family:var(--ui);font-weight:700;font-size:14px">'+esc(reasonLabel(a.reason))+'</div>'+
+        (L(a.note)? '<div class="tiny muted">'+esc(L(a.note))+'</div>':'')+'</div></div>'+
+        '<button class="btn sm ghost" data-act="abs-cancel" data-v="'+a.id+'">'+t('remove')+'</button>'+
+      '</div></div></div>';
+  }
+  return '';
+}
+
+/* ---------- messaging: start a new conversation ---------- */
+function recipientOptions(){
+  const s=state.session, out=[];
+  if(s.role==='parent'){
+    const seen={};
+    myChildren().forEach(c=>{
+      const cls=classOf(c);
+      if(cls && cls.homeroomTeacherId && !seen[cls.homeroomTeacherId]){
+        seen[cls.homeroomTeacherId]=1;
+        out.push({kind:'teacher', id:cls.homeroomTeacherId,
+          label:teacherName(cls.homeroomTeacherId)+' · '+staffWord(cls)+' — '+cls.name});
+      }
+      DB.teacherClass.filter(r=>r.classId===cls.id && r.role==='subject').forEach(r=>{
+        if(seen[r.teacherId]) return; seen[r.teacherId]=1;
+        out.push({kind:'teacher', id:r.teacherId, label:teacherName(r.teacherId)+' · '+cls.name});
+      });
+    });
+    DB.users.filter(u=>u.role==='admin').forEach(u=>
+      out.push({kind:'admin', id:u.id, label:u.name+' · '+t('administration')}));
+  } else if(s.role==='teacher'){
+    const kids=myClasses().flatMap(c=>studentsOfClass(c.id));
+    const seen={};
+    kids.forEach(k=>DB.parentStudent.filter(r=>r.studentId===k.id).forEach(r=>{
+      if(seen[r.parentId]) return; seen[r.parentId]=1;
+      const p=byId(DB.parents,r.parentId);
+      out.push({kind:'parent', id:p.id, label:p.name+' — '+k.firstName});
+    }));
+  } else {
+    DB.parents.forEach(p=>out.push({kind:'parent', id:p.id, label:p.name}));
+  }
+  return out;
+}
+function modalNewMessage(){
+  const opts=recipientOptions();
+  openModal({title:t('new_message'), body:
+    '<div class="field"><label class="fl">'+t('write_to')+'</label><select id="msTo">'+
+      opts.map(o=>'<option value="'+o.kind+':'+o.id+'">'+esc(o.label)+'</option>').join('')+'</select></div>'+
+    '<div class="field"><label class="fl">'+t('subject_line')+'</label><input type="text" id="msSubj"></div>'+
+    '<div class="field" style="margin-bottom:0"><label class="fl">'+t('message_body')+'</label>'+
+      '<textarea id="msBody" rows="4"></textarea></div>',
+    footer:'<button class="btn" data-act="close-modal">'+t('cancel')+'</button>'+
+      '<button class="btn primary" data-act="ms-send">'+icon('send',16)+t('send')+'</button>'});
+}
+
+/* ---------- one message to every guardian in a class ---------- */
+function modalBroadcast(classId){
+  const cls=byId(DB.classes,classId);
+  const n=studentsOfClass(classId).length;
+  openModal({title:t('broadcast'), body:
+    '<div class="row" style="gap:9px;margin-bottom:13px"><span class="chip brand">'+esc(cls.name)+'</span>'+
+      '<span class="small muted">'+n+' '+t('students').toLowerCase()+'</span></div>'+
+    '<div class="field"><label class="fl">'+t('subject_line')+'</label><input type="text" id="bcTitle"></div>'+
+    '<div class="field" style="margin-bottom:0"><label class="fl">'+t('message_body')+'</label>'+
+      '<textarea id="bcBody" rows="4"></textarea></div>'+
+    '<div class="notice" style="margin-top:13px">'+icon('bell',16)+'<span>'+t('broadcast_hint')+'</span></div>',
+    footer:'<button class="btn" data-act="close-modal">'+t('cancel')+'</button>'+
+      '<button class="btn primary" data-act="bc-send" data-c="'+classId+'">'+t('send')+'</button>'});
+}
+
+/* ---------- weekly menu ---------- */
+function mondayOfDate(d){ const x=new Date(d); const wd=(x.getDay()+6)%7; return addDays(x,-wd); }
+function menuForWeek(weekStart){ return DB.menus.find(m=>m.weekStart===weekStart) || null; }
+function menuWeeks(){
+  const m0=ymd(mondayOfDate(today())), m1=ymd(addDays(mondayOfDate(today()),7));
+  return [{key:m0, label:t('this_week')},{key:m1, label:t('next_week')}];
+}
+function MenuView(){
+  const weeks=menuWeeks();
+  const wk=state.params.w || weeks[0].key;
+  const menu=menuForWeek(wk);
+  const canEdit=state.session.role==='admin';
+  const tabs='<div class="pill-tabs" style="margin-bottom:14px">'+weeks.map(w=>
+    '<a class="'+(w.key===wk?'on':'')+'" href="#/'+state.session.role+'/menu?w='+w.key+'" '+
+    'style="padding:9px 14px;border-radius:999px;font-family:var(--ui);font-weight:600;font-size:13px;'+
+    (w.key===wk?'background:var(--surface);box-shadow:var(--sh-1);color:var(--text)':'color:var(--muted)')+'">'+
+    esc(w.label)+'</a>').join('')+'</div>';
+  if(!menu) return tabs+'<div class="card"><div class="card-b">'+emptyState('menu_not_published','nothing_here_hint','utensils')+'</div></div>';
+  const rows=menu.days.map(d=>{
+    const isToday=d.date===ymd(today());
+    return '<div class="card" style="margin-bottom:10px'+(isToday?';border-color:var(--brand-100);background:var(--brand-50)':'')+'">'+
+      '<div class="card-b"><div class="rowb" style="gap:10px;flex-wrap:wrap">'+
+        '<div><div style="font-family:var(--ui);font-weight:700;font-size:14.5px">'+esc(fmtDate(d.date,'long'))+'</div>'+
+          (isToday?'<span class="chip brand" style="margin-top:4px">'+t('date_today')+'</span>':'')+'</div>'+
+        (canEdit? '<button class="btn sm" data-act="menu-edit" data-w="'+menu.weekStart+'" data-d="'+d.date+'">'+
+          icon('edit',14)+t('edit')+'</button>':'')+
+      '</div><div class="divider"></div>'+
+      '<dl style="margin:0">'+
+        ['breakfast','snack_am','lunch','snack_pm'].map(k=>
+          '<div class="kv"><dt>'+t(k)+'</dt><dd>'+esc(L(d[k])||'—')+'</dd></div>').join('')+
+      '</dl></div></div>';
+  }).join('');
+  return tabs+rows;
+}
+function modalMenuDay(weekStart, date){
+  const menu=menuForWeek(weekStart), day=menu.days.find(d=>d.date===date);
+  openModal({title:t('edit_menu')+' · '+fmtDate(date), body:
+    ['breakfast','snack_am','lunch','snack_pm'].map(k=>
+      '<div class="field"><label class="fl">'+t(k)+'</label>'+
+      '<input type="text" id="mn_'+k+'" value="'+esc(L(day[k])||'')+'"></div>').join(''),
+    footer:'<button class="btn" data-act="close-modal">'+t('cancel')+'</button>'+
+      '<button class="btn primary" data-act="menu-save" data-w="'+weekStart+'" data-d="'+date+'">'+t('save')+'</button>'});
+}
+
+/* ---------- timetable ---------- */
+function periodsOfClass(classId){ return DB.periods.filter(p=>p.classId===classId).sort((a,b)=>a.day-b.day||a.order-b.order); }
+function timetableGrid(classId){
+  const per=periodsOfClass(classId);
+  if(!per.length) return '';
+  const days=[1,2,3,4,5], todayIdx=((today().getDay()+6)%7)+1;
+  return '<div class="table-wrap"><table><thead><tr><th>'+t('period')+'</th>'+
+    days.map(d=>'<th'+(d===todayIdx?' style="color:var(--brand)"':'')+'>'+esc(WD_SHORT[state.lang][d%7])+'</th>').join('')+
+    '</tr></thead><tbody>'+
+    [1,2,3,4,5,6].map(o=>{
+      const row=days.map(d=>per.find(p=>p.day===d && p.order===o));
+      if(!row.some(Boolean)) return '';
+      const slot=row.find(Boolean);
+      return '<tr><td class="tiny muted mono-num" style="white-space:nowrap">'+o+'<br>'+slot.start+'</td>'+
+        days.map((d,i)=>{ const p=row[i];
+          return '<td'+(d===todayIdx?' style="background:var(--brand-50)"':'')+'>'+
+            (p? '<div style="font-weight:600;font-family:var(--ui);font-size:13px">'+esc(L(byId(DB.subjects,p.subjectId).name))+'</div>'+
+                '<div class="tiny faint">'+esc(teacherName(p.teacherId))+'</div>' : '<span class="faint">—</span>')+'</td>';
+        }).join('')+'</tr>';
+    }).join('')+'</tbody></table></div>';
+}
+function todaysPeriods(classId){
+  const d=((today().getDay()+6)%7)+1;
+  return periodsOfClass(classId).filter(p=>p.day===d);
+}
+function ParentTimetable(){
+  const st=activeChild(); if(!st) return notFoundView();
+  const cls=classOf(st);
+  const per=periodsOfClass(cls.id);
+  if(!per.length) return childHeroCard(st)+'<div class="card" style="margin-top:16px"><div class="card-b">'+
+    emptyState('nothing_here','nothing_here_hint','calendar')+'</div></div>';
+  const tod=todaysPeriods(cls.id);
+  return childHeroCard(st)+
+    sectionHead(t('date_today')+' · '+fmtDate(today(),'long'))+
+    '<div class="card"><div class="card-b" style="padding-top:6px">'+
+      (tod.length? tod.map(p=>'<div class="list-row">'+
+        '<span class="chip">'+esc(p.start)+'</span>'+
+        '<div style="flex:1;min-width:0"><div style="font-weight:600;font-family:var(--ui);font-size:14px">'+
+          esc(L(byId(DB.subjects,p.subjectId).name))+'</div>'+
+        '<div class="tiny muted">'+esc(teacherName(p.teacherId))+' · '+esc(p.room)+'</div></div>'+
+        '<span class="tiny faint mono-num">'+esc(p.end)+'</span></div>').join('')
+        : '<p class="small muted">'+t('no_lessons_today')+'</p>')+
+    '</div></div>'+
+    sectionHead(t('timetable'))+
+    '<div class="card"><div class="card-b" style="padding:0">'+timetableGrid(cls.id)+'</div></div>';
+}
+function TeacherTimetable(){
+  const classes=myClasses().filter(c=>periodsOfClass(c.id).length);
+  if(!classes.length) return '<div class="card"><div class="card-b">'+emptyState('nothing_here','nothing_here_hint','calendar')+'</div></div>';
+  return classes.map(c=>sectionHead(c.name)+
+    '<div class="card"><div class="card-b" style="padding:0">'+timetableGrid(c.id)+'</div></div>').join('');
+}
+
+/* ---------- end-of-term report card ---------- */
+function currentTerm(){ return DB.terms.find(x=>x.current) || DB.terms[0]; }
+function reportCardData(studentId, termId){
+  const term=byId(DB.terms,termId)||currentTerm();
+  const st=byId(DB.students,studentId), cls=classOf(st);
+  const subs=subjectsForClass(cls.id);
+  const rows=subs.map(sj=>{
+    const gs=DB.grades.filter(g=>g.studentId===studentId && g.subjectId===sj.id &&
+      g.date>=term.start && g.date<=term.end);
+    const avg=gs.length? gs.reduce((a,g)=>a+g.value,0)/gs.length : null;
+    return {subject:sj, count:gs.length, avg, mark: avg==null? null : Math.max(1,Math.min(5,Math.round(avg)))};
+  });
+  const marked=rows.filter(r=>r.mark!=null);
+  const overall=marked.length? marked.reduce((a,r)=>a+r.avg,0)/marked.length : null;
+  return {term, st, cls, rows, overall, att:attendanceStats(studentId,200)};
+}
+function reportCardView(studentId){
+  const st=getStudentGuarded(studentId);
+  if(!st) return noAccessView();
+  if(isEarlyYears(st)) return '<div class="card"><div class="card-b">'+
+    emptyState('nothing_here','nothing_here_hint','sun')+'</div></div>';
+  const termId=state.params.t || currentTerm().id;
+  const d=reportCardData(st.id, termId);
+  const terms='<div class="seg" style="margin-bottom:14px">'+DB.terms.map(x=>
+    '<a class="'+(x.id===termId?'on':'')+'" href="#/'+state.session.role+'/reportcard?s='+st.id+'&t='+x.id+'" '+
+    'style="padding:8px 13px;font-size:12.5px;font-weight:600;font-family:var(--ui);'+
+    (x.id===termId?'background:var(--brand);color:#fff':'color:var(--muted)')+'">'+esc(L(x.name))+'</a>').join('')+'</div>';
+  return '<div class="rowb" style="margin-bottom:12px;gap:9px;flex-wrap:wrap">'+terms+
+      '<button class="btn" data-act="print-page">'+icon('download',15)+t('print')+'</button></div>'+
+    '<div class="card sheet-print"><div class="card-b">'+
+      '<div class="rowb" style="gap:12px;flex-wrap:wrap;align-items:flex-start">'+
+        '<div><div style="font-family:var(--ui);font-weight:800;font-size:18px;letter-spacing:-.02em">'+
+          esc(DB.schools[0].name)+'</div>'+
+          '<div class="tiny muted">'+esc(DB.schoolYears[0].name)+' · '+esc(L(d.term.name))+'</div></div>'+
+        '<span class="chip brand">'+t('report_card')+'</span>'+
+      '</div>'+
+      '<div class="divider"></div>'+
+      '<div class="row" style="gap:12px">'+avatar(st.fullName,44,st.id)+
+        '<div><div style="font-family:var(--ui);font-weight:700;font-size:16px">'+esc(st.fullName)+'</div>'+
+        '<div class="tiny muted">'+esc(d.cls.name)+' · '+staffWord(d.cls)+': '+esc(teacherName(d.cls.homeroomTeacherId))+'</div></div></div>'+
+      '<div class="table-wrap" style="margin-top:14px"><table><thead><tr>'+
+        '<th>'+t('subject_col')+'</th><th>'+t('marks_count')+'</th><th>'+t('term_average')+'</th><th>'+t('final_mark')+'</th>'+
+      '</tr></thead><tbody>'+
+      d.rows.map(r=>'<tr><td><b style="font-family:var(--ui)">'+esc(L(r.subject.name))+'</b></td>'+
+        '<td class="mono-num muted">'+r.count+'</td>'+
+        '<td class="mono-num">'+(r.avg==null?'—':r.avg.toFixed(2))+'</td>'+
+        '<td>'+(r.mark==null? '<span class="faint">'+t('no_marks_yet')+'</span>'
+          : '<span class="chip '+(r.mark>=4?'ok':(r.mark>=3?'info':'warn'))+'" style="font-size:13px">'+r.mark+'</span>')+'</td></tr>').join('')+
+      '</tbody></table></div>'+
+      '<div class="grid g3" style="margin-top:16px">'+
+        '<div>'+metric(d.overall==null?'—':d.overall.toFixed(2), t('general_average'))+'</div>'+
+        '<div>'+metric(d.att.rate+'%', t('attendance_pct'))+'</div>'+
+        '<div>'+metric(d.att.absent, t('absences_count'))+'</div>'+
+      '</div>'+
+      '<div class="divider"></div>'+
+      '<div class="tiny faint" style="font-weight:600;margin-bottom:5px">'+t('homeroom_comment')+'</div>'+
+      '<p class="small">'+esc(homeroomComment(d))+'</p>'+
+      '<div class="tiny faint" style="margin-top:16px">'+t('issued_on')+' '+esc(fmtDate(today(),'long'))+'</div>'+
+    '</div></div>';
+}
+function homeroomComment(d){
+  const sq=state.lang==='sq';
+  if(d.overall==null) return sq? 'Ende nuk ka nota të mjaftueshme për një vlerësim përfundimtar.'
+                               : 'There are not yet enough marks for a final assessment.';
+  if(d.overall>=4.5) return sq? 'Rezultate shumë të mira dhe punë e vazhdueshme gjatë gjithë semestrit.'
+                              : 'Very strong results and consistent work throughout the term.';
+  if(d.overall>=3.5) return sq? 'Punë e qëndrueshme. Me pak më shumë vëmendje te detyrat e shtëpisë, rezultatet do të ngrihen edhe më.'
+                              : 'Steady work. With a little more attention to homework the results will rise further.';
+  return sq? 'Ka nevojë për mbështetje shtesë në disa lëndë. Ju ftojmë për një takim me kujdestarin.'
+           : 'Needs extra support in several subjects. We invite you to meet the homeroom teacher.';
+}
+function ParentReportCard(){ const st=activeChild(); if(!st) return notFoundView(); return reportCardView(st.id); }
+function TeacherReportCard(){ return reportCardView(state.params.s); }
+
+/* ---------- saving media to the phone ---------- */
+function downloadMedia(photoId){
+  const p=byId(DB.photos,photoId); if(!p) return;
+  let href=p.src, name=(L(p.caption)||'photo').replace(/[^\w\u00C0-\u024F -]/g,'').trim().replace(/\s+/g,'-');
+  if(!href){
+    const svg=photoSVG(p.id,p.kind);
+    href=URL.createObjectURL(new Blob([svg],{type:'image/svg+xml'}));
+    name+='.svg';
+  } else {
+    name += p.mediaType==='video' ? '.mp4' : '.jpg';
+  }
+  const a=document.createElement('a');
+  a.href=href; a.download=name; a.rel='noopener';
+  document.body.appendChild(a); a.click(); a.remove();
+  audit('media.download', photoId);
+}
+
+/* =========================================================================
+   WIRING
+   ========================================================================= */
+Object.assign(VIEWS, {
+  'parent/menu':MenuView, 'admin/menu':MenuView, 'teacher/menu':MenuView,
+  'parent/timetable':ParentTimetable, 'teacher/timetable':TeacherTimetable,
+  'parent/reportcard':ParentReportCard, 'teacher/reportcard':TeacherReportCard
+});
+
+Object.assign(ACTIONS, {
+  /* absence */
+  'abs-open':(d)=>modalAbsence(d.s),
+  'abs-date':(d,e)=>{
+    const box=document.getElementById('abDate'); if(box) box.value=d.v;
+    ['abD0','abD1'].forEach(id=>{ const el=document.getElementById(id); if(el) el.classList.remove('on'); });
+    if(e && e.target && e.target.closest) e.target.closest('button').classList.add('on');
+  },
+  'abs-save':(d)=>{
+    const st=getStudentGuarded(d.s); if(!st){ toast(t('no_access'),'lock'); return; }
+    const v=id=>{ const e=document.getElementById(id); return e? e.value.trim():''; };
+    const date=v('abDate')||ymd(today()), reason=v('abReason')||'illness', note=v('abNote');
+    if(absenceFor(st.id,date)){ toast(t('already_reported'),'alert'); closeModal(); return; }
+    DB.absences.push({id:uuid('abs'+st.id+date), schoolId:DB._ref.SCHOOL, studentId:st.id, classId:st.classId,
+      date, reason, note: note? bi(note) : null, reportedBy:state.session.parentId, at:nowISO(), status:'reported'});
+    const cls=classOf(st);
+    if(cls && cls.homeroomTeacherId){
+      pushNotification('teacher:'+cls.homeroomTeacherId,'absence',
+        st.firstName+' mungon më '+fmtDate(date)+' — '+reasonLabel(reason),
+        st.firstName+' will be absent on '+fmtDate(date)+' — '+reasonLabel(reason),
+        '#/teacher/attendance?c='+cls.id);
+    }
+    audit('absence.report', st.fullName+' '+date+' '+reason);
+    closeModal(); toast(t('absence_reported'),'checkcircle'); render();
+  },
+  'abs-cancel':(d)=>{
+    const i=DB.absences.findIndex(a=>a.id===d.v);
+    if(i<0) return;
+    if(!canAccessStudent(DB.absences[i].studentId)) return;
+    audit('absence.cancel', DB.absences[i].studentId);
+    DB.absences.splice(i,1); render();
+  },
+
+  /* messaging */
+  'msg-new':()=>modalNewMessage(),
+  'ms-send':()=>{
+    const v=id=>{ const e=document.getElementById(id); return e? e.value.trim():''; };
+    const to=v('msTo'), subj=v('msSubj'), body=v('msBody');
+    if(!to || !body){ toast(t('row_error_fields'),'alert'); return; }
+    const [kind,id]=to.split(':');
+    const me=state.session;
+    const meP={kind:me.role, id: me.role==='parent'? me.parentId : (me.role==='teacher'? me.teacherId : me.userId)};
+    const cid=uuid('conv'+Date.now());
+    DB.conversations.unshift({id:cid, schoolId:DB._ref.SCHOOL,
+      subject:bi(subj || t('new_message')),
+      participants:[meP,{kind,id}], unreadFor:[kind+':'+id], updated_at:nowISO(), created_at:nowISO()});
+    DB.messages.push({id:uuid('msg'+Date.now()), conversationId:cid, senderId:currentActorKey(),
+      body:bi(body), at:nowISO()});
+    pushNotification(kind+':'+id,'message',
+      'Mesazh i ri nga '+actorName(), 'New message from '+actorName(),
+      '#/'+(kind==='admin'?'admin':kind)+'/messages?c='+cid);
+    audit('message.new', to);
+    closeModal(); toast(t('message_sent'),'send');
+    go(me.role+'/messages?c='+cid);
+  },
+
+  /* broadcast to a whole class */
+  'bc-open':(d)=>modalBroadcast(d.c),
+  'bc-send':(d)=>{
+    if(!canAccessClass(d.c)){ toast(t('no_access'),'lock'); return; }
+    const v=id=>{ const e=document.getElementById(id); return e? e.value.trim():''; };
+    const title=v('bcTitle'), body=v('bcBody');
+    if(!body){ toast(t('row_error_fields'),'alert'); return; }
+    const cls=byId(DB.classes,d.c);
+    DB.announcements.unshift({id:uuid('an'+Date.now()), schoolId:DB._ref.SCHOOL,
+      title:bi(title||cls.name), body:bi(body),
+      audience:{type:'class', classId:d.c}, authorId:state.session.userId||null,
+      publishedAt:nowISO(), pinned:false});
+    let n=0;
+    studentsOfClass(d.c).forEach(st=>DB.parentStudent.filter(r=>r.studentId===st.id).forEach(r=>{
+      pushNotification('parent:'+r.parentId,'announcement',
+        'Njoftim nga '+cls.name, 'Message from '+cls.name, '#/parent/calendar'); n++;
+    }));
+    audit('broadcast.send','class='+d.c+' parents='+n);
+    closeModal(); toast(t('broadcast_sent'),'bell'); render();
+  },
+
+  /* menu */
+  'menu-edit':(d)=>modalMenuDay(d.w,d.d),
+  'menu-save':(d)=>{
+    const menu=menuForWeek(d.w), day=menu.days.find(x=>x.date===d.d);
+    ['breakfast','snack_am','lunch','snack_pm'].forEach(k=>{
+      const el=document.getElementById('mn_'+k);
+      if(el) day[k]=bi(el.value.trim());
+    });
+    menu.publishedAt=nowISO();
+    audit('menu.edit', d.d);
+    closeModal(); toast(t('menu_saved'),'utensils'); render();
+  },
+
+  /* misc */
+  'print-page':()=>{ try{ window.print(); }catch(e){ toast(t('demo_only')); } },
+  'media-download':(d)=>downloadMedia(d.v)
+});
 
 window.addEventListener('hashchange', onRoute);
 onRoute();
