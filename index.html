@@ -448,6 +448,15 @@ tbody tr:hover{background:var(--surface-2)}
   .mx td.mx-cell{width:34px;min-width:34px}
 }
 .report-sheet{font-size:14px}
+.more-row{display:flex;align-items:center;gap:13px;padding:13px 12px;border-radius:12px;
+  text-decoration:none;color:var(--text);font-family:var(--ui);font-weight:600;font-size:14.5px;cursor:pointer}
+.more-row:hover{background:var(--surface-2)}
+.more-ic{width:36px;height:36px;border-radius:11px;background:var(--surface-3);color:var(--muted);
+  display:grid;place-items:center;flex:none}
+.more-t{flex:1;min-width:0}
+.bottombar a{position:relative}
+.tab-dot{position:absolute;top:5px;right:calc(50% - 15px);width:8px;height:8px;border-radius:50%;
+  background:var(--err);border:1.5px solid #fff}
 .bus-badge{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;color:#fff;flex:none}
 .bus-badge.sm{width:28px;height:28px;border-radius:9px}
 .map-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;padding:2px}
@@ -705,7 +714,7 @@ sq:{
  days_reported:'Ditë të raportuara', educator_comment:'Vlerësimi i edukatores', principal:'Drejtori',
  menu_allergy:'Përmban {a} — fëmija juaj ka kufizim për këtë.',
  menu_child_note:'Paralajmërimet bazohen në alergjitë e regjistruara për {n}.',
- close:'Mbyll', open:'Hap', add:'Shto', edit:'Ndrysho', delete:'Fshij', publish:'Publiko',
+ more:'Më shumë', language:'Gjuha', close:'Mbyll', open:'Hap', add:'Shto', edit:'Ndrysho', delete:'Fshij', publish:'Publiko',
  published:'U publikua', saved:'U ruajt', send:'Dërgo', search:'Kërko', all:'Të gjithë', none:'Asnjë', view_all:'Shiko të gjitha',
  back:'Kthehu', next:'Vazhdo', details:'Detajet', class:'Klasa', student:'Nxënësi', students:'Nxënës', teacher:'Mësuesi/ja',
  subject:'Lënda', date:'Data', time:'Ora', note:'Shënim', notes:'Shënime', status:'Statusi', actions:'Veprime',
@@ -996,7 +1005,7 @@ en:{
  days_reported:'Days reported', educator_comment:'Educator\u2019s assessment', principal:'Principal',
  menu_allergy:'Contains {a} — your child has a restriction for this.',
  menu_child_note:'Warnings are based on the allergies recorded for {n}.',
- close:'Close', open:'Open', add:'Add', edit:'Edit', delete:'Delete', publish:'Publish',
+ more:'More', language:'Language', close:'Close', open:'Open', add:'Add', edit:'Edit', delete:'Delete', publish:'Publish',
  published:'Published', saved:'Saved', send:'Send', search:'Search', all:'All', none:'None', view_all:'View all',
  back:'Back', next:'Continue', details:'Details', class:'Class', student:'Student', students:'Students', teacher:'Teacher',
  subject:'Subject', date:'Date', time:'Time', note:'Note', notes:'Notes', status:'Status', actions:'Actions',
@@ -2378,7 +2387,14 @@ const NAV = {
     {r:'admin/settings',ic:'settings',k:'nav_settings'}
   ]
 };
-const PARENT_TABS = ['parent/home','parent/reports','parent/academics','parent/photos','parent/messages'];
+/* Four places a guardian goes daily, plus everything else behind one tap. The
+   fourth changes with the child's age: a kindergarten parent opens photos, a
+   grade-5 parent opens the register. */
+function parentTabs(){
+  const st=(typeof activeChild==='function')? activeChild() : null;
+  const third = (st && isEarlyYears(st)) ? 'parent/photos' : 'parent/ditari';
+  return ['parent/home','parent/reports',third,'parent/messages','parent/more'];
+}
 
 /* =========================================================================
    ROUTER + SHELL
@@ -2404,7 +2420,7 @@ function routeTitle(){
   if(item) return t(item.k);
   const map={
     'parent/report':t('daily_report'), 'teacher/class':t('class'), 'teacher/student':t('student'),
-    'parent/messages':t('messages'), 'parent/setup':t('complete_profile'), 'admin/import':t('import_csv'),
+    'parent/messages':t('messages'), 'parent/setup':t('complete_profile'), 'parent/more':t('more'), 'admin/import':t('import_csv'),
     'teacher/reportcard':t('report_card'), 'admin/staff':t('teaching_staff'), 'admin/invites':t('nav_invites'), 'admin/fees':t('fee_plans'), 'admin/finance':t('nav_finance')
   };
   return map[state.route] || t('nav_dashboard');
@@ -2468,10 +2484,20 @@ function topbarView(){
 }
 function bottomBarView(){
   if(state.session.role!=='parent') return '';
-  const map={'parent/home':'home','parent/reports':'sun','parent/academics':'cap','parent/photos':'image','parent/messages':'message'};
-  const labels={'parent/home':'nav_home','parent/reports':'nav_reports','parent/academics':'nav_academics','parent/photos':'nav_photos','parent/messages':'nav_messages'};
-  return '<nav class="bottombar">'+PARENT_TABS.map(r=>
-    '<a href="#/'+r+'" class="'+(state.route===r?'on':'')+'">'+icon(map[r],21)+'<span>'+t(labels[r])+'</span></a>').join('')+'</nav>';
+  const tabs=parentTabs();
+  const map={'parent/home':'home','parent/reports':'sun','parent/academics':'cap','parent/photos':'image',
+    'parent/ditari':'book','parent/messages':'message','parent/more':'menu'};
+  const labels={'parent/home':'nav_home','parent/reports':'nav_reports','parent/academics':'nav_academics',
+    'parent/photos':'nav_photos','parent/ditari':'nav_ditari','parent/messages':'nav_messages','parent/more':'more'};
+  const unread=(typeof unreadCount==='function')? unreadCount() : 0;
+  return '<nav class="bottombar">'+tabs.map(r=>{
+    /* anything that is not one of the four sits behind More, so More is lit
+       whenever the guardian is on one of those screens */
+    const on = state.route===r || (r==='parent/more' && tabs.indexOf(state.route)<0);
+    const badge = (r==='parent/more' && unread)? '<i class="tab-dot"></i>' : '';
+    return '<a href="#/'+r+'" class="'+(on?'on':'')+'">'+icon(map[r],21)+badge+
+      '<span>'+t(labels[r])+'</span></a>';
+  }).join('')+'</nav>';
 }
 function notFoundView(){
   return '<div class="card"><div class="card-b">'+emptyState('nothing_here','nothing_here_hint','search',
@@ -7580,6 +7606,52 @@ if(SB.enabled){
    either opens the screen it describes or performs the thing it names.
    ========================================================================= */
 
+
+/* ---------- everything else, one tap away on a phone ---------- */
+function ParentMore(){
+  const st=activeChild();
+  const tabs=parentTabs();
+  const items=(NAV.parent||[]).filter(n=>tabs.indexOf(n.r)<0);
+  const unread=unreadCount();
+  const row=(href,ic,label,extra)=>
+    '<a class="more-row" href="'+href+'">'+
+      '<span class="more-ic">'+icon(ic,19)+'</span>'+
+      '<span class="more-t">'+esc(label)+'</span>'+
+      (extra||'')+icon('chevron',17)+'</a>';
+  return (st? '<div class="card" style="margin-bottom:16px"><div class="card-b">'+
+      '<div class="row" style="gap:12px">'+heroAvatarPlain(st)+
+      '<div style="flex:1;min-width:0"><div style="font-family:var(--ui);font-weight:700;font-size:15px">'+
+        esc(st.fullName)+'</div>'+
+      '<div class="tiny muted">'+esc(classOf(st).name)+'</div></div>'+
+      '<a class="btn sm" href="#/parent/child">'+t('nav_child')+'</a></div>'+
+      (myChildren().length>1? '<div style="margin-top:12px">'+childSwitcher()+'</div>':'')+
+    '</div></div>' : '')+
+    '<div class="card"><div class="card-b" style="padding:6px">'+
+      items.map(n=>row('#/'+n.r, n.ic, t(n.k),
+        n.r==='parent/notifications' && unread? '<span class="chip err" style="margin-right:6px">'+unread+'</span>' : ''
+      )).join('')+
+    '</div></div>'+
+    '<div class="card" style="margin-top:14px"><div class="card-b" style="padding:6px">'+
+      '<div class="more-row" style="cursor:default">'+
+        '<span class="more-ic">'+icon('globe',19)+'</span>'+
+        '<span class="more-t">'+t('language')+'</span>'+
+        '<span class="seg sm"><button class="'+(state.lang==='sq'?'on':'')+'" data-act="set-lang" data-v="sq">SQ</button>'+
+        '<button class="'+(state.lang==='en'?'on':'')+'" data-act="set-lang" data-v="en">EN</button></span></div>'+
+      '<button class="more-row" data-act="logout" style="width:100%;border:0;background:none;text-align:left">'+
+        '<span class="more-ic">'+icon('logout',19)+'</span>'+
+        '<span class="more-t">'+t('switch_role')+'</span></button>'+
+    '</div></div>'+
+    '<p class="tiny faint" style="text-align:center;margin-top:14px">'+
+      esc(DB.schools[0].name)+' · '+esc(DB.schoolYears[0].name)+'</p>';
+}
+/* the same avatar, without the camera badge, for use in a list */
+function heroAvatarPlain(st){
+  const pic=AVATARS[st.id];
+  return pic
+    ? '<img src="'+esc(pic)+'" alt="" style="width:44px;height:44px;border-radius:50%;object-fit:cover;flex:none">'
+    : avatar(st.fullName,44,st.id);
+}
+
 /* ---------- the hero avatar is the way to set the child's picture ---------- */
 function heroAvatar(st){
   const pic=AVATARS[st.id];
@@ -7789,7 +7861,7 @@ function AdminRequests(){
 /* =========================================================================
    WIRING
    ========================================================================= */
-Object.assign(VIEWS, {'admin/requests':AdminRequests});
+Object.assign(VIEWS, {'admin/requests':AdminRequests, 'parent/more':ParentMore});
 
 Object.assign(ACTIONS, {
   'view-photo':(d)=>{ state.ui.viewPhoto=d.v; render(); },
