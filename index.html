@@ -20,7 +20,8 @@
 <link rel="manifest" href="manifest.webmanifest" />
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png" />
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
-<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+<link rel="apple-touch-icon-precomposed" href="apple-touch-icon.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -131,10 +132,11 @@ button,input,select,textarea{font:inherit;color:inherit}
 .iconbtn{width:34px;height:34px;border-radius:var(--r-sm);display:grid;place-items:center;border:1px solid transparent;background:transparent;cursor:pointer;color:var(--muted);position:relative}
 .iconbtn:hover{background:var(--surface-3);color:var(--text)}
 .menubtn{display:none}
-.hero-top{display:flex;gap:14px;align-items:flex-start}
-.hero-avatar{position:relative;flex:none;width:60px;height:60px;border-radius:50%;border:2px solid rgba(255,255,255,.5);
-  background:rgba(255,255,255,.16);color:#fff;cursor:pointer;padding:0;display:grid;place-items:center;overflow:visible}
-.hero-avatar img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block}
+.hero-top{display:flex;gap:14px;align-items:flex-start;min-width:0}
+.hero-avatar{position:relative;flex:0 0 auto;width:60px;height:60px;min-width:60px;aspect-ratio:1;
+  border-radius:50%;border:2px solid rgba(255,255,255,.5);background:rgba(255,255,255,.16);color:#fff;
+  cursor:pointer;padding:0;display:grid;place-items:center;overflow:visible;box-sizing:border-box}
+.hero-avatar img{width:100%;height:100%;border-radius:50%;object-fit:cover;object-position:center 30%;display:block}
 .hero-avatar .ini{font-family:var(--ui);font-weight:700;font-size:20px;letter-spacing:-.02em}
 .hero-avatar .cam{position:absolute;right:-3px;bottom:-3px;width:23px;height:23px;border-radius:50%;
   background:#fff;color:var(--brand);display:grid;place-items:center;box-shadow:var(--sh-1)}
@@ -195,7 +197,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .badge{min-width:19px;height:19px;padding:0 6px;border-radius:999px;background:var(--err);color:#fff;font-size:11px;font-weight:700;display:inline-grid;place-items:center;font-family:var(--ui)}
 .dot{width:8px;height:8px;border-radius:50%;background:var(--faint);flex:0 0 8px}
 .dot.ok{background:var(--ok)}.dot.err{background:var(--err)}.dot.warn{background:var(--warn)}.dot.info{background:var(--info)}
-.avatar{border-radius:50%;display:grid;place-items:center;font-family:var(--ui);font-weight:700;color:#fff;flex:none;letter-spacing:-.02em;overflow:hidden}
+.avatar{aspect-ratio:1;flex:0 0 auto;object-fit:cover;object-position:center 30%;border-radius:50%;display:grid;place-items:center;font-family:var(--ui);font-weight:700;color:#fff;flex:none;letter-spacing:-.02em;overflow:hidden}
 .divider{height:1px;background:var(--border);margin:14px 0}
 .kv{display:flex;gap:12px;padding:9px 0;border-bottom:1px dashed var(--border)}
 .kv:last-child{border-bottom:0}
@@ -258,6 +260,8 @@ tbody tr:hover{background:var(--surface-2)}
 .photo-x.save{right:auto;left:6px;opacity:.85}
 .photo-x{position:absolute;top:6px;right:6px;width:24px;height:24px;border-radius:50%;border:0;cursor:pointer;
   background:rgba(16,24,40,.62);color:#fff;display:grid;place-items:center;padding:0}
+.avatar-preview{width:96px;height:96px;min-width:96px;aspect-ratio:1;border-radius:50%;
+  object-fit:cover;object-position:center 30%;flex:0 0 auto;display:block;box-shadow:var(--sh-1)}
 .uploader{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;
   padding:22px 16px;border:1.5px dashed var(--border-2);border-radius:var(--r);background:var(--surface-2);
   color:var(--muted);font-family:var(--ui);font-weight:600;font-size:14px;cursor:pointer;transition:border-color .12s,background .12s}
@@ -459,7 +463,7 @@ tbody tr:hover{background:var(--surface-2)}
   background:var(--err);border:1.5px solid #fff}
 .bus-badge{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;color:#fff;flex:none}
 .bus-badge.sm{width:28px;height:28px;border-radius:9px}
-.map-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;padding:2px}
+.map-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;padding:2px;max-width:100%}
 .bus-map{display:block;max-width:100%;height:auto}
 .bus-map .stop-node{cursor:pointer}
 .bus-map .stop-node rect{transition:fill .12s}
@@ -908,6 +912,7 @@ sq:{
  choose_media_hint:'Nga galeria ose direkt me kamerë. Deri në 12 skedarë.',
  child_photo:'Fotoja e fëmijës', change_photo:'Ndrysho foton',
  child_photo_hint:'Shfaqet në profilin e fëmijës dhe në listat e klasës.',
+ photo_cropped:'Fotoja pritet në formë katrore, që të shfaqet rrumbullak kudo.',
  choose_photo:'Zgjidh një foto', caption:'Përshkrimi', caption_ph:'p.sh. Pikturim i pemëve të vjeshtës',
  caption_default:'Nga dita jonë', video:'Video', reading_files:'Po lexohen skedarët…',
  upload_failed:'Skedari nuk u lexua dot', publish_n_media:'Publiko {n} skedarë',
@@ -1184,6 +1189,7 @@ en:{
  choose_media_hint:'From the gallery or straight from the camera. Up to 12 files.',
  child_photo:'Child photo', change_photo:'Change photo',
  child_photo_hint:'Shown on the child profile and in class lists.',
+ photo_cropped:'The photo is cropped square so it appears round everywhere.',
  choose_photo:'Choose a photo', caption:'Caption', caption_ph:'e.g. Painting autumn trees',
  caption_default:'From our day', video:'Video', reading_files:'Reading files…',
  upload_failed:'That file could not be read', publish_n_media:'Publish {n} files',
@@ -4834,7 +4840,11 @@ document.addEventListener('input', e=>{ if(e.target.id==='csvBox') state.ui.csvT
 
 /* images are re-encoded down to a sane size so a 12 MP phone photo does not
    sit in memory at full resolution; video is referenced, never copied */
-function readImageFile(file, maxDim){
+/* `square` crops to a centred square before scaling. Profile pictures are
+   shown in circles everywhere, and a portrait photo squeezed into a circle by
+   CSS becomes an oval — cropping once, here, means every circle is a circle.
+   The crop sits slightly above centre because faces do. */
+function readImageFile(file, maxDim, square){
   return new Promise((resolve,reject)=>{
     const fr=new FileReader();
     fr.onerror=()=>reject(new Error('read'));
@@ -4843,12 +4853,24 @@ function readImageFile(file, maxDim){
       img.onerror=()=>resolve({type:'image', src:fr.result, name:file.name});
       img.onload=()=>{
         const m=maxDim||1600;
-        let w=img.naturalWidth||m, h=img.naturalHeight||m;
-        if(Math.max(w,h)>m){ const k=m/Math.max(w,h); w=Math.round(w*k); h=Math.round(h*k); }
+        const nw=img.naturalWidth||m, nh=img.naturalHeight||m;
         try{
-          const c=document.createElement('canvas'); c.width=w; c.height=h;
-          c.getContext('2d').drawImage(img,0,0,w,h);
-          resolve({type:'image', src:c.toDataURL('image/jpeg',0.82), name:file.name, w, h});
+          const c=document.createElement('canvas');
+          const ctx=c.getContext('2d');
+          if(square){
+            const side=Math.min(nw,nh);
+            const sx=Math.round((nw-side)/2);
+            const sy=Math.round(Math.max(0,(nh-side)*0.35));
+            const out=Math.min(m, side);
+            c.width=out; c.height=out;
+            ctx.drawImage(img, sx, sy, side, side, 0, 0, out, out);
+          } else {
+            let w=nw, h=nh;
+            if(Math.max(w,h)>m){ const k=m/Math.max(w,h); w=Math.round(w*k); h=Math.round(h*k); }
+            c.width=w; c.height=h;
+            ctx.drawImage(img,0,0,w,h);
+          }
+          resolve({type:'image', src:c.toDataURL('image/jpeg',0.86), name:file.name, w:c.width, h:c.height});
         }catch(e){ resolve({type:'image', src:fr.result, name:file.name}); }
       };
       img.src=fr.result;
@@ -4909,11 +4931,12 @@ function modalChildPhoto(studentId){
   openModal({title:t('child_photo'), body:
     '<div class="row" style="gap:16px;align-items:center;flex-wrap:wrap">'+
       (current
-        ? '<img src="'+esc(current)+'" alt="" style="width:96px;height:96px;border-radius:50%;object-fit:cover;flex:none">'
+        ? '<img src="'+esc(current)+'" alt="" class="avatar-preview">'
         : avatar(personName(st),96,st.id))+
       '<div style="flex:1;min-width:170px">'+
         '<div style="font-family:var(--ui);font-weight:700">'+esc(personName(st))+'</div>'+
         '<p class="small muted" style="margin-top:4px">'+t('child_photo_hint')+'</p>'+
+        (staged? '<p class="tiny faint" style="margin-top:6px">'+t('photo_cropped')+'</p>' : '')+
       '</div>'+
     '</div>'+
     '<label class="uploader" style="margin-top:16px">'+icon('camera',20)+
@@ -5034,7 +5057,7 @@ document.addEventListener('change', e=>{
   }
   if(e.target.id==='kidPhotoFile'){
     const sid=state.ui.kidPhotoStudent;
-    readImageFile(e.target.files[0],700).then(m=>{
+    readImageFile(e.target.files[0], 640, true).then(m=>{
       state.ui.kidPhoto=m.src;
       modalChildPhoto(sid);
     }).catch(()=>toast(t('upload_failed'),'alert'));
