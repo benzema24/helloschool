@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Hello Academy of Education — Platforma e shkollës</title>
+<title>Hello Academy — Portali i prindërve</title>
 <meta name="description" content="Platforma e shkollës për prindër, mësues dhe administratë — kopshti deri në klasën e 9-të." />
 <meta name="robots" content="noindex, nofollow" />
 <meta name="theme-color" content="#57489F" />
@@ -131,6 +131,9 @@ button,input,select,textarea{font:inherit;color:inherit}
 .iconbtn{width:34px;height:34px;border-radius:var(--r-sm);display:grid;place-items:center;border:1px solid transparent;background:transparent;cursor:pointer;color:var(--muted);position:relative}
 .iconbtn:hover{background:var(--surface-3);color:var(--text)}
 .menubtn{display:none}
+.linkish{border:0;background:none;padding:0;cursor:pointer;color:var(--brand);font-family:var(--ui);
+  font-weight:600;font-size:12.5px;display:inline-flex;align-items:center;gap:3px}
+.notice.warn{background:var(--warn-50);color:var(--warn)}
 
 /* ---------- cards ---------- */
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);box-shadow:var(--sh-2)}
@@ -374,7 +377,51 @@ tbody tr:hover{background:var(--surface-2)}
   .content{padding-top:14px}
 }
 @media (prefers-reduced-motion: reduce){ *{animation:none !important;transition:none !important} }
+.mx-wrap{overflow:auto;max-height:74vh;-webkit-overflow-scrolling:touch}
+.mx{border-collapse:separate;border-spacing:0;font-size:12px;min-width:max-content}
+.mx th,.mx td{border-right:1px solid var(--border);border-bottom:1px solid var(--border);padding:0}
+.mx thead th{position:sticky;top:0;z-index:3;background:var(--surface-2);font-family:var(--ui);font-weight:700;
+  font-size:11px;color:var(--muted);padding:7px 6px;text-align:center;vertical-align:bottom}
+.mx thead tr:nth-child(2) th{top:31px}
+.mx th.mx-area{background:var(--brand-50);color:var(--brand-700);letter-spacing:.01em;white-space:nowrap}
+.mx th.mx-sub{height:118px;padding:0 0 8px}
+.mx th.mx-sub span{display:block;writing-mode:vertical-rl;transform:rotate(180deg);white-space:nowrap;
+  margin:0 auto;font-weight:600;color:var(--text);font-size:11.5px;max-height:104px;overflow:hidden}
+.mx td.mx-cell{width:38px;min-width:38px;height:30px;text-align:center;vertical-align:middle;background:var(--surface)}
+.mx tr.mx-alt td.mx-cell{background:var(--surface-2)}
+.mx td.mx-np{background:var(--brand-50)}
+.mx tr.mx-alt td.mx-np{background:var(--brand-100)}
+.mx tr.mx-last td{border-bottom:2px solid var(--border-2)}
+.mx td.mx-edit{cursor:pointer}
+.mx td.mx-edit:hover{box-shadow:inset 0 0 0 2px var(--brand)}
+.mx td.mx-edit:focus-visible{outline:none;box-shadow:inset 0 0 0 2px var(--brand)}
+.mx .mx-mark{font-family:var(--ui);font-weight:700;font-size:12.5px;display:inline-block;min-width:20px}
+.mx .mx-mark.ok{color:var(--ok)} .mx .mx-mark.info{color:var(--info)}
+.mx .mx-mark.warn{color:var(--warn)} .mx .mx-mark.err{color:var(--err)}
+.mx .mx-stick{position:sticky;z-index:2;background:var(--surface)}
+.mx thead .mx-stick{z-index:4}
+.mx tr.mx-alt .mx-stick{background:var(--surface-2)}
+.mx .mx-no{left:0;width:46px;min-width:46px;text-align:center;padding:5px 4px}
+.mx .mx-name{left:46px;width:172px;min-width:172px;text-align:left;padding:6px 9px}
+.mx .mx-term{left:218px;width:34px;min-width:34px;text-align:center;font-family:var(--ui);
+  font-weight:700;font-size:10.5px;color:var(--muted);background:var(--surface-3)}
+.mark-grid{display:grid;grid-template-columns:1fr;gap:8px}
+.mark-opt{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--border);
+  border-radius:var(--r);background:var(--surface);cursor:pointer;text-align:left;width:100%}
+.mark-opt:hover{border-color:var(--brand);background:var(--brand-50)}
+.mark-opt.on{border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-50)}
+.mark-n{font-family:var(--ui);font-weight:800;font-size:19px;min-width:26px;color:var(--brand)}
+.mark-l{font-family:var(--ui);font-weight:600;font-size:14px}
+@media (max-width:860px){
+  .mx .mx-name{width:128px;min-width:128px}
+  .mx .mx-term{left:174px}
+  .mx td.mx-cell{width:34px;min-width:34px}
+}
 @media print{
+  .mx-wrap{overflow:visible;max-height:none}
+  .mx thead th{position:static}
+  .mx .mx-stick{position:static}
+
   .sidebar,.topbar,.bottombar,.toasts,#overlay,.seg,.btn,.pill-tabs,.scrim{display:none !important}
   body{background:#fff}
   .content{padding:0;max-width:none}
@@ -552,8 +599,12 @@ const I18N = {
 sq:{
  app_tagline:'Shkolla dhe familja, në të njëjtën faqe.',
  login_head:'Mirë se vini në Hello Academy',
- login_sub:'Zgjidhni një rol demonstrimi për të hyrë. Kjo është një version demo — asnjë e dhënë reale nuk përdoret.',
- demo_access:'Hyrje e shpejtë demo',
+ login_sub_parent:'Hyni me emailin ose numrin që i keni dhënë shkollës.',
+ login_sub_staff:'Hyni me emailin e punës dhe fjalëkalimin tuaj.',
+ portal_parent:'Portali i prindërve', portal_staff:'Portali i stafit',
+ are_you_staff:'Jeni mësues ose edukatore?', go_staff_portal:'Kaloni te portali i stafit',
+ are_you_parent:'Jeni prind?', go_parent_portal:'Kaloni te portali i prindërve',
+ demo_access:'Ose provoni një rol demonstrimi',
  role_parent:'Prind', role_teacher:'Mësues/e', role_educator:'Edukator/e', role_admin:'Administratë', role_super:'Super Admin',
  educator:'Edukatorja', educators:'Edukatoret', teaching_staff:'Stafi mësimor',
  educator_note:'Shënim nga edukatorja', early_group:'Grupi', age_band:'Mosha',
@@ -561,7 +612,7 @@ sq:{
  login_kg_d:'Albina Sylejmani — Kopshti, Grupi Lulet',
  login_gt_d:'Blerim Gashi — Matematikë, klasat 5/A dhe 8/A',
  login_admin_d:'Mimoza Bajrami — Drejtoreshë',
- demo_note:'Demo: të dhënat janë fiktive dhe ruhen vetëm në kujtesën e shfletuesit.',
+ demo_note:'Version demo: të dhënat janë fiktive dhe zhduken kur rifreskohet faqja.',
  language:'Gjuha', albanian:'Shqip', english:'Anglisht',
  /* nav */
  nav_home:'Ballina', nav_child:'Fëmija im', nav_reports:'Raportet ditore', nav_academics:'Mësimi',
@@ -671,6 +722,77 @@ sq:{
  print:'Printo', no_marks_yet:'Ende pa nota', general_average:'Mesatarja e përgjithshme',
  attendance_pct:'Prezenca', absences_count:'Mungesa',
  download:'Shkarko', save_photo:'Ruaj foton', issued_on:'Lëshuar më',
+ nav_matrix:'Matrica e suksesit', lesson_log:'Orët e ditës',
+ data_storage:'Ruajtja e të dhënave', store_on:'Aktive', store_empty:'Ende bosh',
+ store_failed:'Nuk ruhet dot', store_off:'E padisponueshme',
+ store_explain:'Të dhënat ruhen në këtë shfletues dhe nuk humbin kur rifreskohet faqja.',
+ store_limit:'Ruhen vetëm në këtë pajisje. Ajo që shkruan mësuesja në tablet nuk shfaqet te telefoni i prindit — për këtë duhet baza e të dhënave.',
+ store_media_dropped:'Hapësira mbaroi: fotot nuk u ruajtën, të dhënat e tjera po.',
+ store_failed_msg:'Shfletuesi nuk lejon ruajtjen. Të dhënat do të humbin kur rifreskoni.',
+ last_saved:'Ruajtur së fundi', export_data:'Shkarko kopjen', clear_data:'Fshi të dhënat',
+ nav_finance:'Pagesat', nav_payments:'Pagesat', fee_plans:'Planet e pagesave', add_fee:'Shto pagesë',
+ fee:'Pagesa', fees_hint:'Shumat mujore që faturohen. Ndryshimi vlen për faturat e ardhshme, jo për ato ekzistuese.',
+ billed:'Faturuar', collected:'Arkëtuar', outstanding:'Papaguar', overdue:'Vonesë',
+ unpaid:'Papaguar', partly_paid:'Pjesërisht', paid:'Paguar', all_invoices:'Të gjitha',
+ invoices:'Faturat', invoice:'Fatura', due:'Afati', amount:'Shuma', method:'Mënyra',
+ reference:'Referenca', reference_ph:'Numri i transaksionit (opsional)',
+ record_payment:'Regjistro pagesën', payment_recorded:'Pagesa u regjistrua',
+ amount_required:'Shkruani një shumë të vlefshme', sibling_discount:'zbritje për motra/vëllezër',
+ send_reminders:'Dërgo kujtesa', reminders_sent:'{n} kujtesa u dërguan', nothing_overdue:'Asnjë faturë në vonesë',
+ generate_month:'Gjenero muajin', generate:'Gjenero', period:'Periudha', monthly:'Mujore', yearly:'Vjetore',
+ generate_hint:'Faturat e muajit të kaluar përsëriten për {n} nxënës.',
+ generate_note:'Asgjë nuk dërgohet automatikisht. Faturat krijohen si të papaguara dhe i sheh secili prind.',
+ period_exists:'Kjo periudhë është faturuar tashmë', period_format:'Formati duhet të jetë 2026-10',
+ invoices_generated:'{n} fatura u krijuan', fee_change_note:'Ndryshimi vlen vetëm për faturat e reja.',
+ balance_due:'Për t\u2019u paguar', all_settled:'Nuk keni detyrime', of:'nga',
+ invoices_open:'{n} fatura të hapura',
+ payments_office_note:'Pagesat regjistrohen nga zyra e shkollës. Për pyetje, shkruani në Mesazhet.',
+ receipt_note:'Prindi njoftohet menjëherë se pagesa u regjistrua.',
+ nav_invites:'Ftesat', email_or_phone:'Email ose numër telefoni',
+ email_or_phone_ph:'prindi@example.com ose +383 4x xxx xxx',
+ send_code:'Dërgo kodin', sign_in:'Hyr', sign_in_code:'Kodi i hyrjes',
+ code_sent_to:'Kodi u dërgua te', signing_in_as:'Po hyni si', password:'Fjalëkalimi',
+ enter_password:'Shkruani fjalëkalimin', account_not_found:'Nuk gjetëm llogari me këto të dhëna',
+ code_wrong:'Kodi nuk përputhet', code_expired:'Kodi ka skaduar, kërkoni një të ri',
+ demo_code_is:'Në këtë demo kodi është', demo_code_note:'Nuk dërgohet email — ky demo nuk ka server. Në sistemin e vërtetë kodi vjen me email ose SMS.',
+ staff_password_note:'Stafi hyn me fjalëkalim sepse tabletat e klasës janë të përbashkëta. Administrata shton edhe verifikim me dy hapa.',
+ no_self_signup:'Llogaritë i krijon shkolla. Nëse nuk keni ftesë, kontaktoni zyrën.',
+ joined:'Ka hyrë', invited:'E ftuar', expired:'Skaduar', not_invited:'Pa ftesë',
+ invite:'Fto', reissue:'Ftesë e re', invite_all:'Fto të gjithë', invite_sent:'Ftesa u krijua',
+ invited_n:'{n} ftesa u krijuan', print_letters:'Printo fletët', contact:'Kontakti', code:'Kodi',
+ expires:'Skadon', nothing_to_print:'Të gjithë kanë hyrë tashmë', popup_blocked:'Lejoni dritaret e reja për printim',
+ invites_hint:'Prindi hyn me email ose numër telefoni dhe një kod një-përdorimësh. Fletët printohen për takimin me prindër.',
+ slip_hint:'Hapni adresën, shkruani emailin ose numrin tuaj, dhe kodin e mësipërm. Kodi skadon pas shtatë ditësh.',
+ add_staff:'Shto staf', staff_added:'Anëtari i stafit u shtua', assignments:'Caktimet',
+ assign_class:'Cakto klasë', no_assignments:'Pa klasë', without_class:'Pa klasë',
+ no_assignments_hint:'Ende pa asnjë klasë. Caktoni një klasë që ky person të ketë qasje te nxënësit.',
+ assignments_privacy:'Caktimet vendosin qasjen: një anëtar i stafit i sheh vetëm nxënësit e klasave të caktuara këtu.',
+ homeroom_role:'Kujdestar/e', subject_role:'Lëndë', all_subjects:'Të gjitha lëndët',
+ early_one_educator:'Grupi i kopshtit ka një edukatore kryesore. Caktimi i re e zëvendëson të mëparshmen.',
+ already_assigned:'Ky caktim ekziston tashmë', class_needs_staff:'Klasa nuk mund të mbetet pa staf',
+ email_taken:'Ky email është në përdorim', inactive:'Joaktiv',
+ activate:'Aktivizo', deactivate:'Çaktivizo', activated:'U aktivizua', deactivated:'U çaktivizua',
+ staff_invite_note:'Anëtari i stafit merr një ftesë me email për të vendosur fjalëkalimin.',
+ phone:'Telefoni', nr:'Nr.', student_and_parent:'Emri, emri i prindit dhe mbiemri',
+ summary:'Përmbledhje', success:'Suksesi', conduct:'Sjellja', filled:'E plotësuar',
+ fill_column:'Plotëso një lëndë', manage_subjects:'Menaxho lëndët', add_subject:'Shto lëndë',
+ curricular_area:'Fusha kurrikulare', not_in_class:'Nuk zhvillohet në këtë klasë',
+ subject_in_use:'Lënda ka nota të regjistruara dhe nuk hiqet dot',
+ subjects_hint:'Zgjidhni lëndët që zhvillohen në secilën klasë. Kolonat e ditarit ndjekin këtë listë.',
+ matrix_hint:'Prekni një kutizë për ta vendosur notën. N.P llogaritet nga dy semestrat.',
+ matrix_early_hint:'Matrica vlen për klasat 1–9. Kopshti ka raportin ditor.',
+ done:'U krye', saved:'U ruajt', name:'Emri',
+ nav_ditari:'Ditari elektronik', ditari_intro:'Çdo orë e regjistruar nga mësuesi: njësia mësuese, prezenca dhe vërejtjet.',
+ ditari_early_hint:'Ditari fillon nga klasa e parë. Për kopshtin shihni raportin ditor.',
+ record_lesson:'Regjistro orën', lesson_not_recorded:'Ende e paregjistruar', lesson_saved:'Ora u regjistrua',
+ lesson_topic:'Njësia mësuese', lesson_topic_ph:'p.sh. Mbledhja deri në 10',
+ lesson_topic_required:'Shkruani njësinë mësuese', lesson_note:'Shënim për orën',
+ lesson_note_ph:'Si u zhvillua ora (opsionale)', lesson_hw_ph:'Detyra e dhënë (opsionale)',
+ absent_this_lesson:'Mungon në këtë orë', lesson_remark:'Vërejtje për një nxënës',
+ lesson_remark_ph:'p.sh. Lexoi qartë para klasës',
+ lesson_visible_note:'Njësia mësuese dhe detyra shihen nga të gjithë prindërit e klasës. Vërejtja shihet vetëm nga prindi i atij nxënësi.',
+ final_assessment:'Vlerësimi përfundimtar',
+ descriptive_note:'Në klasat e ulëta vlerësimi është me përshkrim, jo me notë.',
  school:'Shkolla', complete_profile:'Plotëso profilin',
  add_media:'Shto foto ose video', choose_media:'Zgjidh foto ose video',
  choose_media_hint:'Nga galeria ose direkt me kamerë. Deri në 12 skedarë.',
@@ -732,8 +854,12 @@ sq:{
 en:{
  app_tagline:'School and family, on the same page.',
  login_head:'Welcome to Hello Academy',
- login_sub:'Pick a demo role to continue. This is a demo build — no real data is used.',
- demo_access:'Quick demo access',
+ login_sub_parent:'Sign in with the email or number you gave the school.',
+ login_sub_staff:'Sign in with your work email and password.',
+ portal_parent:'Parent portal', portal_staff:'Staff portal',
+ are_you_staff:'Are you a teacher or educator?', go_staff_portal:'Go to the staff portal',
+ are_you_parent:'Are you a parent?', go_parent_portal:'Go to the parent portal',
+ demo_access:'Or try a demo role',
  role_parent:'Parent', role_teacher:'Teacher', role_educator:'Educator', role_admin:'Administration', role_super:'Super Admin',
  educator:'Educator', educators:'Educators', teaching_staff:'Teaching staff',
  educator_note:'Note from the educator', early_group:'Group', age_band:'Age',
@@ -741,7 +867,7 @@ en:{
  login_kg_d:'Albina Sylejmani — Kindergarten, Lulet group',
  login_gt_d:'Blerim Gashi — Mathematics, grades 5/A and 8/A',
  login_admin_d:'Mimoza Bajrami — Head of school',
- demo_note:'Demo: all data is fictional and lives only in browser memory.',
+ demo_note:'Demo build: the data is fictional and disappears when the page is reloaded.',
  language:'Language', albanian:'Albanian', english:'English',
  nav_home:'Home', nav_child:'My child', nav_reports:'Daily reports', nav_academics:'Academics',
  nav_homework:'Homework', nav_photos:'Photos', nav_calendar:'Calendar', nav_messages:'Messages',
@@ -834,6 +960,77 @@ en:{
  print:'Print', no_marks_yet:'No marks yet', general_average:'Overall average',
  attendance_pct:'Attendance', absences_count:'Absences',
  download:'Download', save_photo:'Save photo', issued_on:'Issued on',
+ nav_matrix:'Success matrix', lesson_log:'Lessons',
+ data_storage:'Data storage', store_on:'Active', store_empty:'Nothing saved yet',
+ store_failed:'Cannot save', store_off:'Unavailable',
+ store_explain:'Data is kept in this browser and survives a reload.',
+ store_limit:'Kept on this device only. What a teacher writes on a tablet does not appear on a parent\u2019s phone — that needs the database.',
+ store_media_dropped:'Storage is full: photos were not saved, everything else was.',
+ store_failed_msg:'This browser will not allow saving. Data will be lost on reload.',
+ last_saved:'Last saved', export_data:'Download a copy', clear_data:'Clear the data',
+ nav_finance:'Payments', nav_payments:'Payments', fee_plans:'Fee plans', add_fee:'Add a fee',
+ fee:'Fee', fees_hint:'The monthly amounts that get billed. A change applies to future invoices, not existing ones.',
+ billed:'Billed', collected:'Collected', outstanding:'Outstanding', overdue:'Overdue',
+ unpaid:'Unpaid', partly_paid:'Part paid', paid:'Paid', all_invoices:'All',
+ invoices:'Invoices', invoice:'Invoice', due:'Due', amount:'Amount', method:'Method',
+ reference:'Reference', reference_ph:'Transaction number (optional)',
+ record_payment:'Record a payment', payment_recorded:'Payment recorded',
+ amount_required:'Enter a valid amount', sibling_discount:'sibling discount',
+ send_reminders:'Send reminders', reminders_sent:'{n} reminders sent', nothing_overdue:'Nothing is overdue',
+ generate_month:'Generate the month', generate:'Generate', period:'Period', monthly:'Monthly', yearly:'Yearly',
+ generate_hint:'Last month\u2019s invoices are repeated for {n} students.',
+ generate_note:'Nothing is sent automatically. Invoices are created unpaid and each guardian sees their own.',
+ period_exists:'That period has already been billed', period_format:'The format must be 2026-10',
+ invoices_generated:'{n} invoices created', fee_change_note:'The change applies to new invoices only.',
+ balance_due:'Balance due', all_settled:'Nothing outstanding', of:'of',
+ invoices_open:'{n} open invoices',
+ payments_office_note:'Payments are recorded by the school office. For questions, use Messages.',
+ receipt_note:'The guardian is told immediately that the payment was recorded.',
+ nav_invites:'Invitations', email_or_phone:'Email or phone number',
+ email_or_phone_ph:'parent@example.com or +383 4x xxx xxx',
+ send_code:'Send the code', sign_in:'Sign in', sign_in_code:'Sign-in code',
+ code_sent_to:'Code sent to', signing_in_as:'Signing in as', password:'Password',
+ enter_password:'Enter your password', account_not_found:'No account matches those details',
+ code_wrong:'That code does not match', code_expired:'The code has expired, ask for a new one',
+ demo_code_is:'In this demo the code is', demo_code_note:'No email is sent — this demo has no server. In the real system the code arrives by email or SMS.',
+ staff_password_note:'Staff sign in with a password because classroom tablets are shared. Administration adds two-step verification.',
+ no_self_signup:'Accounts are created by the school. If you have no invitation, contact the office.',
+ joined:'Signed in', invited:'Invited', expired:'Expired', not_invited:'Not invited',
+ invite:'Invite', reissue:'New invitation', invite_all:'Invite everyone', invite_sent:'Invitation created',
+ invited_n:'{n} invitations created', print_letters:'Print the letters', contact:'Contact', code:'Code',
+ expires:'Expires', nothing_to_print:'Everyone has already signed in', popup_blocked:'Allow pop-ups to print',
+ invites_hint:'A guardian signs in with an email or phone number and a one-time code. The letters print for the parents\u2019 meeting.',
+ slip_hint:'Open the address, enter your email or phone number, then the code above. It expires after seven days.',
+ add_staff:'Add staff', staff_added:'Staff member added', assignments:'Assignments',
+ assign_class:'Assign a class', no_assignments:'No class', without_class:'without a class',
+ no_assignments_hint:'No classes yet. Assign one so this person can reach the students.',
+ assignments_privacy:'Assignments decide access: a staff member sees only the students of the classes listed here.',
+ homeroom_role:'Homeroom', subject_role:'Subject', all_subjects:'All subjects',
+ early_one_educator:'A kindergarten group has one lead educator. A new assignment replaces the previous one.',
+ already_assigned:'That assignment already exists', class_needs_staff:'A class cannot be left without staff',
+ email_taken:'That email is already in use', inactive:'Inactive',
+ activate:'Activate', deactivate:'Deactivate', activated:'Activated', deactivated:'Deactivated',
+ staff_invite_note:'The staff member receives an email invitation to set a password.',
+ phone:'Phone', nr:'No.', student_and_parent:'Name, parent\u2019s name and surname',
+ summary:'Summary', success:'Success', conduct:'Conduct', filled:'Filled',
+ fill_column:'Fill one subject', manage_subjects:'Manage subjects', add_subject:'Add subject',
+ curricular_area:'Curricular area', not_in_class:'Not taught in this class',
+ subject_in_use:'This subject has marks recorded and cannot be removed',
+ subjects_hint:'Choose the subjects each class takes. The register columns follow this list.',
+ matrix_hint:'Tap a cell to set a mark. The final column is calculated from the two terms.',
+ matrix_early_hint:'The matrix applies to grades 1–9. Kindergarten has the daily report.',
+ done:'Done', saved:'Saved', name:'Name',
+ nav_ditari:'Class register', ditari_intro:'Every lesson as the teacher recorded it: the topic, attendance and remarks.',
+ ditari_early_hint:'The register starts in grade 1. For kindergarten see the daily report.',
+ record_lesson:'Record the lesson', lesson_not_recorded:'Not recorded yet', lesson_saved:'Lesson recorded',
+ lesson_topic:'Lesson topic', lesson_topic_ph:'e.g. Adding within 10',
+ lesson_topic_required:'Please write the lesson topic', lesson_note:'Note about the lesson',
+ lesson_note_ph:'How the lesson went (optional)', lesson_hw_ph:'Homework set (optional)',
+ absent_this_lesson:'Missing from this lesson', lesson_remark:'Remark about one student',
+ lesson_remark_ph:'e.g. Read clearly in front of the class',
+ lesson_visible_note:'The topic and homework are seen by every guardian in the class. A remark is seen only by that student\u2019s guardian.',
+ final_assessment:'Final assessment',
+ descriptive_note:'In the lower grades the assessment is descriptive, not a mark.',
  school:'School', complete_profile:'Complete profile',
  add_media:'Add photos or video', choose_media:'Choose photos or video',
  choose_media_hint:'From the gallery or straight from the camera. Up to 12 files.',
@@ -896,6 +1093,9 @@ function t(k){ const d=I18N[state.lang]||I18N.sq; return d[k]!==undefined ? d[k]
 /* same lookup, with {placeholder} substitution */
 function tf(k, vars){ let v=t(k); Object.keys(vars||{}).forEach(x=>{ v=String(v).split('{'+x+'}').join(vars[x]); }); return v; }
 function L(obj){ if(obj==null) return ''; if(typeof obj==='string') return obj; return obj[state.lang]||obj.sq||obj.en||''; }
+/* Which of the two applications this file is. The parent app and the staff
+   app are built from the same source; only this line differs. */
+const APP_VARIANT = 'parent';
 /* =========================================================================
    DOMAIN CONSTANTS
    ========================================================================= */
@@ -965,7 +1165,9 @@ function seed(){
     attendance:[], meals:[], activities:[], naps:[], moods:[], teacherNotes:[],
     dailyReports:[], grades:[], homework:[], homeworkStatus:[], photos:[],
     announcements:[], events:[], conversations:[], messages:[], notifications:[],
-    medical:[], pickups:[], emergencyContacts:[], absences:[], periods:[], menus:[], terms:[], auditLog:[]
+    medical:[], pickups:[], emergencyContacts:[], absences:[], periods:[], menus:[], terms:[], lessons:[],
+    areas:[], classSubjects:[], termGrades:[], conduct:[], invites:[],
+    feePlans:[], invoices:[], payments:[], auditLog:[]
   };
   const T0 = today();
   const SCHOOL = uuid('school-hello-academy');
@@ -979,18 +1181,45 @@ function seed(){
 
   /* ---- grade levels ---- */
   const LVL = {};
-  [['kg','Kopsht / Parashkollor','Kindergarten',0],['g5','Klasa 5','Grade 5',5],['g8','Klasa 8','Grade 8',8]]
-    .forEach(([k,sq,en,ord])=>{ LVL[k]=uuid('lvl-'+k); db.gradeLevels.push({id:LVL[k], schoolId:SCHOOL, key:k, name:{sq,en}, ordinal:ord, stage: ord===0?'early':'primary'}); });
+  [['kg','Kopsht / Parashkollor','Kindergarten',0],['g1','Klasa 1','Grade 1',1],
+   ['g5','Klasa 5','Grade 5',5],['g8','Klasa 8','Grade 8',8]]
+    .forEach(([k,sq,en,ord])=>{ LVL[k]=uuid('lvl-'+k); db.gradeLevels.push({id:LVL[k], schoolId:SCHOOL, key:k, name:{sq,en}, ordinal:ord,
+      stage: ord===0?'early':'primary',
+      /* klasat e ulëta vlerësohen me përshkrim, jo me notë */
+      assessment: ord===0? 'none' : (ord<=3? 'descriptive' : 'numeric') }); });
 
   /* ---- subjects ---- */
+  /* fushat kurrikulare — grupimi i kolonave në ditar */
+  const AREA={};
+  [['lang','Gjuhët dhe komunikimi','Languages and communication'],
+   ['nat','Shkencat natyrore','Natural sciences'],
+   ['soc','Shoqëria dhe mjedisi','Society and environment'],
+   ['life','Jeta dhe puna','Life and work'],
+   ['sport','Lëndët sportive','Physical education'],
+   ['art','Artet','Arts']].forEach(([k,sq,en],i)=>{
+    AREA[k]=uuid('area-'+k);
+    db.areas.push({id:AREA[k], schoolId:SCHOOL, key:k, name:{sq,en}, ordinal:i+1});
+  });
+
   const SUBJ = {};
-  [['math','Matematikë','Mathematics','flask'],['alb','Gjuhë Shqipe','Albanian Language','book'],
-   ['eng','Anglisht','English','globe'],['sci','Shkencë','Science','flask'],
-   ['hist','Histori','History','book'],['geo','Gjeografi','Geography','globe'],
-   ['tech','Teknologji','Technology','layers'],['art','Art','Art','palette'],
-   ['pe','Edukatë Fizike','Physical Education','heart']].forEach(([k,sq,en,ic])=>{
+  [['alb','Gjuhë Shqipe','Albanian Language','book','lang'],
+   ['eng','Gjuhë Angleze','English Language','globe','lang'],
+   ['ger','Gjuhë Gjermane','German Language','globe','lang'],
+   ['math','Matematikë','Mathematics','flask','nat'],
+   ['sci','Shkencë','Science','flask','nat'],
+   ['bio','Biologji','Biology','flask','nat'],
+   ['phy','Fizikë','Physics','flask','nat'],
+   ['chem','Kimi','Chemistry','flask','nat'],
+   ['geo','Gjeografi','Geography','globe','soc'],
+   ['hist','Histori','History','book','soc'],
+   ['civ','Edukatë Qytetare','Civic Education','users','soc'],
+   ['tech','TIK','ICT','layers','life'],
+   ['pe','Edukatë Fizike','Physical Education','heart','sport'],
+   ['art','Art Figurativ','Visual Art','palette','art'],
+   ['mus','Edukatë Muzikore','Music','music','art']].forEach(([k,sq,en,ic,ar],i)=>{
     SUBJ[k]=uuid('subj-'+k);
-    db.subjects.push({id:SUBJ[k], schoolId:SCHOOL, key:k, name:{sq,en}, icon:ic, created_at:nowISO()});
+    db.subjects.push({id:SUBJ[k], schoolId:SCHOOL, key:k, name:{sq,en}, icon:ic,
+      areaId:AREA[ar], ordinal:i+1, active:true, created_at:nowISO()});
   });
   const CORE = ['math','alb','eng','sci','hist','geo','tech','art','pe'];
 
@@ -1005,6 +1234,7 @@ function seed(){
   const U_EDONA = addUser('Edona Nikçi','edona.nikci@helloacademy.example','teacher');
   const U_BLERIM= addUser('Blerim Gashi','blerim.gashi@dituria.example','teacher');
   const U_ARTAD = addUser('Arta Dervishi','arta.dervishi@dituria.example','teacher');
+  const U_MIRLINDA=addUser('Mirlinda Zeka','mirlinda.zeka@helloacademy.example','teacher');
   const U_VJOLLCA=addUser('Vjollca Berisha','vjollca.berisha@helloacademy.example','teacher');
   const U_SHPEND =addUser('Shpend Rama','shpend.rama@helloacademy.example','teacher');
   const U_LINDITA=addUser('Lindita Kurti','lindita.kurti@helloacademy.example','teacher');
@@ -1012,7 +1242,7 @@ function seed(){
   const U_ADMIN = addUser('Mimoza Bajrami','mimoza.bajrami@dituria.example','admin');
   const T_ALBINA=uuid('t-albina'), T_TEUTA = uuid('t-teuta'), T_EDONA=uuid('t-edona'),
         T_BLERIM=uuid('t-blerim'), T_ARTAD=uuid('t-artad'),
-        T_VJOLLCA=uuid('t-vjollca'), T_SHPEND=uuid('t-shpend'),
+        T_MIRLINDA=uuid('t-mirlinda'), T_VJOLLCA=uuid('t-vjollca'), T_SHPEND=uuid('t-shpend'),
         T_LINDITA=uuid('t-lindita'), T_FATOS=uuid('t-fatos');
   db.teachers.push(
     {id:T_ALBINA,userId:U_ALBINA,schoolId:SCHOOL, title:{sq:'Edukatore',en:'Early years educator'}, stage:'early', subjects:[], phone:'+383 44 118 440'},
@@ -1020,6 +1250,7 @@ function seed(){
     {id:T_EDONA, userId:U_EDONA, schoolId:SCHOOL, title:{sq:'Edukatore',en:'Early years educator'}, stage:'early', subjects:[], phone:'+383 45 662 330'},
     {id:T_BLERIM,userId:U_BLERIM,schoolId:SCHOOL, title:{sq:'Mësues i Matematikës',en:'Mathematics teacher'}, subjects:[SUBJ.math,SUBJ.tech], phone:'+383 44 318 902'},
     {id:T_ARTAD, userId:U_ARTAD, schoolId:SCHOOL, title:{sq:'Mësuese e Shkencës',en:'Science teacher'}, subjects:[SUBJ.sci,SUBJ.geo], phone:'+383 44 662 118'},
+    {id:T_MIRLINDA,userId:U_MIRLINDA,schoolId:SCHOOL, title:{sq:'Mësuese e klasës',en:'Class teacher'}, subjects:[SUBJ.alb,SUBJ.math,SUBJ.sci,SUBJ.art], phone:'+383 44 330 552'},
     {id:T_VJOLLCA,userId:U_VJOLLCA,schoolId:SCHOOL, title:{sq:'Mësuese e Gjuhës Shqipe',en:'Albanian language teacher'}, subjects:[SUBJ.alb], phone:'+383 44 771 220'},
     {id:T_SHPEND, userId:U_SHPEND, schoolId:SCHOOL, title:{sq:'Mësues i Anglishtes',en:'English teacher'}, subjects:[SUBJ.eng], phone:'+383 45 118 334'},
     {id:T_LINDITA,userId:U_LINDITA,schoolId:SCHOOL, title:{sq:'Mësuese e Historisë dhe Gjeografisë',en:'History and geography teacher'}, subjects:[SUBJ.hist,SUBJ.geo], phone:'+383 44 909 771'},
@@ -1028,7 +1259,7 @@ function seed(){
 
   /* ---- classes ---- */
   const C_KG=uuid('cls-kg'), C_KG2=uuid('cls-kg2'), C_KG3=uuid('cls-kg3'),
-        C_5A=uuid('cls-5a'), C_8A=uuid('cls-8a');
+        C_1A=uuid('cls-1a'), C_5A=uuid('cls-5a'), C_8A=uuid('cls-8a');
   db.classes.push(
     {id:C_KG, schoolId:SCHOOL, yearId:YEAR, gradeLevelId:LVL.kg, name:'Grupi Lulet', shortName:'Lulet', room:'A-01',
      ageLabel:{sq:'5–6 vjeç',en:'5–6 years'},
@@ -1039,6 +1270,9 @@ function seed(){
     {id:C_KG3, schoolId:SCHOOL, yearId:YEAR, gradeLevelId:LVL.kg, name:'Grupi Yjet', shortName:'Yjet', room:'A-03',
      ageLabel:{sq:'3–4 vjeç',en:'3–4 years'},
      homeroomTeacherId:T_EDONA, stage:'early', startTime:'08:00', endTime:'16:00'},
+    {id:C_1A, schoolId:SCHOOL, yearId:YEAR, gradeLevelId:LVL.g1, name:'Klasa 1/A', shortName:'1/A', room:'B-04',
+     ageLabel:{sq:'6–7 vjeç',en:'6–7 years'},
+     homeroomTeacherId:T_MIRLINDA, stage:'primary', startTime:'08:00', endTime:'12:25'},
     {id:C_5A, schoolId:SCHOOL, yearId:YEAR, gradeLevelId:LVL.g5, name:'Klasa 5/A', shortName:'5/A', room:'B-12',
      homeroomTeacherId:T_BLERIM, stage:'primary', startTime:'08:00', endTime:'13:30'},
     {id:C_8A, schoolId:SCHOOL, yearId:YEAR, gradeLevelId:LVL.g8, name:'Klasa 8/A', shortName:'8/A', room:'C-04',
@@ -1048,6 +1282,12 @@ function seed(){
     {id:uuid('tc1'), teacherId:T_ALBINA,classId:C_KG,  role:'homeroom', subjectId:null},
     {id:uuid('tc1b'),teacherId:T_TEUTA, classId:C_KG2, role:'homeroom', subjectId:null},
     {id:uuid('tc1c'),teacherId:T_EDONA, classId:C_KG3, role:'homeroom', subjectId:null},
+    {id:uuid('tc1a'),teacherId:T_MIRLINDA,classId:C_1A, role:'homeroom', subjectId:SUBJ.alb},
+    {id:uuid('tc1d'),teacherId:T_MIRLINDA,classId:C_1A, role:'subject',  subjectId:SUBJ.math},
+    {id:uuid('tc1e'),teacherId:T_MIRLINDA,classId:C_1A, role:'subject',  subjectId:SUBJ.sci},
+    {id:uuid('tc1f'),teacherId:T_MIRLINDA,classId:C_1A, role:'subject',  subjectId:SUBJ.art},
+    {id:uuid('tc1g'),teacherId:T_SHPEND,  classId:C_1A, role:'subject',  subjectId:SUBJ.eng},
+    {id:uuid('tc1h'),teacherId:T_FATOS,   classId:C_1A, role:'subject',  subjectId:SUBJ.pe},
     {id:uuid('tc2'), teacherId:T_BLERIM,classId:C_5A, role:'homeroom', subjectId:SUBJ.math},
     {id:uuid('tc3'), teacherId:T_BLERIM,classId:C_8A, role:'subject',  subjectId:SUBJ.math},
     {id:uuid('tc4'), teacherId:T_ARTAD, classId:C_8A, role:'homeroom', subjectId:SUBJ.sci},
@@ -1086,6 +1326,12 @@ function seed(){
     ['Mira','Selimi',C_KG3,'2023-04-23','f',true,   [],'Ende në përshtatje me gjumin e ditës.','Still settling into the afternoon nap.'],
     ['Luan','Beqiri',C_KG3,'2023-06-15','m',true,   [],'',''],
     ['Sara','Ismajli',C_KG3,'2023-01-30','f',false, ['Arra'],'Alergji ndaj arrave.','Nut allergy.'],
+    /* Klasa 1/A */
+    ['Uran','Kelmendi',C_1A,'2020-03-14','m',true,   [],'',''],
+    ['Hana','Sopi',C_1A,'2019-11-08','f',true,       ['Arra'],'Alergji ndaj arrave. Epipen te mësuesja.','Nut allergy. Epipen with the teacher.'],
+    ['Melos','Rama',C_1A,'2020-01-22','m',true,      [],'',''],
+    ['Lea','Dobruna',C_1A,'2019-09-30','f',false,    [],'Sy të ndjeshëm, ulet në rreshtin e parë.','Sensitive eyes, sits in the front row.'],
+    ['Drilon','Maloku',C_1A,'2020-05-05','m',true,   ['Laktozë'],'Intolerancë ndaj laktozës.','Lactose intolerant.'],
     ['Rron','Krasniqi',C_5A,'2016-03-07','m',true,  [],'',''],
     ['Erza','Bytyqi',C_5A,'2015-12-19','f',true,    [],'',''],
     ['Leon','Shala',C_5A,'2016-05-11','m',true,     [],'Syze për lexim.','Reading glasses.'],
@@ -1104,6 +1350,7 @@ function seed(){
       fullName:first+' '+last, dob, gender, photoConsent:consent,
       photoConsentAt: consent? '2025-09-04T09:00:00.000Z' : null,
       profileConfirmedAt: null,
+      registerNo: String(2600 + db.students.length + 1),
       enrolledOn:'2026-09-01', created_at:nowISO(), updated_at:nowISO()
     });
     db.medical.push({
@@ -1140,7 +1387,12 @@ function seed(){
     ['Granit Mustafa','granit.mustafa@example.com','+383 44 909 330','Baba','Father',['Ari']],
     ['Blerta Selimi','blerta.selimi@example.com','+383 45 442 771','Nënë','Mother',['Mira']],
     ['Astrit Beqiri','astrit.beqiri@example.com','+383 44 663 550','Baba','Father',['Luan']],
-    ['Learta Ismajli','learta.ismajli@example.com','+383 49 118 990','Nënë','Mother',['Sara']]
+    ['Learta Ismajli','learta.ismajli@example.com','+383 49 118 990','Nënë','Mother',['Sara']],
+    ['Vlora Kelmendi','vlora.kelmendi@example.com','+383 44 226 118','Nënë','Mother',['Uran']],
+    ['Agron Sopi','agron.sopi@example.com','+383 45 771 330','Baba','Father',['Hana']],
+    ['Teuta Rama','teuta.rama2@example.com','+383 44 118 664','Nënë','Mother',['Melos']],
+    ['Ylber Dobruna','ylber.dobruna@example.com','+383 49 553 220','Baba','Father',['Lea']],
+    ['Shqipe Maloku','shqipe.maloku@example.com','+383 44 880 117','Nënë','Mother',['Drilon']]
   ];
   const P = {};
   parentDefs.forEach(([name,email,phone,relSq,relEn,kids])=>{
@@ -1413,12 +1665,97 @@ function seed(){
     detail:'Demo dataset generated in browser memory only.'});
 
   /* handy references used by the demo flows */
+  /* ---- lëndët e secilës klasë (kjo është ajo që shkolla e redakton) ---- */
+  const CLASS_SUBJECTS = {};
+  CLASS_SUBJECTS[C_1A] = ['alb','math','sci','eng','art','mus','pe'];
+  CLASS_SUBJECTS[C_5A] = ['alb','eng','math','sci','hist','geo','tech','art','mus','pe'];
+  CLASS_SUBJECTS[C_8A] = ['alb','eng','ger','math','bio','phy','chem','hist','geo','civ','tech','art','pe'];
+  Object.keys(CLASS_SUBJECTS).forEach(cid=>{
+    CLASS_SUBJECTS[cid].forEach((k,i)=>{
+      const row=db.teacherClass.find(r=>r.classId===cid && r.subjectId===SUBJ[k]);
+      db.classSubjects.push({id:uuid('cs-'+cid+k), schoolId:SCHOOL, classId:cid, subjectId:SUBJ[k],
+        ordinal:i+1, teacherId: row? row.teacherId : byId2(db.classes,cid).homeroomTeacherId});
+    });
+  });
+
   /* ---- terms (for the end-of-term report card) ---- */
   const TERM1=uuid('term-1'), TERM2=uuid('term-2');
   db.terms.push(
     {id:TERM1, schoolId:SCHOOL, yearId:YEAR, name:{sq:'Semestri I',en:'First term'},  start:'2026-09-01', end:'2027-01-23', current:true},
     {id:TERM2, schoolId:SCHOOL, yearId:YEAR, name:{sq:'Semestri II',en:'Second term'}, start:'2027-01-26', end:'2027-06-12', current:false}
   );
+
+  /* ---- pagesat: planet, faturat dhe arkëtimet ---- */
+  const PLAN={};
+  [['kg','Kopshti — muajor','Kindergarten — monthly',180,'kg'],
+   ['low','Klasat 1–5 — muajor','Grades 1–5 — monthly',150,'g1'],
+   ['high','Klasat 6–9 — muajor','Grades 6–9 — monthly',170,'g8'],
+   ['bus','Transporti — muajor','Transport — monthly',35,null],
+   ['meal','Ushqimi — muajor','Meals — monthly',45,null]].forEach(([k,sq,en,amt,lvl])=>{
+    PLAN[k]=uuid('plan-'+k);
+    db.feePlans.push({id:PLAN[k], schoolId:SCHOOL, key:k, name:{sq,en}, amount:amt,
+      currency:'EUR', period:'monthly', gradeLevelKey:lvl, active:true});
+  });
+  function planForStudent(st){
+    const c=byId2(db.classes,st.classId), lvl=byId2(db.gradeLevels,c.gradeLevelId);
+    if(lvl.ordinal===0) return PLAN.kg;
+    return lvl.ordinal<=5 ? PLAN.low : PLAN.high;
+  }
+  const rf = rng('finance');
+  const MONTHS_BILLED=['2026-07','2026-08','2026-09'];
+  db.students.forEach((st,si)=>{
+    const tuition=planForStudent(st);
+    const extras=[];
+    if(si%3===0) extras.push(PLAN.bus);
+    if(si%2===0) extras.push(PLAN.meal);
+    MONTHS_BILLED.forEach((m,mi)=>{
+      [tuition].concat(extras).forEach(pid=>{
+        const plan=db.feePlans.find(p=>p.id===pid);
+        const due=m+'-10';
+        /* a sibling discount, because private schools all have one */
+        const sibs=db.parentStudent.filter(r=>r.studentId===st.id)
+          .map(r=>db.parentStudent.filter(x=>x.parentId===r.parentId).length)
+          .reduce((a,b)=>Math.max(a,b),1);
+        const discount = (pid===tuition && sibs>1) ? Math.round(plan.amount*0.1) : 0;
+        const amount = plan.amount - discount;
+        /* older months are settled; the current one is still coming in */
+        const settled = mi<MONTHS_BILLED.length-1 ? rf()>0.08 : rf()>0.55;
+        const inv={id:uuid('inv-'+st.id+m+plan.key), schoolId:SCHOOL, studentId:st.id, classId:st.classId,
+          planId:pid, period:m, dueDate:due, amount, discount, currency:'EUR',
+          issuedAt:m+'-01T08:00:00.000Z', status: settled? 'paid':'open'};
+        db.invoices.push(inv);
+        if(settled){
+          const day=String(3+Math.floor(rf()*12)).padStart(2,'0');
+          db.payments.push({id:uuid('pay-'+inv.id), schoolId:SCHOOL, invoiceId:inv.id, studentId:st.id,
+            amount, date:m+'-'+day, method: rf()>0.45?'bank':'cash',
+            reference: rf()>0.5? 'REF-'+m.replace('-','')+'-'+String(100+si) : null,
+            recordedBy:U_ADMIN, created_at:nowISO()});
+        }
+      });
+    });
+  });
+
+  /* ---- notat semestrale (matrica e suksesit) ---- */
+  const rg2 = rng('termgrades');
+  const CONDUCT = ['exemplary','very_good','good','satisfactory'];
+  db.classes.filter(c=>c.stage==='primary').forEach(cls=>{
+    const kids=db.students.filter(s=>s.classId===cls.id);
+    const subs=db.classSubjects.filter(cs=>cs.classId===cls.id);
+    kids.forEach((st,si)=>{
+      /* a couple of children are deliberately left part-filled: the matrix
+         should show the teacher what is still missing */
+      const gaps = si % 4 === 3 ? 3 : 0;
+      subs.forEach((cs,i)=>{
+        if(i >= subs.length - gaps) return;
+        const base = 3 + Math.floor(rg2()*3);          // 3..5
+        db.termGrades.push({id:uuid('tg-'+st.id+cs.subjectId+'1'), schoolId:SCHOOL,
+          studentId:st.id, classId:cls.id, subjectId:cs.subjectId, termId:TERM1,
+          value: Math.max(1,Math.min(5,base)), recordedBy:cs.teacherId, recordedAt:nowISO()});
+      });
+      db.conduct.push({id:uuid('cd-'+st.id+'1'), studentId:st.id, termId:TERM1,
+        value: CONDUCT[Math.floor(rg2()*2)]});
+    });
+  });
 
   /* ---- timetable for grades 1-9 ---- */
   const SLOTS=[['08:00','08:45'],['08:50','09:35'],['09:55','10:40'],['10:45','11:30'],['11:40','12:25'],['12:30','13:15']];
@@ -1442,7 +1779,14 @@ function seed(){
     return byId2(db.classes,cid).homeroomTeacherId;
   }
   function byId2(arr,id){ return arr.find(x=>x.id===id); }
-  [[C_5A,WEEK5A,'B-12'],[C_8A,WEEK8A,'C-04']].forEach(([cid,week,room])=>{
+  const WEEK1A=[
+    ['alb','math','art','pe'],
+    ['math','alb','sci','eng'],
+    ['alb','math','sci','art'],
+    ['math','alb','eng','pe'],
+    ['alb','math','art','sci']
+  ];
+  [[C_1A,WEEK1A,'B-04'],[C_5A,WEEK5A,'B-12'],[C_8A,WEEK8A,'C-04']].forEach(([cid,week,room])=>{
     week.forEach((dayRow,di)=>{
       dayRow.forEach((sk,pi)=>{
         db.periods.push({id:uuid('pd-'+cid+di+pi), schoolId:SCHOOL, classId:cid, day:di+1, order:pi+1,
@@ -1482,8 +1826,95 @@ function seed(){
       days: MENU_WEEK.map((m,i)=>({date:ymd(addDays(ws,i)), breakfast:m.b, snack_am:m.s, lunch:m.l, snack_pm:m.p}))});
   });
 
-  db._ref = {SCHOOL, YEAR, TERM1, TERM2, C_KG, C_KG2, C_KG3, C_5A, C_8A, S, P, SUBJ, LVL,
-             T_ALBINA, T_TEUTA, T_EDONA, T_BLERIM, T_ARTAD, T_VJOLLCA, T_SHPEND, T_LINDITA, T_FATOS, U_ADMIN, P_ARTA, U_TEUTA, U_BLERIM, U_ARTAD};
+  /* ---- ditari elektronik: një regjistrim për çdo orë mësimore ---- */
+  const TOPICS = {
+    alb:[['Shkronja M m','The letter M m'],['Fjalia dhe fjala','Sentences and words'],
+         ['Tregimi “Vjeshta”','The story “Autumn”'],['Lexim me zë','Reading aloud'],
+         ['Shkronjat e mëdha dhe të vogla','Capital and small letters'],['Diktim i shkurtër','A short dictation'],
+         ['Përshkrimi i një figure','Describing a picture'],['Përrallë popullore','A folk tale']],
+    math:[['Numrat deri në 10','Numbers up to 10'],['Mbledhja deri në 10','Adding within 10'],
+          ['Zbritja deri në 10','Subtracting within 10'],['Figurat gjeometrike','Geometric shapes'],
+          ['Krahasimi i numrave','Comparing numbers'],['Numërimi me dhjetëshe','Counting in tens'],
+          ['Problema të thjeshta','Simple word problems'],['Matja me njësi jostandarde','Measuring with non-standard units']],
+    sci:[['Bimët rreth nesh','Plants around us'],['Stinët e vitit','The seasons'],
+         ['Trupi i njeriut','The human body'],['Uji dhe gjendjet e tij','Water and its states'],
+         ['Kafshët shtëpiake','Farm animals'],['Ajri dhe moti','Air and weather'],
+         ['Ushqimi i shëndetshëm','Healthy food'],['Dita dhe nata','Day and night']],
+    eng:[['Greetings','Greetings'],['Colours','Colours'],['Numbers 1–10','Numbers 1–10'],
+         ['My family','My family'],['Classroom objects','Classroom objects'],['Animals','Animals'],
+         ['Food I like','Food I like'],['Days of the week','Days of the week']],
+    art:[['Vizatim me ngjyra uji','Watercolour drawing'],['Punim me letër','Paper craft'],
+         ['Vjeshta në pikturë','Autumn in painting'],['Format dhe ngjyrat','Shapes and colours'],
+         ['Kolazh nga natyra','A collage from nature'],['Portreti i familjes','A family portrait'],
+         ['Modelim me plastelinë','Modelling with clay'],['Vizatim i lirë','Free drawing']],
+    pe:[['Lojëra lëvizore','Movement games'],['Vrapim dhe kërcim','Running and jumping'],
+        ['Ushtrime ekuilibri','Balance exercises'],['Lojë me top','Ball games'],
+        ['Ushtrime zgjatjeje','Stretching'],['Gara të shkurtra','Short races'],
+        ['Lojëra në grup','Team games'],['Ecje ritmike','Rhythmic walking']],
+    hist:[['Familja dhe të parët','Family and ancestors'],['Vendlindja ime','My home town'],
+          ['Ngjarje të rëndësishme','Important events'],['Burimet historike','Historical sources'],
+          ['Jeta dikur dhe sot','Life then and now'],['Simbolet kombëtare','National symbols'],
+          ['Kalendari dhe koha','Calendar and time'],['Trashëgimia kulturore','Cultural heritage']],
+    geo:[['Harta dhe orientimi','Maps and orientation'],['Relievi i Kosovës','The relief of Kosovo'],
+         ['Lumenjtë dhe liqenet','Rivers and lakes'],['Klima','Climate'],
+         ['Qytetet kryesore','Main cities'],['Fqinjët tanë','Our neighbours'],
+         ['Mjedisi dhe mbrojtja','Environment and protection'],['Popullsia','Population']],
+    tech:[['Materialet dhe veglat','Materials and tools'],['Punim modeli','Building a model'],
+          ['Siguria në punë','Safety at work'],['Vizatimi teknik','Technical drawing'],
+          ['Riciklimi','Recycling'],['Makinat e thjeshta','Simple machines'],
+          ['Elektriciteti i sigurt','Safe electricity'],['Projekt në grup','A group project']]
+  };
+  const REMARKS = [
+    {sq:'Aktiv gjatë orës, u përgjigj në disa pyetje.', en:'Active in the lesson, answered several questions.'},
+    {sq:'Nuk e kishte detyrën e shtëpisë.', en:'Did not have the homework.'},
+    {sq:'Ndihmoi shokun e bankës pa u kërkuar.', en:'Helped a classmate without being asked.'},
+    {sq:'U shpërqendrua disa herë gjatë orës.', en:'Was distracted a few times during the lesson.'},
+    {sq:'Punë shumë e mirë në fletore.', en:'Very good work in the notebook.'},
+    {sq:'Lexoi qartë para klasës.', en:'Read clearly in front of the class.'}
+  ];
+  const rl = rng('lessons');
+  const primaryClasses = db.classes.filter(c=>c.stage==='primary');
+  primaryClasses.forEach(cls=>{
+    const kids = db.students.filter(s=>s.classId===cls.id);
+    const used = {};
+    days.slice(0,12).forEach(d=>{
+      const wd=(d.getDay()+6)%7+1;
+      if(wd>5) return;
+      const per = db.periods.filter(p=>p.classId===cls.id && p.day===wd).sort((a,b)=>a.order-b.order);
+      const isToday = ymd(d)===ymd(T0);
+      per.forEach(p=>{
+        const sub = byId2(db.subjects, p.subjectId);
+        const pool = TOPICS[sub.key] || TOPICS.alb;
+        const k = cls.id+sub.key;
+        used[k] = (used[k]||0);
+        const topic = pool[used[k] % pool.length]; used[k]++;
+        /* today's lessons are left unrecorded so the teacher can fill the diary live */
+        if(isToday) return;
+        const absent = kids.filter(s=>{
+          const a = db.attendance.find(x=>x.studentId===s.id && x.date===ymd(d));
+          return a && (a.status==='absent' || a.status==='excused');
+        }).map(s=>s.id);
+        const remarks = [];
+        if(rl()>0.72 && kids.length){
+          const who = kids[Math.floor(rl()*kids.length)];
+          if(absent.indexOf(who.id)<0) remarks.push({studentId:who.id, text:REMARKS[Math.floor(rl()*REMARKS.length)]});
+        }
+        db.lessons.push({
+          id:uuid('ls-'+cls.id+ymd(d)+p.order), schoolId:SCHOOL, classId:cls.id, date:ymd(d),
+          periodId:p.id, order:p.order, start:p.start, end:p.end,
+          subjectId:p.subjectId, teacherId:p.teacherId,
+          topic:{sq:topic[0], en:topic[1]},
+          note: rl()>0.8 ? {sq:'Ora u zhvillua me punë në grupe.', en:'The lesson was run as group work.'} : null,
+          homework: rl()>0.7 ? {sq:'Detyrë: ushtrimi 3 në fletore.', en:'Homework: exercise 3 in the notebook.'} : null,
+          absentIds: absent, remarks,
+          recordedBy:p.teacherId, recordedAt:new Date(atTime(d,Number(p.end.slice(0,2)),Number(p.end.slice(3,5)))).toISOString()
+        });
+      });
+    });
+  });
+
+  db._ref = {SCHOOL, YEAR, TERM1, TERM2, AREA, PLAN, C_KG, C_1A, C_KG2, C_KG3, C_5A, C_8A, S, P, SUBJ, LVL,
+             T_ALBINA, T_TEUTA, T_EDONA, T_BLERIM, T_ARTAD, T_MIRLINDA, T_VJOLLCA, T_SHPEND, T_LINDITA, T_FATOS, U_ADMIN, P_ARTA, U_TEUTA, U_BLERIM, U_ARTAD};
   return db;
 }
 /* =========================================================================
@@ -1564,12 +1995,19 @@ function teacherIsEarly(tt){ return !!tt && (tt.stage==='early' ||
   DB.teacherClass.some(r=>r.teacherId===tt.id && isEarlyClass(byId(DB.classes,r.classId)))); }
 function levelOf(student){ const c=classOf(student); return c? byId(DB.gradeLevels,c.gradeLevelId) : null; }
 function isEarlyYears(student){ const c=classOf(student); return c && c.stage==='early'; }
+/* the subjects a class actually has — the school maintains this list itself */
 function subjectsForClass(classId){
   const c=byId(DB.classes,classId); if(!c || c.stage==='early') return [];
+  const rows=DB.classSubjects.filter(cs=>cs.classId===classId).sort((a,b)=>a.ordinal-b.ordinal);
+  if(rows.length) return rows.map(r=>byId(DB.subjects,r.subjectId)).filter(Boolean);
   const lvl=byId(DB.gradeLevels,c.gradeLevelId);
   const keys = lvl.ordinal>=6 ? ['math','alb','eng','sci','hist','geo','tech','art','pe']
+             : lvl.ordinal<=3 ? ['alb','math','sci','eng','art','pe']
                               : ['math','alb','eng','sci','hist','art','pe'];
   return DB.subjects.filter(s=>keys.includes(s.key));
+}
+function classSubjectRows(classId){
+  return DB.classSubjects.filter(cs=>cs.classId===classId).sort((a,b)=>a.ordinal-b.ordinal);
 }
 function attendanceFor(studentId,date){ return DB.attendance.find(a=>a.studentId===studentId && a.date===date); }
 function mealsFor(studentId,date){ return DB.meals.filter(m=>m.studentId===studentId && m.date===date); }
@@ -1750,10 +2188,12 @@ const NAV = {
     {r:'parent/child',ic:'child',k:'nav_child'},
     {r:'parent/reports',ic:'sun',k:'nav_reports'},
     {r:'parent/academics',ic:'cap',k:'nav_academics'},
+    {r:'parent/ditari',ic:'book',k:'nav_ditari'},
     {r:'parent/homework',ic:'clipboard',k:'nav_homework'},
     {r:'parent/timetable',ic:'clock',k:'nav_timetable'},
     {r:'parent/reportcard',ic:'award',k:'nav_reportcard'},
     {r:'parent/menu',ic:'utensils',k:'nav_menu'},
+    {r:'parent/payments',ic:'chart',k:'nav_payments'},
     {r:'parent/photos',ic:'image',k:'nav_photos'},
     {r:'parent/calendar',ic:'calendar',k:'nav_calendar'},
     {r:'parent/messages',ic:'message',k:'nav_messages'},
@@ -1768,6 +2208,7 @@ const NAV = {
     {r:'teacher/daysheet',ic:'sun',k:'nav_daysheet'},
     {r:'teacher/activities',ic:'palette',k:'nav_activities'},
     {r:'teacher/homework',ic:'file',k:'nav_homework'},
+    {r:'teacher/ditari',ic:'book',k:'nav_ditari'},
     {r:'teacher/grades',ic:'cap',k:'nav_grades'},
     {r:'teacher/timetable',ic:'clock',k:'nav_timetable'},
     {r:'teacher/menu',ic:'utensils',k:'nav_menu'},
@@ -1778,13 +2219,16 @@ const NAV = {
     {r:'admin/dashboard',ic:'home',k:'nav_dashboard'},
     {r:'admin/students',ic:'users',k:'nav_students'},
     {r:'admin/parents',ic:'child',k:'nav_parents'},
+    {r:'admin/invites',ic:'send',k:'nav_invites'},
     {r:'admin/teachers',ic:'cap',k:'nav_teachers'},
     {r:'admin/classes',ic:'layers',k:'nav_classes'},
     {r:'admin/subjects',ic:'book',k:'nav_subjects'},
+    {r:'admin/ditari',ic:'book',k:'nav_ditari'},
     {r:'admin/attendance',ic:'clipboard',k:'nav_attendance'},
     {r:'admin/announcements',ic:'bell',k:'nav_announcements'},
     {r:'admin/menu',ic:'utensils',k:'nav_menu'},
     {r:'admin/calendar',ic:'calendar',k:'nav_calendar'},
+    {r:'admin/finance',ic:'chart',k:'nav_finance'},
     {r:'admin/reports',ic:'chart',k:'nav_reports_admin'},
     {r:'admin/settings',ic:'settings',k:'nav_settings'}
   ]
@@ -1816,7 +2260,7 @@ function routeTitle(){
   const map={
     'parent/report':t('daily_report'), 'teacher/class':t('class'), 'teacher/student':t('student'),
     'parent/messages':t('messages'), 'parent/setup':t('complete_profile'), 'admin/import':t('import_csv'),
-    'teacher/reportcard':t('report_card')
+    'teacher/reportcard':t('report_card'), 'admin/staff':t('teaching_staff'), 'admin/invites':t('nav_invites'), 'admin/fees':t('fee_plans'), 'admin/finance':t('nav_finance')
   };
   return map[state.route] || t('nav_dashboard');
 }
@@ -1825,8 +2269,11 @@ function render(){
   document.documentElement.lang = state.lang;
   if(!state.session){ document.body.className=''; root.innerHTML=LoginView(); paintOverlay(); return; }
   document.body.className='role-'+state.session.role;
+  const seg = state.route.split('/')[0];
   const view = VIEWS[state.route];
-  const body = view ? view() : notFoundView();
+  const body = (['parent','teacher','admin'].indexOf(seg)>=0 && seg!==state.session.role)
+    ? noAccessView()
+    : (view ? view() : notFoundView());
   root.innerHTML =
     '<div class="app">'+
       sidebarView()+
@@ -2089,14 +2536,14 @@ function ParentHome(){
     (!early ? sectionHead(t('academics'), '<a class="btn sm ghost" href="#/parent/academics">'+t('view_all')+'</a>')+
       '<div class="grid g2">'+
         '<div class="card"><div class="card-b">'+
-          '<div class="rowb"><div>'+metric((overallAverage(st.id)||0).toFixed(2), t('overall'))+'</div>'+
+          '<div class="rowb"><div>'+metric(assessmentMode(classOf(st))==='descriptive'? markLabel(classOf(st),overallAverage(st.id)||0) : (overallAverage(st.id)||0).toFixed(2), t('overall'))+'</div>'+
           ring(attendanceStats(st.id,30).rate, {size:74, color:'var(--teal)'})+'</div>'+
           '<div class="tiny muted" style="margin-top:8px">'+t('attendance_rate')+'</div>'+
         '</div></div>'+
         '<div class="card"><div class="card-h"><h3>'+t('recent_grades')+'</h3></div><div class="card-b" style="padding-top:6px">'+
           (grades.length? grades.map(g=>{
             const sj=byId(DB.subjects,g.subjectId);
-            return '<div class="list-row"><span class="chip brand">'+g.value+'</span><div style="flex:1;min-width:0">'+
+            return '<div class="list-row"><span class="chip '+markTone(classOf(st),g.value)+'">'+esc(markLabel(classOf(st),g.value))+'</span><div style="flex:1;min-width:0">'+
               '<div style="font-weight:600;font-size:13.5px;font-family:var(--ui)">'+esc(L(sj.name))+'</div>'+
               '<div class="tiny muted">'+t(g.type)+' · '+esc(relDay(g.date))+'</div></div></div>';
           }).join('') : '<p class="small muted">'+t('nothing_here')+'</p>')+
@@ -2277,7 +2724,9 @@ function ParentAcademics(){
   const st_att=attendanceStats(st.id,30);
   return childHeroCard(st)+
     '<div class="grid g3" style="margin-top:18px">'+
-      '<div class="card"><div class="card-b">'+metric((overallAverage(st.id)||0).toFixed(2), t('overall'))+
+      '<div class="card"><div class="card-b">'+metric(assessmentMode(classOf(st))==='descriptive'
+          ? markLabel(classOf(st), overallAverage(st.id)||0)
+          : (overallAverage(st.id)||0).toFixed(2), t('overall'))+
         '<div style="margin-top:10px">'+sparkline(trend.length>1?trend:[3.8,4.1,4.0,4.3],{h:56})+'</div>'+
         '<div class="tiny muted">'+t('grade_trend')+'</div></div></div>'+
       '<div class="card"><div class="card-b"><div class="rowb">'+metric(st_att.rate+'%', t('attendance_rate'))+
@@ -2295,14 +2744,15 @@ function ParentAcademics(){
         '<div class="row" style="gap:10px"><div class="mood-badge" style="background:var(--brand-50);color:var(--brand)">'+icon(sj.icon,17)+'</div>'+
         '<div style="flex:1;min-width:0"><div style="font-family:var(--ui);font-weight:700;font-size:14px">'+esc(L(sj.name))+'</div>'+
         '<div class="tiny muted">'+n+' '+(state.lang==='sq'?'vlerësime':'assessments')+'</div></div>'+
-        '<div style="font-family:var(--ui);font-weight:800;font-size:19px">'+(a!==null?a.toFixed(1):'—')+'</div></div>'+
+        '<div style="font-family:var(--ui);font-weight:'+(assessmentMode(classOf(st))==='descriptive'?'700;font-size:13px;text-align:right;max-width:104px':'800;font-size:19px')+'">'+
+          (a!==null? esc(markLabel(classOf(st),a)) : '—')+'</div></div>'+
         '<div class="progress '+(p>=80?'ok':(p>=60?'teal':'warn'))+'" style="margin-top:11px"><i style="width:'+p+'%"></i></div>'+
       '</div></div>';
     }).join('')+'</div>'+
     sectionHead(t('recent_grades'))+
     '<div class="card"><div class="card-b" style="padding-top:6px">'+grades.slice(0,8).map(g=>{
       const sj=byId(DB.subjects,g.subjectId);
-      return '<div class="list-row"><span class="chip '+(g.value>=4?'ok':(g.value>=3?'info':'warn'))+'" style="min-width:30px;justify-content:center">'+g.value+'</span>'+
+      return '<div class="list-row"><span class="chip '+markTone(classOf(st),g.value)+'" style="min-width:30px;justify-content:center">'+esc(markLabel(classOf(st),g.value))+'</span>'+
         '<div style="flex:1;min-width:0"><div style="font-weight:600;font-family:var(--ui);font-size:13.5px">'+esc(L(sj.name))+' · '+t(g.type)+'</div>'+
         '<div class="tiny muted">'+esc(L(g.comment))+'</div></div>'+
         '<span class="tiny faint">'+esc(fmtDate(g.date))+'</span></div>';
@@ -2518,6 +2968,7 @@ function ParentProfile(){
         '<button class="btn" data-act="demo-only">'+icon('download',16)+t('data_export')+'</button>'+
         '<button class="btn" data-act="demo-only">'+icon('trash',16)+t('data_delete')+'</button>'+
       '</div></div></div>'+
+    '<div style="margin-top:16px">'+storageCard()+'</div>'+
     '<div style="margin-top:16px"><button class="btn block" data-act="logout">'+icon('logout',16)+t('switch_role')+'</button></div>';
 }
 /* =========================================================================
@@ -2715,7 +3166,7 @@ function TeacherStudent(){
           : '<div class="card"><div class="card-h"><h3>'+t('recent_grades')+'</h3></div><div class="card-b" style="padding-top:6px">'+
             (gradesFor(st.id).slice(0,6).map(g=>{
               const sj=byId(DB.subjects,g.subjectId);
-              return '<div class="list-row"><span class="chip '+(g.value>=4?'ok':'info')+'" style="min-width:30px;justify-content:center">'+g.value+'</span>'+
+              return '<div class="list-row"><span class="chip '+markTone(classOf(st),g.value)+'" style="min-width:30px;justify-content:center">'+esc(markLabel(classOf(st),g.value))+'</span>'+
                 '<div style="flex:1"><div style="font-weight:600;font-size:13.5px;font-family:var(--ui)">'+esc(L(sj.name))+' · '+t(g.type)+'</div>'+
                 '<div class="tiny muted">'+esc(L(g.comment))+'</div></div><span class="tiny faint">'+esc(fmtDate(g.date))+'</span></div>';
             }).join('') || '<p class="small muted">'+t('nothing_here')+'</p>')+'</div></div>')+
@@ -2990,7 +3441,7 @@ function TeacherGrades(){
         const s=byId(DB.students,g.studentId), sj=byId(DB.subjects,g.subjectId);
         return '<tr><td><div class="row" style="gap:9px">'+avatar(s.fullName,28,s.id)+'<b style="font-family:var(--ui)">'+esc(s.fullName)+'</b></div></td>'+
           '<td class="muted">'+esc(L(sj.name))+'</td><td class="muted">'+t(g.type)+'</td>'+
-          '<td><span class="chip '+(g.value>=4?'ok':(g.value>=3?'info':'warn'))+'" style="min-width:28px;justify-content:center">'+g.value+'</span></td>'+
+          '<td><span class="chip '+markTone(classOf(s),g.value)+'" style="min-width:28px;justify-content:center">'+esc(markLabel(classOf(s),g.value))+'</span></td>'+
           '<td class="muted">'+esc(fmtDate(g.date))+'</td><td class="muted small">'+esc(L(g.comment))+'</td></tr>';
       }).join('') : '<tr><td colspan="6">'+emptyState('nothing_here','nothing_here_hint','cap')+'</td></tr>')+
     '</tbody></table></div></div>';
@@ -3108,7 +3559,7 @@ function AdminParents(){
   });
   return adminTable([t('role_parent'),'Email',t('phone'),t('students')], rows, '', DB.parents.length+' '+t('nav_parents').toLowerCase());
 }
-function AdminTeachers(){
+function AdminTeachersLegacy(){
   const rows=DB.teachers.map(tt=>{
     const u=byId(DB.users,tt.userId), cls=teacherClasses(tt.id);
     return '<tr><td><div class="row" style="gap:9px">'+avatar(u.name,30,tt.id)+'<b style="font-family:var(--ui)">'+esc(u.name)+'</b></div></td>'+
@@ -3228,7 +3679,8 @@ function AdminSettings(){
       '<span class="small muted" style="flex:1">'+esc(desc)+'</span></div>').join('')+
   '</div></div>'+
   sectionHead(t('privacy_title'))+
-  '<div class="card"><div class="card-b">'+
+  storageCard()+
+  '<div class="card" style="margin-top:16px"><div class="card-b">'+
     '<div class="notice warn">'+icon('alert',16)+'<span>'+
     (state.lang==='sq'?'Ky është një demo. Të dhënat janë fiktive dhe qëndrojnë vetëm në shfletues. Siguria e prodhimit (RLS, autentikim, ruajtje private e fotove, regjistrim i pandryshueshëm) përshkruhet në dokumentin e arkitekturës.'
                       :'This is a demo. All data is fictional and stays in the browser. Production security (RLS, authentication, private photo storage, immutable audit log) is described in the architecture document.')+'</span></div>'+
@@ -3240,23 +3692,31 @@ function AdminSettings(){
    ========================================================================= */
 function LoginView(){
   const R=DB._ref;
-  const cards=[
-    {act:'parent:'+R.P_ARTA, ic:'child',  bg:'var(--brand-50)',  fg:'var(--brand)', t:t('role_parent'),  d:t('login_parent_d')},
-    {act:'teacher:'+R.T_ALBINA,ic:'sun', bg:'var(--teal-50)',   fg:'var(--teal)',  t:t('role_educator')+' · '+(state.lang==='sq'?'Kopsht':'Early years'), d:t('login_kg_d')},
-    {act:'teacher:'+R.T_BLERIM,ic:'cap',  bg:'var(--info-50)',   fg:'var(--info)',  t:t('role_teacher')+' · '+(state.lang==='sq'?'Klasat':'Grades'), d:t('login_gt_d')},
-    {act:'admin:'+R.U_ADMIN,  ic:'building',bg:'var(--surface-3)',fg:'var(--muted)', t:t('role_admin'),   d:t('login_admin_d')}
-  ];
+  const parentApp = APP_VARIANT==='parent';
+  const cards = parentApp
+    ? [{act:'parent:'+R.P_ARTA, ic:'child', bg:'var(--brand-50)', fg:'var(--brand)',
+        t:t('role_parent'), d:t('login_parent_d')}]
+    : [{act:'teacher:'+R.T_ALBINA,ic:'sun', bg:'var(--teal-50)',   fg:'var(--teal)',  t:t('role_educator')+' · '+(state.lang==='sq'?'Kopsht':'Early years'), d:t('login_kg_d')},
+       {act:'teacher:'+R.T_BLERIM,ic:'cap',  bg:'var(--info-50)',   fg:'var(--info)',  t:t('role_teacher')+' · '+(state.lang==='sq'?'Klasat':'Grades'), d:t('login_gt_d')},
+       {act:'admin:'+R.U_ADMIN,  ic:'building',bg:'var(--surface-3)',fg:'var(--muted)', t:t('role_admin'),   d:t('login_admin_d')}];
+  const blurb = parentApp
+    ? (state.lang==='sq'?'Dita e fëmijës suaj, ditari, notat dhe fotot — në një vend.'
+                       :'Your child\u2019s day, the register, marks and photos — in one place.')
+    : (state.lang==='sq'?'Prezenca, ditari elektronik dhe raportet e ditës për një klasë të tërë, në pak minuta.'
+                       :'Attendance, the class register and the day\u2019s reports for a whole class, in minutes.');
+  const chips = parentApp
+    ? (state.lang==='sq'?['Dita e fëmijës','Ditari','Notat','Fotot','Mungesat','Pagesat']
+                       :['Your child\u2019s day','Register','Marks','Photos','Absences','Payments'])
+    : (state.lang==='sq'?['Prezenca','Vaktet','Ditari','Matrica','Njoftimet','Raportet']
+                       :['Attendance','Meals','Register','Matrix','Announcements','Reports']);
+
   return '<div class="login-wrap">'+
     '<div class="login-art">'+
       '<div style="position:relative"><span class="logo-mark reverse" role="img" aria-label="'+esc(DB.schools[0].name)+'" style="width:134px;height:48px"></span>'+
       '<div class="wordline">'+esc(state.lang==='sq'?'Akademia e Edukimit':'Academy of Education')+'</div></div>'+
-      '<div style="position:relative"><h2>'+esc(t('app_tagline'))+'</h2>'+
-        '<p style="color:rgba(255,255,255,.72);margin-top:14px;max-width:44ch;line-height:1.6">'+
-        (state.lang==='sq'?'Prindërit ndjekin ditën e fëmijës. Mësuesit e plotësojnë atë ditë për një klasë të tërë në pak minuta. Shkolla i sheh të gjitha në një vend.'
-                          :'Parents follow their child\u2019s day. Teachers fill that day in for a whole class in minutes. The school sees it all in one place.')+'</p>'+
-        '<div class="row wrap" style="gap:8px;margin-top:22px">'+
-          (state.lang==='sq'?['Kopshti','Klasat 1–9','Prezenca','Vaktet','Notat','Fotot']
-                             :['Kindergarten','Grades 1–9','Attendance','Meals','Grades','Photos']).map(x=>
+      '<div style="position:relative"><h2>'+esc(parentApp? t('portal_parent') : t('portal_staff'))+'</h2>'+
+        '<p style="color:rgba(255,255,255,.72);margin-top:14px;max-width:44ch;line-height:1.6">'+esc(blurb)+'</p>'+
+        '<div class="row wrap" style="gap:8px;margin-top:22px">'+chips.map(x=>
             '<span class="chip" style="background:rgba(255,255,255,.13);color:#fff">'+esc(x)+'</span>').join('')+
         '</div></div>'+
       '<div class="small" style="color:rgba(255,255,255,.55);position:relative">'+esc(DB.schools[0].name)+' · '+esc(DB.schoolYears[0].name)+'</div>'+
@@ -3265,15 +3725,26 @@ function LoginView(){
       '<div class="rowb"><span class="logo-full" role="img" aria-label="'+esc(DB.schools[0].name)+'"></span>'+
         '<div class="seg sm"><button class="'+(state.lang==='sq'?'on':'')+'" data-act="set-lang" data-v="sq">SQ</button>'+
         '<button class="'+(state.lang==='en'?'on':'')+'" data-act="set-lang" data-v="en">EN</button></div></div>'+
-      '<h1 style="margin-top:26px">'+esc(t('login_head'))+'</h1>'+
-      '<p class="small muted" style="margin-top:7px;max-width:46ch">'+esc(t('login_sub'))+'</p>'+
-      '<div class="tiny faint" style="margin:22px 0 9px;font-weight:600">'+esc(t('demo_access'))+'</div>'+
+      '<div class="chip brand" style="margin-top:22px">'+esc(parentApp? t('portal_parent') : t('portal_staff'))+'</div>'+
+      '<h1 style="margin-top:12px">'+esc(t('login_head'))+'</h1>'+
+      '<p class="small muted" style="margin-top:7px;max-width:46ch">'+
+        esc(parentApp? t('login_sub_parent') : t('login_sub_staff'))+'</p>'+
+      '<div style="margin-top:22px">'+authBox()+'</div>'+
+      '<div class="divider" style="margin:22px 0 4px"></div>'+
+      '<div class="tiny faint" style="margin:14px 0 9px;font-weight:600">'+esc(t('demo_access'))+'</div>'+
       '<div class="stack-sm">'+cards.map(c=>
         '<button class="role-card" data-act="login-as" data-v="'+c.act+'">'+
           '<span class="ic" style="background:'+c.bg+';color:'+c.fg+'">'+icon(c.ic,20)+'</span>'+
           '<span style="flex:1"><span class="t" style="display:block">'+esc(c.t)+'</span><span class="d">'+esc(c.d)+'</span></span>'+
           icon('chevron',18)+'</button>').join('')+'</div>'+
-      '<div class="notice" style="margin-top:20px">'+icon('info',16)+'<span>'+esc(t('demo_note'))+'</span></div>'+
+      '<a class="tile" href="'+(parentApp?'staff.html':'index.html')+'" style="margin-top:16px;text-decoration:none">'+
+        '<div class="row" style="gap:10px"><span class="mood-badge" style="background:var(--surface-3);color:var(--muted)">'+
+          icon(parentApp?'cap':'child',17)+'</span>'+
+        '<div style="flex:1;min-width:0"><div style="font-family:var(--ui);font-weight:600;font-size:13.5px">'+
+          esc(parentApp? t('are_you_staff') : t('are_you_parent'))+'</div>'+
+        '<div class="tiny muted">'+esc(parentApp? t('go_staff_portal') : t('go_parent_portal'))+'</div></div>'+
+        icon('chevron',16)+'</div></a>'+
+      '<div class="notice" style="margin-top:16px">'+icon('info',16)+'<span>'+esc(t('demo_note'))+'</span></div>'+
     '</div></div>'+
   '</div>';
 }
@@ -3291,7 +3762,7 @@ const VIEWS = {
   'teacher/daysheet':TeacherDaySheet, 'teacher/activities':TeacherActivities, 'teacher/homework':TeacherHomework,
   'teacher/grades':TeacherGrades, 'teacher/messages':TeacherMessages, 'teacher/calendar':TeacherCalendar,
   'admin/dashboard':AdminDashboard, 'admin/students':AdminStudents, 'admin/parents':AdminParents,
-  'admin/teachers':AdminTeachers, 'admin/classes':AdminClasses, 'admin/subjects':AdminSubjects,
+  'admin/teachers':AdminTeachersLegacy, 'admin/classes':AdminClasses, 'admin/subjects':AdminSubjects,
   'admin/attendance':AdminAttendance, 'admin/announcements':AdminAnnouncements, 'admin/calendar':AdminCalendar,
   'admin/reports':AdminReports, 'admin/settings':AdminSettings
 };
@@ -4631,22 +5102,24 @@ function reportCardView(studentId){
         '<div><div style="font-family:var(--ui);font-weight:700;font-size:16px">'+esc(st.fullName)+'</div>'+
         '<div class="tiny muted">'+esc(d.cls.name)+' · '+staffWord(d.cls)+': '+esc(teacherName(d.cls.homeroomTeacherId))+'</div></div></div>'+
       '<div class="table-wrap" style="margin-top:14px"><table><thead><tr>'+
-        '<th>'+t('subject_col')+'</th><th>'+t('marks_count')+'</th><th>'+t('term_average')+'</th><th>'+t('final_mark')+'</th>'+
+        '<th>'+t('subject_col')+'</th><th>'+t('marks_count')+'</th><th>'+t('term_average')+'</th>'+
+        '<th>'+(assessmentMode(d.cls)==='descriptive'? t('final_assessment') : t('final_mark'))+'</th>'+
       '</tr></thead><tbody>'+
       d.rows.map(r=>'<tr><td><b style="font-family:var(--ui)">'+esc(L(r.subject.name))+'</b></td>'+
         '<td class="mono-num muted">'+r.count+'</td>'+
-        '<td class="mono-num">'+(r.avg==null?'—':r.avg.toFixed(2))+'</td>'+
+        '<td class="mono-num">'+(r.avg==null?'—':(assessmentMode(d.cls)==='descriptive'?'—':r.avg.toFixed(2)))+'</td>'+
         '<td>'+(r.mark==null? '<span class="faint">'+t('no_marks_yet')+'</span>'
-          : '<span class="chip '+(r.mark>=4?'ok':(r.mark>=3?'info':'warn'))+'" style="font-size:13px">'+r.mark+'</span>')+'</td></tr>').join('')+
+          : '<span class="chip '+markTone(d.cls,r.mark)+'" style="font-size:13px">'+esc(markLabel(d.cls,r.mark))+'</span>')+'</td></tr>').join('')+
       '</tbody></table></div>'+
       '<div class="grid g3" style="margin-top:16px">'+
-        '<div>'+metric(d.overall==null?'—':d.overall.toFixed(2), t('general_average'))+'</div>'+
+        '<div>'+metric(d.overall==null?'—':(assessmentMode(d.cls)==='descriptive'? markLabel(d.cls,d.overall) : d.overall.toFixed(2)), t('general_average'))+'</div>'+
         '<div>'+metric(d.att.rate+'%', t('attendance_pct'))+'</div>'+
         '<div>'+metric(d.att.absent, t('absences_count'))+'</div>'+
       '</div>'+
       '<div class="divider"></div>'+
       '<div class="tiny faint" style="font-weight:600;margin-bottom:5px">'+t('homeroom_comment')+'</div>'+
       '<p class="small">'+esc(homeroomComment(d))+'</p>'+
+      (assessmentMode(d.cls)==='descriptive'? '<div class="notice" style="margin-top:12px">'+icon('info',16)+'<span>'+t('descriptive_note')+'</span></div>':'')+
       '<div class="tiny faint" style="margin-top:16px">'+t('issued_on')+' '+esc(fmtDate(today(),'long'))+'</div>'+
     '</div></div>';
 }
@@ -4785,6 +5258,1571 @@ Object.assign(ACTIONS, {
   'media-download':(d)=>downloadMedia(d.v)
 });
 
+
+/* =========================================================================
+   DITARI ELEKTRONIK — the class register
+   One entry per lesson: the topic covered, who was missing, remarks, and the
+   homework set. The teacher writes it during or after the lesson; the
+   guardian reads the same rows, filtered to their own child.
+   ========================================================================= */
+
+function levelOf(cls){ return byId(DB.gradeLevels, cls.gradeLevelId); }
+function assessmentMode(cls){ const l=levelOf(cls); return (l && l.assessment) || 'numeric'; }
+
+/* klasat e ulëta: vlerësim me përshkrim, jo me notë */
+const DESCRIPTIVE = [
+  {min:4.5, sq:'Shkëlqyeshëm',  en:'Excellent',      tone:'ok'},
+  {min:3.5, sq:'Shumë mirë',    en:'Very good',      tone:'ok'},
+  {min:2.5, sq:'Mirë',          en:'Good',           tone:'info'},
+  {min:1.5, sq:'Mjaftueshëm',   en:'Satisfactory',   tone:'warn'},
+  {min:0,   sq:'Duhet përkrahje',en:'Needs support', tone:'warn'}
+];
+function descriptiveFor(v){ return DESCRIPTIVE.find(d=>v>=d.min) || DESCRIPTIVE[DESCRIPTIVE.length-1]; }
+/* one call site decides how a mark is spoken, everywhere */
+function markLabel(cls, value){
+  if(value==null) return '—';
+  if(assessmentMode(cls)==='descriptive'){ const d=descriptiveFor(value); return state.lang==='sq'? d.sq : d.en; }
+  return String(Math.round(value*10)/10);
+}
+function markTone(cls, value){
+  if(value==null) return '';
+  if(assessmentMode(cls)==='descriptive') return descriptiveFor(value).tone;
+  return value>=4? 'ok' : (value>=3? 'info':'warn');
+}
+
+/* ---------- selectors ---------- */
+function lessonsFor(classId, date){
+  return DB.lessons.filter(l=>l.classId===classId && l.date===date).sort((a,b)=>a.order-b.order);
+}
+function lessonDaysFor(classId, n){
+  const set=[...new Set(DB.lessons.filter(l=>l.classId===classId).map(l=>l.date))].sort().reverse();
+  return set.slice(0, n||10);
+}
+function lessonRemark(lesson, studentId){
+  return (lesson.remarks||[]).find(r=>r.studentId===studentId) || null;
+}
+function registerDays(studentId, n){
+  const st=byId(DB.students,studentId); if(!st) return [];
+  const days=[...new Set(DB.lessons.filter(l=>l.classId===st.classId).map(l=>l.date))].sort().reverse().slice(0,n||8);
+  return days.map(d=>({date:d, lessons:lessonsFor(st.classId,d)}));
+}
+
+/* ---------- the guardian's view of the register ---------- */
+function ParentDitari(){
+  const st=activeChild(); if(!st) return notFoundView();
+  const cls=classOf(st);
+  if(isEarlyYears(st)) return childHeroCard(st)+
+    '<div class="card" style="margin-top:16px"><div class="card-b">'+
+    emptyState('nothing_here','ditari_early_hint','sun')+'</div></div>';
+  const days=registerDays(st.id, 8);
+  if(!days.length) return childHeroCard(st)+'<div class="card" style="margin-top:16px"><div class="card-b">'+
+    emptyState('nothing_here','nothing_here_hint','book')+'</div></div>';
+  return childHeroCard(st)+
+    '<p class="small muted" style="margin-top:14px">'+t('ditari_intro')+'</p>'+
+    days.map(d=>{
+      const att=attendanceFor(st.id,d.date);
+      const missed=att && (att.status==='absent'||att.status==='excused');
+      return sectionHead(fmtDate(d.date,'long'), missed
+        ? '<span class="chip '+(att.status==='excused'?'info':'err')+'">'+t(ATT_STATUS[att.status].label)+'</span>' : '')+
+      '<div class="card" style="margin-bottom:16px"><div class="card-b" style="padding-top:6px">'+
+        d.lessons.map(l=>{
+          const sub=byId(DB.subjects,l.subjectId);
+          const wasOut=(l.absentIds||[]).indexOf(st.id)>=0;
+          const rem=lessonRemark(l,st.id);
+          return '<div class="list-row" style="align-items:flex-start">'+
+            '<span class="chip" style="min-width:34px;justify-content:center">'+l.order+'</span>'+
+            '<div style="flex:1;min-width:0">'+
+              '<div class="row" style="gap:7px;flex-wrap:wrap">'+
+                '<b style="font-family:var(--ui);font-size:13.5px">'+esc(L(sub.name))+'</b>'+
+                '<span class="tiny faint mono-num">'+esc(l.start)+'</span>'+
+                (wasOut? '<span class="chip err">'+t('absent')+'</span>':'')+
+              '</div>'+
+              '<div class="small" style="margin-top:2px">'+esc(L(l.topic))+'</div>'+
+              (l.homework? '<div class="tiny" style="margin-top:4px;color:var(--brand-700)">'+icon('clipboard',12)+' '+esc(L(l.homework))+'</div>':'')+
+              (rem? '<div class="notice" style="margin-top:7px;padding:8px 10px">'+icon('message',14)+
+                '<span class="tiny">'+esc(L(rem.text))+'</span></div>':'')+
+            '</div>'+
+            '<span class="tiny faint" style="white-space:nowrap">'+esc(teacherName(l.teacherId))+'</span>'+
+          '</div>';
+        }).join('')+
+      '</div></div>';
+    }).join('');
+}
+
+/* ---------- the teacher's register ---------- */
+/* the classes whose register this person may open */
+function ditariClasses(){
+  const all = state.session.role==='admin' ? DB.classes : myClasses();
+  return all.filter(c=>c.stage==='primary');
+}
+
+/* the register has two faces: the day's lessons, and the marks for the year */
+function DitariView(){
+  const classes=ditariClasses();
+  if(!classes.length) return '<div class="card"><div class="card-b">'+
+    emptyState('nothing_here','ditari_early_hint','book')+'</div></div>';
+  const c=classes.find(x=>x.id===state.params.c) || classes[0];
+  if(!canAccessClass(c.id) && state.session.role!=='admin') return noAccessView();
+  const role=state.session.role;
+  const view=state.params.v==='matrica' ? 'matrica' : 'ore';
+  const q=(cid,v)=>'#/'+role+'/ditari?c='+cid+(v==='matrica'?'&v=matrica':'');
+
+  const classTabs = classes.length>1 ? '<div class="pill-tabs" style="margin-bottom:12px">'+classes.map(x=>
+    '<a class="'+(x.id===c.id?'on':'')+'" href="'+q(x.id,view)+'" style="padding:9px 14px;border-radius:999px;'+
+    'font-family:var(--ui);font-weight:600;font-size:13px;text-decoration:none;'+
+    (x.id===c.id?'background:var(--surface);box-shadow:var(--sh-1);color:var(--text)':'color:var(--muted)')+'">'+
+    esc(x.name)+'</a>').join('')+'</div>'
+    : '<div class="row" style="margin-bottom:12px"><span class="chip brand">'+esc(c.name)+'</span></div>';
+
+  const viewTabs='<div class="seg" style="margin-bottom:14px">'+
+    [['ore','lesson_log','clock'],['matrica','nav_matrix','chart']].map(([k,lbl,ic])=>
+      '<a class="'+(view===k?'on':'')+'" href="'+q(c.id,k)+'" style="padding:9px 14px;font-size:13px;font-weight:600;'+
+      'font-family:var(--ui);text-decoration:none;'+(view===k?'background:var(--brand);color:#fff':'color:var(--muted)')+'">'+
+      icon(ic,15)+t(lbl)+'</a>').join('')+'</div>';
+
+  return classTabs+viewTabs+(view==='matrica' ? matrixPanel(c) : lessonLogPanel(c));
+}
+
+function lessonLogPanel(c){
+  const dates=[...new Set([ymd(today())].concat(lessonDaysFor(c.id,9)))].sort().reverse().slice(0,10);
+  const date=dates.indexOf(state.params.d)>=0 ? state.params.d : dates[0];
+  const dayNum=(new Date(date).getDay()+6)%7+1;
+  const scheduled=DB.periods.filter(p=>p.classId===c.id && p.day===dayNum).sort((a,b)=>a.order-b.order);
+  const recorded=lessonsFor(c.id,date);
+  const done=scheduled.filter(p=>recorded.some(l=>l.periodId===p.id)).length;
+
+  const dateStrip='<div class="row" style="gap:7px;overflow-x:auto;padding-bottom:6px;margin-bottom:14px">'+
+    dates.map(d=>{
+      const on=d===date, isT=d===ymd(today());
+      const dd=new Date(d);
+      return '<a href="#/'+state.session.role+'/ditari?c='+c.id+'&d='+d+'" style="flex:none;text-align:center;padding:8px 12px;border-radius:12px;'+
+        'border:1px solid '+(on?'var(--brand)':'var(--border)')+';background:'+(on?'var(--brand)':'var(--surface)')+';'+
+        'color:'+(on?'#fff':'var(--text)')+';text-decoration:none">'+
+        '<div class="tiny" style="opacity:.75">'+esc(WD_SHORT[state.lang][dd.getDay()])+'</div>'+
+        '<div style="font-family:var(--ui);font-weight:700;font-size:15px">'+dd.getDate()+'</div>'+
+        (isT? '<div class="tiny" style="opacity:.8">'+t('date_today')+'</div>':'')+
+      '</a>';
+    }).join('')+'</div>';
+
+  return dateStrip+
+    '<div class="card"><div class="card-h"><h3>'+t('lesson_log')+' · '+esc(fmtDate(date,'long'))+'</h3>'+
+      '<span class="chip '+(done===scheduled.length&&scheduled.length?'ok':'warn')+'">'+done+'/'+scheduled.length+'</span></div>'+
+    '<div class="card-b">'+
+      (scheduled.length? scheduled.map(p=>{
+        const l=recorded.find(x=>x.periodId===p.id);
+        const sub=byId(DB.subjects,p.subjectId);
+        const mine=!state.session.teacherId || p.teacherId===state.session.teacherId || c.homeroomTeacherId===state.session.teacherId;
+        return '<div class="list-row" style="align-items:flex-start">'+
+          '<span class="chip '+(l?'ok':'')+'" style="min-width:34px;justify-content:center">'+p.order+'</span>'+
+          '<div style="flex:1;min-width:0">'+
+            '<div class="row" style="gap:7px;flex-wrap:wrap">'+
+              '<b style="font-family:var(--ui);font-size:13.5px">'+esc(L(sub.name))+'</b>'+
+              '<span class="tiny faint mono-num">'+esc(p.start)+'–'+esc(p.end)+'</span>'+
+              '<span class="tiny faint">'+esc(teacherName(p.teacherId))+'</span></div>'+
+            (l? '<div class="small" style="margin-top:2px">'+esc(L(l.topic))+'</div>'+
+                (l.absentIds && l.absentIds.length? '<div class="tiny muted" style="margin-top:3px">'+t('absent')+': '+
+                   esc(l.absentIds.map(id=>byId(DB.students,id).firstName).join(', '))+'</div>':'')+
+                ((l.remarks||[]).length? '<div class="tiny" style="margin-top:3px;color:var(--brand-700)">'+
+                   esc(l.remarks.map(r=>byId(DB.students,r.studentId).firstName+': '+L(r.text)).join(' · '))+'</div>':'')
+              : '<div class="tiny faint" style="margin-top:2px">'+t('lesson_not_recorded')+'</div>')+
+          '</div>'+
+          (mine? '<button class="btn sm '+(l?'':'primary')+'" data-act="lesson-open" data-c="'+c.id+'" data-p="'+p.id+'" data-d="'+date+'">'+
+            icon(l?'edit':'plus',14)+(l? t('edit') : t('record_lesson'))+'</button>' : '')+
+        '</div>';
+      }).join('') : '<p class="small muted">'+t('no_lessons_today')+'</p>')+
+    '</div></div>';
+}
+
+function modalLesson(classId, periodId, date){
+  const p=DB.periods.find(x=>x.id===periodId);
+  const l=DB.lessons.find(x=>x.classId===classId && x.date===date && x.periodId===periodId);
+  const sub=byId(DB.subjects,p.subjectId);
+  const kids=studentsOfClass(classId);
+  const absent=l? (l.absentIds||[]) : [];
+  openModal({title:t('record_lesson'), body:
+    '<div class="row" style="gap:9px;margin-bottom:14px;flex-wrap:wrap">'+
+      '<span class="chip brand">'+esc(L(sub.name))+'</span>'+
+      '<span class="chip">'+t('period')+' '+p.order+' · '+esc(p.start)+'</span>'+
+      '<span class="tiny muted">'+esc(fmtDate(date,'long'))+'</span></div>'+
+    '<div class="field"><label class="fl">'+t('lesson_topic')+'</label>'+
+      '<input type="text" id="lsTopic" value="'+esc(l?L(l.topic):'')+'" placeholder="'+t('lesson_topic_ph')+'"></div>'+
+    '<div class="field"><label class="fl">'+t('lesson_note')+'</label>'+
+      '<input type="text" id="lsNote" value="'+esc(l&&l.note?L(l.note):'')+'" placeholder="'+t('lesson_note_ph')+'"></div>'+
+    '<div class="field"><label class="fl">'+t('homework')+'</label>'+
+      '<input type="text" id="lsHw" value="'+esc(l&&l.homework?L(l.homework):'')+'" placeholder="'+t('lesson_hw_ph')+'"></div>'+
+    '<div class="field"><label class="fl">'+t('absent_this_lesson')+'</label>'+
+      '<div class="row wrap" style="gap:7px">'+kids.map(s=>
+        '<button class="chip '+(absent.indexOf(s.id)>=0?'err':'')+'" data-act="lesson-absent" data-v="'+s.id+'" '+
+        'style="cursor:pointer;border:1px solid var(--border)">'+esc(s.firstName)+'</button>').join('')+
+      '</div><input type="hidden" id="lsAbsent" value="'+esc(absent.join(','))+'"></div>'+
+    '<div class="divider"></div>'+
+    '<div class="tiny faint" style="font-weight:600;margin-bottom:7px">'+t('lesson_remark')+'</div>'+
+    '<div class="grid g2" style="gap:8px"><select id="lsRemStudent"><option value="">—</option>'+
+      kids.map(s=>'<option value="'+s.id+'">'+esc(s.fullName)+'</option>').join('')+'</select>'+
+      '<input type="text" id="lsRemText" placeholder="'+t('lesson_remark_ph')+'"></div>'+
+    '<p class="tiny faint" style="margin-top:8px">'+t('lesson_visible_note')+'</p>',
+    footer:'<button class="btn" data-act="close-modal">'+t('cancel')+'</button>'+
+      '<button class="btn primary" data-act="lesson-save" data-c="'+classId+'" data-p="'+periodId+'" data-d="'+date+'">'+t('save')+'</button>'});
+}
+
+/* =========================================================================
+   WIRING
+   ========================================================================= */
+Object.assign(VIEWS, {'parent/ditari':ParentDitari, 'teacher/ditari':DitariView, 'admin/ditari':DitariView});
+
+Object.assign(ACTIONS, {
+  'lesson-open':(d)=>{
+    if(!canAccessClass(d.c)){ toast(t('no_access'),'lock'); return; }
+    modalLesson(d.c, d.p, d.d);
+  },
+  'lesson-absent':(d,e)=>{
+    const box=document.getElementById('lsAbsent');
+    const cur=box.value? box.value.split(',').filter(Boolean) : [];
+    const i=cur.indexOf(d.v);
+    if(i>=0) cur.splice(i,1); else cur.push(d.v);
+    box.value=cur.join(',');
+    const btn=e && e.target && e.target.closest ? e.target.closest('button') : null;
+    if(btn) btn.classList.toggle('err', i<0);
+  },
+  'lesson-save':(d)=>{
+    if(!canAccessClass(d.c)){ toast(t('no_access'),'lock'); return; }
+    const v=id=>{ const el=document.getElementById(id); return el? el.value.trim():''; };
+    const topic=v('lsTopic');
+    if(!topic){ toast(t('lesson_topic_required'),'alert'); return; }
+    const p=DB.periods.find(x=>x.id===d.p);
+    const absentIds=v('lsAbsent')? v('lsAbsent').split(',').filter(Boolean) : [];
+    const remStudent=v('lsRemStudent'), remText=v('lsRemText');
+    let l=DB.lessons.find(x=>x.classId===d.c && x.date===d.d && x.periodId===d.p);
+    if(!l){
+      l={id:uuid('ls'+Date.now()), schoolId:DB._ref.SCHOOL, classId:d.c, date:d.d, periodId:d.p,
+         order:p.order, start:p.start, end:p.end, subjectId:p.subjectId, teacherId:p.teacherId,
+         remarks:[], created_at:nowISO()};
+      DB.lessons.push(l);
+    }
+    l.topic=bi(topic);
+    l.note = v('lsNote')? bi(v('lsNote')) : null;
+    l.homework = v('lsHw')? bi(v('lsHw')) : null;
+    l.absentIds=absentIds;
+    l.recordedBy=state.session.teacherId; l.recordedAt=nowISO();
+    if(remStudent && remText){
+      l.remarks=(l.remarks||[]).filter(r=>r.studentId!==remStudent);
+      l.remarks.push({studentId:remStudent, text:bi(remText)});
+      /* a remark is written about a child, so the guardian is told it exists */
+      DB.parentStudent.filter(r=>r.studentId===remStudent).forEach(r=>
+        pushNotification('parent:'+r.parentId,'ditari',
+          'Vërejtje e re në ditar', 'A new remark in the register', '#/parent/ditari'));
+    }
+    audit('lesson.record', d.c+' '+d.d+' p'+p.order);
+    closeModal(); toast(t('lesson_saved'),'checkcircle'); render();
+  }
+});
+
+
+/* =========================================================================
+   MATRICA E SUKSESIT — the grade matrix from the paper register
+   Students down the left, the school's own subjects across the top, grouped
+   by curricular area. Three rows per child: Semestri I, Semestri II, and the
+   final mark. The school edits which subjects it has; nothing is hardcoded.
+   ========================================================================= */
+
+const CONDUCT_LEVELS = [
+  {key:'exemplary',    sq:'Shembullore',  en:'Exemplary',    tone:'ok'},
+  {key:'very_good',    sq:'Shumë e mirë', en:'Very good',    tone:'ok'},
+  {key:'good',         sq:'E mirë',       en:'Good',         tone:'info'},
+  {key:'satisfactory', sq:'E kënaqshme',  en:'Satisfactory', tone:'warn'}
+];
+function conductLabel(k){ const c=CONDUCT_LEVELS.find(x=>x.key===k); return c? (state.lang==='sq'?c.sq:c.en) : '—'; }
+function conductOf(studentId, termId){
+  return DB.conduct.find(c=>c.studentId===studentId && c.termId===termId) || null;
+}
+
+function termGrade(studentId, subjectId, termId){
+  return DB.termGrades.find(g=>g.studentId===studentId && g.subjectId===subjectId && g.termId===termId) || null;
+}
+/* the final mark is the average of the two terms, and can be overridden */
+function finalMark(studentId, subjectId){
+  const over=DB.termGrades.find(g=>g.studentId===studentId && g.subjectId===subjectId && g.termId==='final');
+  if(over) return {value:over.value, overridden:true};
+  const a=termGrade(studentId,subjectId,DB.terms[0].id), b=termGrade(studentId,subjectId,DB.terms[1].id);
+  if(!a || !b) return {value:null, overridden:false, pending:true};
+  return {value: Math.round((a.value+b.value)/2), overridden:false};
+}
+function studentTermAverage(studentId, classId, termId){
+  const subs=subjectsForClass(classId);
+  const vals=subs.map(s=>termGrade(studentId,s.id,termId)).filter(Boolean).map(g=>g.value);
+  return vals.length? vals.reduce((a,b)=>a+b,0)/vals.length : null;
+}
+function successLabel(avg){
+  if(avg==null) return {text:'—', tone:''};
+  const sq=state.lang==='sq';
+  if(avg>=4.5) return {text: sq?'Shkëlqyeshëm':'Excellent',   tone:'ok'};
+  if(avg>=3.5) return {text: sq?'Shumë mirë':'Very good',     tone:'ok'};
+  if(avg>=2.5) return {text: sq?'Mirë':'Good',                tone:'info'};
+  if(avg>=1.5) return {text: sq?'Mjaftueshëm':'Satisfactory', tone:'warn'};
+  return {text: sq?'Pamjaftueshëm':'Insufficient', tone:'err'};
+}
+
+/* ---------- the grid ---------- */
+const MATRIX_ROWS=[
+  {key:'t1', label:'I'},
+  {key:'t2', label:'II'},
+  {key:'np', label:'N.P'}
+];
+function matrixRowTerm(key){
+  return key==='t1' ? DB.terms[0].id : (key==='t2' ? DB.terms[1].id : 'final');
+}
+
+function matrixPanel(c){
+  const kids=studentsOfClass(c.id);
+  const rows=classSubjectRows(c.id);
+  const subs=rows.map(r=>byId(DB.subjects,r.subjectId)).filter(Boolean);
+  const areas=DB.areas.slice().sort((a,b)=>a.ordinal-b.ordinal)
+    .map(a=>({area:a, subs:subs.filter(s=>s.areaId===a.id)}))
+    .filter(g=>g.subs.length);
+  const canEdit = state.session.role==='admin' || canAccessClass(c.id);
+  const filled = kids.length*subs.length? Math.round(
+    kids.reduce((n,k)=>n+subs.filter(s=>termGrade(k.id,s.id,DB.terms[0].id)).length,0) / (kids.length*subs.length)*100) : 0;
+
+  const head =
+    '<thead>'+
+      '<tr>'+
+        '<th class="mx-stick mx-no" rowspan="2">'+t('nr')+'</th>'+
+        '<th class="mx-stick mx-name" rowspan="2">'+t('student_and_parent')+'</th>'+
+        '<th class="mx-stick mx-term" rowspan="2"></th>'+
+        areas.map(g=>'<th colspan="'+g.subs.length+'" class="mx-area">'+esc(L(g.area.name))+'</th>').join('')+
+        '<th colspan="3" class="mx-area">'+t('summary')+'</th>'+
+      '</tr>'+
+      '<tr>'+
+        areas.flatMap(g=>g.subs.map(s=>
+          '<th class="mx-sub"><span>'+esc(L(s.name))+'</span></th>')).join('')+
+        '<th class="mx-sub"><span>'+t('term_average')+'</span></th>'+
+        '<th class="mx-sub"><span>'+t('success')+'</span></th>'+
+        '<th class="mx-sub"><span>'+t('conduct')+'</span></th>'+
+      '</tr>'+
+    '</thead>';
+
+  const flatSubs=areas.flatMap(g=>g.subs);
+  const body='<tbody>'+kids.map((st,i)=>
+    MATRIX_ROWS.map((r,ri)=>{
+      const termId=matrixRowTerm(r.key);
+      const isFinal=r.key==='np';
+      const avg=isFinal? null : studentTermAverage(st.id,c.id,termId);
+      const cond=isFinal? null : conductOf(st.id,termId);
+      return '<tr class="mx-row'+(ri===2?' mx-last':'')+(i%2?' mx-alt':'')+'">'+
+        (ri===0? '<td class="mx-stick mx-no" rowspan="3"><div class="mono-num">'+(i+1)+'</div>'+
+                 '<div class="tiny faint mono-num">'+esc(st.registerNo||'')+'</div></td>' : '')+
+        (ri===0? '<td class="mx-stick mx-name" rowspan="3">'+
+                 '<div style="font-family:var(--ui);font-weight:600;font-size:13px">'+esc(registerName(st.id))+'</div>'+
+                 '<div class="tiny faint">'+esc(guardianNames(st.id))+'</div></td>' : '')+
+        '<td class="mx-stick mx-term">'+r.label+'</td>'+
+        flatSubs.map(s=>{
+          if(isFinal){
+            const f=finalMark(st.id,s.id);
+            return '<td class="mx-cell mx-np">'+(f.value==null?'':
+              '<span class="mx-mark '+markTone(c,f.value)+'">'+esc(markLabel(c,f.value))+'</span>')+'</td>';
+          }
+          const g=termGrade(st.id,s.id,termId);
+          return '<td class="mx-cell'+(canEdit?' mx-edit':'')+'"'+
+            (canEdit? ' data-act="mx-cell" data-s="'+st.id+'" data-sub="'+s.id+'" data-t="'+termId+'" data-c="'+c.id+'" tabindex="0"':'')+'>'+
+            (g? '<span class="mx-mark '+markTone(c,g.value)+'">'+esc(markLabel(c,g.value))+'</span>' : '')+'</td>';
+        }).join('')+
+        (isFinal
+          ? '<td class="mx-cell mx-np"></td><td class="mx-cell mx-np"></td><td class="mx-cell mx-np"></td>'
+          : '<td class="mx-cell mono-num">'+(avg==null?'':avg.toFixed(2))+'</td>'+
+            '<td class="mx-cell"><span class="tiny">'+(avg==null?'':esc(successLabel(avg).text))+'</span></td>'+
+            '<td class="mx-cell'+(canEdit?' mx-edit':'')+'"'+
+              (canEdit? ' data-act="mx-conduct" data-s="'+st.id+'" data-t="'+termId+'"':'')+'>'+
+              '<span class="tiny">'+esc(cond? conductLabel(cond.value) : '')+'</span></td>')+
+      '</tr>';
+    }).join('')
+  ).join('')+'</tbody>';
+
+  return '<div class="rowb" style="margin-bottom:12px;gap:9px;flex-wrap:wrap">'+
+      '<div class="row" style="gap:9px;flex-wrap:wrap">'+
+        '<span class="chip brand">'+esc(c.name)+'</span>'+
+        '<span class="chip">'+kids.length+' '+t('students').toLowerCase()+'</span>'+
+        '<span class="chip">'+subs.length+' '+t('subjects').toLowerCase()+'</span>'+
+        '<span class="chip '+(filled>90?'ok':'warn')+'">'+filled+'% '+t('filled').toLowerCase()+'</span>'+
+      '</div>'+
+      '<div class="row" style="gap:8px">'+
+        (canEdit? '<button class="btn" data-act="mx-fill" data-c="'+c.id+'">'+icon('edit',15)+t('fill_column')+'</button>':'')+
+        (state.session.role==='admin'? '<a class="btn" href="#/admin/subjects?c='+c.id+'">'+icon('layers',15)+t('manage_subjects')+'</a>':'')+
+        '<button class="btn" data-act="print-page">'+icon('download',15)+t('print')+'</button>'+
+      '</div>'+
+    '</div>'+
+    '<p class="tiny faint" style="margin-bottom:10px">'+t('matrix_hint')+'</p>'+
+    '<div class="card"><div class="mx-wrap"><table class="mx">'+head+body+'</table></div></div>';
+}
+
+/* the paper register writes the child, then the parent's name, then the surname */
+function registerName(studentId){
+  const st=byId(DB.students,studentId);
+  const rows=DB.parentStudent.filter(r=>r.studentId===studentId);
+  const primary=(rows.find(r=>r.isPrimary)||rows[0]);
+  const p=primary? byId(DB.parents,primary.parentId) : null;
+  const pFirst=p? p.name.split(' ')[0] : '';
+  return [st.firstName, pFirst, st.lastName].filter(Boolean).join(' ');
+}
+function guardianNames(studentId){
+  return DB.parentStudent.filter(r=>r.studentId===studentId)
+    .map(r=>{ const p=byId(DB.parents,r.parentId); return p? p.name : ''; })
+    .filter(Boolean).join(' · ');
+}
+
+/* ---------- one cell ---------- */
+function modalCell(studentId, subjectId, termId, classId){
+  const st=byId(DB.students,studentId), sub=byId(DB.subjects,subjectId),
+        term=byId(DB.terms,termId), cls=byId(DB.classes,classId);
+  const cur=termGrade(studentId,subjectId,termId);
+  const opts=[5,4,3,2,1].map(v=>
+    '<button class="mark-opt '+(cur&&cur.value===v?'on':'')+'" data-act="mx-set" '+
+    'data-s="'+studentId+'" data-sub="'+subjectId+'" data-t="'+termId+'" data-c="'+classId+'" data-v="'+v+'">'+
+    '<span class="mark-n">'+v+'</span><span class="mark-l">'+esc(markLabel(cls,v))+'</span></button>').join('');
+  openModal({title:esc(L(sub.name)), body:
+    '<div class="row" style="gap:10px;margin-bottom:14px">'+avatar(st.fullName,38,st.id)+
+      '<div><div style="font-family:var(--ui);font-weight:700">'+esc(st.fullName)+'</div>'+
+      '<div class="tiny muted">'+esc(cls.name)+' · '+esc(L(term.name))+'</div></div></div>'+
+    '<div class="mark-grid">'+opts+'</div>',
+    footer:'<button class="btn" data-act="close-modal">'+t('cancel')+'</button>'+
+      (cur? '<button class="btn ghost" data-act="mx-clear" data-s="'+studentId+'" data-sub="'+subjectId+'" data-t="'+termId+'">'+t('remove')+'</button>':'')});
+}
+
+/* ---------- a whole column at once, which is how a teacher actually works ---------- */
+function modalFillColumn(classId){
+  const cls=byId(DB.classes,classId);
+  const subs=subjectsForClass(classId);
+  const subId=state.ui.mxSubject || subs[0].id;
+  const termId=state.ui.mxTerm || DB.terms[0].id;
+  const kids=studentsOfClass(classId);
+  openModal({title:t('fill_column'), body:
+    '<div class="grid g2" style="gap:10px">'+
+      '<div class="field" style="margin:0"><label class="fl">'+t('subject')+'</label>'+
+        '<select id="mxSub" data-act="mx-ctx" data-c="'+classId+'">'+subs.map(s=>
+          '<option value="'+s.id+'"'+(s.id===subId?' selected':'')+'>'+esc(L(s.name))+'</option>').join('')+'</select></div>'+
+      '<div class="field" style="margin:0"><label class="fl">'+t('term')+'</label>'+
+        '<select id="mxTerm" data-act="mx-ctx" data-c="'+classId+'">'+DB.terms.map(x=>
+          '<option value="'+x.id+'"'+(x.id===termId?' selected':'')+'>'+esc(L(x.name))+'</option>').join('')+'</select></div>'+
+    '</div><div class="divider"></div>'+
+    kids.map(st=>{
+      const g=termGrade(st.id,subId,termId);
+      return '<div class="list-row"><div class="row" style="gap:9px;flex:1;min-width:0">'+avatar(st.fullName,30,st.id)+
+        '<span style="font-family:var(--ui);font-weight:600;font-size:13px">'+esc(st.fullName)+'</span></div>'+
+        '<div class="seg sm">'+[1,2,3,4,5].map(v=>
+          '<button class="'+(g&&g.value===v?'on':'')+'" data-act="mx-set" data-s="'+st.id+'" data-sub="'+subId+'" '+
+          'data-t="'+termId+'" data-c="'+classId+'" data-keep="1" data-v="'+v+'">'+v+'</button>').join('')+'</div></div>';
+    }).join(''),
+    footer:'<button class="btn primary" data-act="close-modal">'+t('done')+'</button>'});
+}
+
+/* ---------- the school's own subject list ---------- */
+function AdminSubjectsManage(){
+  const classes=DB.classes.filter(c=>c.stage==='primary');
+  const c=classes.find(x=>x.id===state.params.c) || classes[0];
+  const areas=DB.areas.slice().sort((a,b)=>a.ordinal-b.ordinal);
+  const chosen=classSubjectRows(c.id).map(r=>r.subjectId);
+  return '<div class="rowb" style="margin-bottom:14px;gap:10px;flex-wrap:wrap">'+
+      '<div><h1 style="font-size:20px">'+t('manage_subjects')+'</h1>'+
+      '<div class="tiny muted">'+t('subjects_hint')+'</div></div>'+
+      '<button class="btn primary" data-act="subject-new">'+icon('plus',16)+t('add_subject')+'</button></div>'+
+    '<div class="pill-tabs" style="margin-bottom:14px">'+classes.map(x=>
+      '<a class="'+(x.id===c.id?'on':'')+'" href="#/admin/subjects?c='+x.id+'" style="padding:9px 14px;border-radius:999px;'+
+      'font-family:var(--ui);font-weight:600;font-size:13px;text-decoration:none;'+
+      (x.id===c.id?'background:var(--surface);box-shadow:var(--sh-1);color:var(--text)':'color:var(--muted)')+'">'+
+      esc(x.name)+'</a>').join('')+'</div>'+
+    areas.map(a=>{
+      const list=DB.subjects.filter(s=>s.areaId===a.id).sort((x,y)=>x.ordinal-y.ordinal);
+      if(!list.length) return '';
+      return '<div class="card" style="margin-bottom:12px"><div class="card-h"><h3>'+esc(L(a.name))+'</h3>'+
+        '<span class="tiny faint">'+list.filter(s=>chosen.includes(s.id)).length+'/'+list.length+'</span></div>'+
+        '<div class="card-b" style="padding-top:6px">'+list.map(s=>{
+          const on=chosen.includes(s.id);
+          const used=DB.termGrades.filter(g=>g.subjectId===s.id && g.classId===c.id).length;
+          return '<div class="list-row">'+
+            '<button class="chip '+(on?'ok':'')+'" data-act="cs-toggle" data-c="'+c.id+'" data-sub="'+s.id+'" '+
+              'style="cursor:pointer;min-width:34px;justify-content:center">'+icon(on?'check':'plus',13)+'</button>'+
+            '<div class="mood-badge" style="background:var(--brand-50);color:var(--brand)">'+icon(s.icon,16)+'</div>'+
+            '<div style="flex:1;min-width:0"><div style="font-family:var(--ui);font-weight:600;font-size:13.5px">'+esc(L(s.name))+'</div>'+
+            '<div class="tiny muted">'+(on? used+' '+t('marks_count').toLowerCase() : t('not_in_class'))+'</div></div>'+
+            '<button class="btn sm ghost" data-act="subject-edit" data-sub="'+s.id+'">'+icon('edit',14)+'</button>'+
+          '</div>';
+        }).join('')+'</div></div>';
+    }).join('');
+}
+
+function modalSubject(subjectId){
+  const s=subjectId? byId(DB.subjects,subjectId) : null;
+  const areas=DB.areas.slice().sort((a,b)=>a.ordinal-b.ordinal);
+  openModal({title: s? t('edit')+' · '+esc(L(s.name)) : t('add_subject'), body:
+    '<div class="field"><label class="fl">'+t('name')+' (SQ)</label>'+
+      '<input type="text" id="sjSq" value="'+esc(s? s.name.sq : '')+'" placeholder="p.sh. Edukatë Muzikore"></div>'+
+    '<div class="field"><label class="fl">'+t('name')+' (EN)</label>'+
+      '<input type="text" id="sjEn" value="'+esc(s? s.name.en : '')+'" placeholder="e.g. Music"></div>'+
+    '<div class="field" style="margin-bottom:0"><label class="fl">'+t('curricular_area')+'</label>'+
+      '<select id="sjArea">'+areas.map(a=>'<option value="'+a.id+'"'+(s&&s.areaId===a.id?' selected':'')+'>'+
+        esc(L(a.name))+'</option>').join('')+'</select></div>',
+    footer:'<button class="btn" data-act="close-modal">'+t('cancel')+'</button>'+
+      '<button class="btn primary" data-act="subject-save"'+(s?' data-sub="'+s.id+'"':'')+'>'+t('save')+'</button>'});
+}
+
+/* =========================================================================
+   WIRING
+   ========================================================================= */
+Object.assign(VIEWS, {'admin/subjects':AdminSubjectsManage});
+
+Object.assign(ACTIONS, {
+  'mx-cell':(d)=>{ if(!canAccessClass(d.c) && state.session.role!=='admin'){ toast(t('no_access'),'lock'); return; }
+    modalCell(d.s,d.sub,d.t,d.c); },
+  'mx-set':(d)=>{
+    if(!canAccessClass(d.c) && state.session.role!=='admin'){ toast(t('no_access'),'lock'); return; }
+    const v=Number(d.v);
+    let g=termGrade(d.s,d.sub,d.t);
+    if(g) g.value=v;
+    else DB.termGrades.push({id:uuid('tg'+Date.now()+d.s+d.sub), schoolId:DB._ref.SCHOOL,
+      studentId:d.s, classId:d.c, subjectId:d.sub, termId:d.t, value:v,
+      recordedBy:state.session.teacherId, recordedAt:nowISO()});
+    audit('termgrade.set', d.s+' '+d.sub+' = '+v);
+    if(d.keep){ modalFillColumn(d.c); } else { closeModal(); }
+    render();
+  },
+  'mx-clear':(d)=>{
+    const i=DB.termGrades.findIndex(g=>g.studentId===d.s && g.subjectId===d.sub && g.termId===d.t);
+    if(i>=0) DB.termGrades.splice(i,1);
+    audit('termgrade.clear', d.s+' '+d.sub);
+    closeModal(); render();
+  },
+  'mx-conduct':(d)=>{
+    const cur=conductOf(d.s,d.t);
+    const idx=CONDUCT_LEVELS.findIndex(x=>cur && x.key===cur.value);
+    const next=CONDUCT_LEVELS[(idx+1) % CONDUCT_LEVELS.length];
+    if(cur) cur.value=next.key;
+    else DB.conduct.push({id:uuid('cd'+Date.now()+d.s), studentId:d.s, termId:d.t, value:next.key});
+    render();
+  },
+  'mx-fill':(d)=>{ state.ui.mxSubject=null; state.ui.mxTerm=null; modalFillColumn(d.c); },
+  'mx-ctx':(d)=>{
+    const s=document.getElementById('mxSub'), t2=document.getElementById('mxTerm');
+    state.ui.mxSubject=s? s.value : null;
+    state.ui.mxTerm=t2? t2.value : null;
+    modalFillColumn(d.c);
+  },
+
+  /* the school's subject list */
+  'cs-toggle':(d)=>{
+    const i=DB.classSubjects.findIndex(cs=>cs.classId===d.c && cs.subjectId===d.sub);
+    if(i>=0){
+      const used=DB.termGrades.some(g=>g.classId===d.c && g.subjectId===d.sub);
+      if(used){ toast(t('subject_in_use'),'alert'); return; }
+      DB.classSubjects.splice(i,1);
+      audit('class_subject.remove', d.c+' '+d.sub);
+    } else {
+      const n=DB.classSubjects.filter(cs=>cs.classId===d.c).length;
+      DB.classSubjects.push({id:uuid('cs'+Date.now()), schoolId:DB._ref.SCHOOL, classId:d.c,
+        subjectId:d.sub, ordinal:n+1, teacherId:byId(DB.classes,d.c).homeroomTeacherId});
+      audit('class_subject.add', d.c+' '+d.sub);
+    }
+    render();
+  },
+  'subject-new':()=>modalSubject(null),
+  'subject-edit':(d)=>modalSubject(d.sub),
+  'subject-save':(d)=>{
+    const v=id=>{ const e=document.getElementById(id); return e? e.value.trim():''; };
+    const sq=v('sjSq'), en=v('sjEn')||sq, areaId=v('sjArea');
+    if(!sq){ toast(t('row_error_fields'),'alert'); return; }
+    if(d.sub){
+      const s=byId(DB.subjects,d.sub);
+      s.name={sq,en}; s.areaId=areaId;
+      audit('subject.edit', sq);
+    } else {
+      DB.subjects.push({id:uuid('subj'+Date.now()), schoolId:DB._ref.SCHOOL,
+        key:sq.toLowerCase().replace(/\s+/g,'_').slice(0,16), name:{sq,en}, icon:'book',
+        areaId, ordinal:DB.subjects.length+1, active:true, created_at:nowISO()});
+      audit('subject.create', sq);
+    }
+    closeModal(); toast(t('saved'),'checkcircle'); render();
+  }
+});
+
+
+/* =========================================================================
+   STAFI — adding staff and assigning them to classes
+   A member of staff is a user, a staff record, and a set of assignments.
+   The assignments are what the access rules read, so this screen is the one
+   that decides who can reach which children.
+   ========================================================================= */
+
+const STAFF_KINDS=[
+  {key:'educator', stage:'early',   sq:'Edukator/e',        en:'Early years educator'},
+  {key:'homeroom', stage:'primary', sq:'Mësues/e i klasës', en:'Class teacher'},
+  {key:'subject',  stage:'primary', sq:'Mësues/e lënde',    en:'Subject teacher'}
+];
+function staffAssignments(teacherId){
+  return DB.teacherClass.filter(r=>r.teacherId===teacherId);
+}
+function staffIsActive(tt){ const u=byId(DB.users,tt.userId); return !u || u.active!==false; }
+
+/* ---------- list ---------- */
+function AdminStaff(){
+  const rows=DB.teachers.map(tt=>{
+    const u=byId(DB.users,tt.userId), cls=teacherClasses(tt.id);
+    const off=!staffIsActive(tt);
+    return '<tr'+(off?' style="opacity:.55"':'')+'>'+
+      '<td><a href="#/admin/staff?s='+tt.id+'" class="row" style="gap:9px;text-decoration:none;color:inherit">'+
+        avatar(u.name,30,tt.id)+'<b style="font-family:var(--ui)">'+esc(u.name)+'</b>'+
+        (off? '<span class="chip">'+t('inactive')+'</span>':'')+'</a></td>'+
+      '<td class="muted">'+esc(L(tt.title))+'</td><td class="muted">'+esc(u.email)+'</td>'+
+      '<td>'+(cls.length? cls.map(c=>'<span class="chip" style="margin-right:4px">'+esc(c.shortName||c.name)+'</span>').join('')
+             : '<span class="tiny faint">'+t('no_assignments')+'</span>')+'</td>'+
+      '<td><a class="btn sm ghost" href="#/admin/staff?s='+tt.id+'">'+icon('chevron',14)+'</a></td></tr>';
+  });
+  const unassigned=DB.teachers.filter(tt=>!staffAssignments(tt.id).length).length;
+  return adminTable([t('teacher'),t('role'),'Email',t('nav_classes'),''], rows,
+    '<button class="btn primary" data-act="staff-new">'+icon('plus',16)+t('add_staff')+'</button>',
+    DB.teachers.length+' '+t('teaching_staff').toLowerCase()+
+      (unassigned? ' · '+unassigned+' '+t('without_class').toLowerCase() : ''));
+}
+
+/* ---------- one member of staff ---------- */
+function AdminStaffDetail(){
+  const tt=byId(DB.teachers, state.params.s);
+  if(!tt) return notFoundView();
+  const u=byId(DB.users,tt.userId);
+  const rows=staffAssignments(tt.id);
+  const subs=(tt.subjects||[]).map(id=>byId(DB.subjects,id)).filter(Boolean);
+  const off=!staffIsActive(tt);
+  return '<div class="rowb" style="margin-bottom:14px;gap:9px;flex-wrap:wrap">'+
+      '<a class="btn sm" href="#/admin/teachers">'+icon('chevronL',15)+t('teaching_staff')+'</a>'+
+      '<div class="row" style="gap:8px">'+
+        '<button class="btn sm" data-act="kidphoto-open" data-s="'+tt.id+'">'+icon('camera',15)+t('change_photo')+'</button>'+
+        '<button class="btn sm" data-act="staff-edit" data-s="'+tt.id+'">'+icon('edit',15)+t('edit')+'</button>'+
+        '<button class="btn sm ghost" data-act="staff-toggle" data-s="'+tt.id+'">'+
+          icon(off?'check':'lock',15)+(off? t('activate') : t('deactivate'))+'</button>'+
+      '</div></div>'+
+    '<div class="card"><div class="card-b">'+
+      '<div class="row" style="gap:14px;flex-wrap:wrap">'+avatar(u.name,54,tt.id)+
+        '<div style="flex:1;min-width:180px"><h2>'+esc(u.name)+(off?' <span class="chip">'+t('inactive')+'</span>':'')+'</h2>'+
+        '<div class="small muted">'+esc(L(tt.title))+'</div>'+
+        '<div class="tiny faint" style="margin-top:3px">'+esc(u.email)+(tt.phone? ' · '+esc(tt.phone):'')+'</div></div>'+
+      '</div>'+
+      (subs.length? '<div class="row wrap" style="gap:6px;margin-top:13px">'+
+        subs.map(s=>'<span class="chip brand">'+esc(L(s.name))+'</span>').join('')+'</div>':'')+
+    '</div></div>'+
+    sectionHead(t('assignments'),
+      '<button class="btn sm primary" data-act="assign-new" data-s="'+tt.id+'">'+icon('plus',15)+t('assign_class')+'</button>')+
+    '<div class="card"><div class="card-b" style="padding-top:6px">'+
+      (rows.length? rows.map(r=>{
+        const c=byId(DB.classes,r.classId), sj=r.subjectId? byId(DB.subjects,r.subjectId) : null;
+        return '<div class="list-row">'+
+          '<span class="chip '+(r.role==='homeroom'?'brand':'')+'">'+
+            t(r.role==='homeroom' ? (c.stage==='early'?'educator':'homeroom_role') : 'subject_role')+'</span>'+
+          '<div style="flex:1;min-width:0"><div style="font-family:var(--ui);font-weight:600;font-size:13.5px">'+esc(c.name)+'</div>'+
+          '<div class="tiny muted">'+(sj? esc(L(sj.name)) : t('all_subjects'))+' · '+studentsOfClass(c.id).length+' '+t('students').toLowerCase()+'</div></div>'+
+          '<button class="btn sm ghost" data-act="assign-del" data-v="'+r.id+'" data-s="'+tt.id+'">'+icon('trash',14)+'</button>'+
+        '</div>';
+      }).join('') : '<p class="small faint">'+t('no_assignments_hint')+'</p>')+
+    '</div></div>'+
+    '<div class="notice privacy" style="margin-top:14px">'+icon('lock',16)+'<span>'+t('assignments_privacy')+'</span></div>';
+}
+
+/* ---------- modals ---------- */
+function modalStaff(teacherId){
+  const tt=teacherId? byId(DB.teachers,teacherId) : null;
+  const u=tt? byId(DB.users,tt.userId) : null;
+  const kind=tt ? (tt.stage==='early' ? 'educator'
+        : (staffAssignments(tt.id).some(r=>r.role==='homeroom') ? 'homeroom' : 'subject')) : 'educator';
+  openModal({title: tt? t('edit')+' · '+esc(u.name) : t('add_staff'), body:
+    '<div class="grid g2" style="gap:12px">'+
+      '<div class="field" style="margin:0"><label class="fl">'+t('name')+'</label>'+
+        '<input type="text" id="sfName" value="'+esc(u?u.name:'')+'" placeholder="p.sh. Albina Sylejmani"></div>'+
+      '<div class="field" style="margin:0"><label class="fl">'+t('phone')+'</label>'+
+        '<input type="text" id="sfPhone" value="'+esc(tt?tt.phone||'':'')+'" placeholder="+383 4x xxx xxx"></div>'+
+    '</div>'+
+    '<div class="field" style="margin-top:12px"><label class="fl">Email</label>'+
+      '<input type="email" id="sfEmail" value="'+esc(u?u.email:'')+'"></div>'+
+    '<div class="field"><label class="fl">'+t('role')+'</label><select id="sfKind">'+
+      STAFF_KINDS.map(k=>'<option value="'+k.key+'"'+(k.key===kind?' selected':'')+'>'+
+        esc(state.lang==='sq'?k.sq:k.en)+'</option>').join('')+'</select></div>'+
+    '<div class="field" style="margin-bottom:0"><label class="fl">'+t('subjects')+'</label>'+
+      '<div class="row wrap" style="gap:6px">'+DB.subjects.slice().sort((a,b)=>a.ordinal-b.ordinal).map(s=>{
+        const on=tt && (tt.subjects||[]).indexOf(s.id)>=0;
+        return '<button class="chip '+(on?'brand':'')+'" data-act="sf-subject" data-v="'+s.id+'" '+
+          'style="cursor:pointer;border:1px solid var(--border)">'+esc(L(s.name))+'</button>';
+      }).join('')+'</div>'+
+      '<input type="hidden" id="sfSubjects" value="'+esc(tt? (tt.subjects||[]).join(',') : '')+'"></div>'+
+    '<div class="notice" style="margin-top:13px">'+icon('bell',16)+'<span>'+t('staff_invite_note')+'</span></div>',
+    footer:'<button class="btn" data-act="close-modal">'+t('cancel')+'</button>'+
+      '<button class="btn primary" data-act="staff-save"'+(tt?' data-s="'+tt.id+'"':'')+'>'+t('save')+'</button>'});
+}
+
+function modalAssign(teacherId){
+  const tt=byId(DB.teachers,teacherId);
+  const classes=DB.classes;
+  const cid=state.ui.asgClass || classes[0].id;
+  const cls=byId(DB.classes,cid);
+  const early=cls.stage==='early';
+  const subs=early? [] : subjectsForClass(cid);
+  openModal({title:t('assign_class'), body:
+    '<div class="field"><label class="fl">'+t('class')+'</label>'+
+      '<select id="asgClass" data-act="asg-ctx" data-s="'+teacherId+'">'+classes.map(c=>
+        '<option value="'+c.id+'"'+(c.id===cid?' selected':'')+'>'+esc(c.name)+'</option>').join('')+'</select></div>'+
+    '<div class="field"><label class="fl">'+t('role')+'</label><select id="asgRole">'+
+      '<option value="homeroom">'+t(early?'educator':'homeroom_role')+'</option>'+
+      (early? '' : '<option value="subject" selected>'+t('subject_role')+'</option>')+
+      '</select></div>'+
+    (early? '' :
+      '<div class="field" style="margin-bottom:0"><label class="fl">'+t('subject')+'</label><select id="asgSubject">'+
+      '<option value="">'+t('all_subjects')+'</option>'+
+      subs.map(s=>'<option value="'+s.id+'">'+esc(L(s.name))+'</option>').join('')+'</select></div>')+
+    (early? '<div class="notice" style="margin-top:12px">'+icon('info',16)+'<span>'+t('early_one_educator')+'</span></div>' : ''),
+    footer:'<button class="btn" data-act="close-modal">'+t('cancel')+'</button>'+
+      '<button class="btn primary" data-act="assign-save" data-s="'+teacherId+'">'+t('save')+'</button>'});
+}
+
+/* =========================================================================
+   WIRING
+   ========================================================================= */
+Object.assign(VIEWS, {'admin/teachers':AdminStaff, 'admin/staff':AdminStaffDetail});
+
+Object.assign(ACTIONS, {
+  'staff-new':()=>modalStaff(null),
+  'staff-edit':(d)=>modalStaff(d.s),
+  'sf-subject':(d,e)=>{
+    const box=document.getElementById('sfSubjects');
+    const cur=box.value? box.value.split(',').filter(Boolean) : [];
+    const i=cur.indexOf(d.v);
+    if(i>=0) cur.splice(i,1); else cur.push(d.v);
+    box.value=cur.join(',');
+    const btn=e && e.target && e.target.closest ? e.target.closest('button') : null;
+    if(btn) btn.classList.toggle('brand', i<0);
+  },
+  'staff-save':(d)=>{
+    if(state.session.role!=='admin'){ toast(t('no_access'),'lock'); return; }
+    const v=id=>{ const el=document.getElementById(id); return el? el.value.trim():''; };
+    const name=v('sfName'), email=v('sfEmail'), phone=v('sfPhone'), kind=v('sfKind');
+    const subjects=v('sfSubjects')? v('sfSubjects').split(',').filter(Boolean) : [];
+    if(!name || !email){ toast(t('row_error_fields'),'alert'); return; }
+    const meta=STAFF_KINDS.find(k=>k.key===kind) || STAFF_KINDS[0];
+    const title={sq:meta.sq, en:meta.en};
+    if(d.s){
+      const tt=byId(DB.teachers,d.s), u=byId(DB.users,tt.userId);
+      u.name=name; u.email=email;
+      tt.title=title; tt.stage=meta.stage; tt.phone=phone; tt.subjects=subjects;
+      audit('staff.edit', name);
+    } else {
+      if(DB.users.some(x=>x.email.toLowerCase()===email.toLowerCase())){ toast(t('email_taken'),'alert'); return; }
+      const uid=uuid('user-staff-'+email);
+      DB.users.push({id:uid, schoolId:DB._ref.SCHOOL, name, email, role:'teacher', active:true, created_at:nowISO()});
+      const tid=uuid('t-'+email);
+      DB.teachers.push({id:tid, userId:uid, schoolId:DB._ref.SCHOOL, title, stage:meta.stage,
+        subjects, phone, created_at:nowISO()});
+      audit('staff.create', name+' ('+kind+')');
+      closeModal(); toast(t('staff_added'),'checkcircle');
+      go('admin/staff?s='+tid); onRoute();
+      return;
+    }
+    closeModal(); toast(t('saved'),'checkcircle'); render();
+  },
+  'staff-toggle':(d)=>{
+    if(state.session.role!=='admin') return;
+    const tt=byId(DB.teachers,d.s), u=byId(DB.users,tt.userId);
+    u.active = u.active===false;
+    audit('staff.'+(u.active?'activate':'deactivate'), u.name);
+    toast(u.active? t('activated') : t('deactivated'));
+    render();
+  },
+
+  'assign-new':(d)=>{ state.ui.asgClass=null; modalAssign(d.s); },
+  'asg-ctx':(d)=>{
+    const sel=document.getElementById('asgClass');
+    state.ui.asgClass = sel? sel.value : null;
+    modalAssign(d.s);
+  },
+  'assign-save':(d)=>{
+    if(state.session.role!=='admin'){ toast(t('no_access'),'lock'); return; }
+    const v=id=>{ const el=document.getElementById(id); return el? el.value:''; };
+    const classId=v('asgClass'), role=v('asgRole')||'subject', subjectId=v('asgSubject')||null;
+    const cls=byId(DB.classes,classId);
+    if(!cls){ toast(t('row_error_fields'),'alert'); return; }
+    const dup=DB.teacherClass.some(r=>r.teacherId===d.s && r.classId===classId &&
+      (r.subjectId||null)===(subjectId||null) && r.role===role);
+    if(dup){ toast(t('already_assigned'),'alert'); return; }
+    DB.teacherClass.push({id:uuid('tc'+Date.now()), teacherId:d.s, classId, role,
+      subjectId: cls.stage==='early' ? null : subjectId});
+    /* the register only ever names one person as homeroom staff */
+    if(role==='homeroom'){
+      const prev=cls.homeroomTeacherId;
+      cls.homeroomTeacherId=d.s;
+      if(prev && prev!==d.s){
+        const i=DB.teacherClass.findIndex(r=>r.teacherId===prev && r.classId===classId && r.role==='homeroom');
+        if(i>=0) DB.teacherClass[i].role='subject';
+      }
+    }
+    audit('staff.assign', d.s+' → '+cls.name+' ('+role+')');
+    closeModal(); toast(t('saved'),'checkcircle'); render();
+  },
+  'assign-del':(d)=>{
+    if(state.session.role!=='admin') return;
+    const i=DB.teacherClass.findIndex(r=>r.id===d.v);
+    if(i<0) return;
+    const r=DB.teacherClass[i], cls=byId(DB.classes,r.classId);
+    if(r.role==='homeroom' && cls.homeroomTeacherId===r.teacherId){
+      const other=DB.teacherClass.find(x=>x.classId===cls.id && x.teacherId!==r.teacherId);
+      if(!other){ toast(t('class_needs_staff'),'alert'); return; }
+      cls.homeroomTeacherId=other.teacherId; other.role='homeroom';
+    }
+    DB.teacherClass.splice(i,1);
+    audit('staff.unassign', r.teacherId+' × '+cls.name);
+    render();
+  }
+});
+
+
+/* =========================================================================
+   HYRJA — how people actually get in
+   Guardians sign in with a one-time code, because they use one phone and
+   nothing to forget. Staff use a password, because they share tablets in the
+   classroom. Nobody self-registers: the school issues the invitation.
+   ========================================================================= */
+
+const CODE_TTL_MIN = 10;          /* a sign-in code is short-lived */
+const INVITE_TTL_DAYS = 7;        /* an invitation letter lasts a week */
+
+function sixDigits(seed){
+  let h=0; const s=String(seed)+'|'+Math.floor(Date.now()/60000);
+  for(let i=0;i<s.length;i++){ h=(h*31 + s.charCodeAt(i))>>>0; }
+  return String(100000 + (h % 900000));
+}
+function inviteCode(seed){
+  const AB='ABCDEFGHJKMNPQRSTUVWXYZ23456789';   /* no O/0, no I/1 */
+  let h=0; const s=String(seed);
+  for(let i=0;i<s.length;i++){ h=(h*33 + s.charCodeAt(i))>>>0; }
+  let out=''; for(let i=0;i<6;i++){ out+=AB[h%AB.length]; h=Math.floor(h/AB.length)+7919*(i+1); }
+  return out.slice(0,3)+'-'+out.slice(3);
+}
+function normalisePhone(v){ return String(v||'').replace(/[^\d]/g,'').slice(-8); }
+
+/* who is this identifier?  Each app only resolves the accounts it is for, so a
+   guardian address entered in the staff app is simply not found, and the wrong
+   door does not tell you that the right one exists. */
+function findAccount(identifier){
+  const v=String(identifier||'').trim().toLowerCase();
+  if(!v) return null;
+  const digits=normalisePhone(v);
+  if(APP_VARIANT==='parent'){
+    const g=DB.parents.find(p=>p.email.toLowerCase()===v ||
+      (digits.length>=6 && normalisePhone(p.phone)===digits));
+    return g? {kind:'guardian', id:g.id, name:g.name, email:g.email, phone:g.phone} : null;
+  }
+  const u=DB.users.find(x=>x.email.toLowerCase()===v);
+  if(u && u.active!==false){
+    if(u.role==='admin') return {kind:'admin', id:u.id, name:u.name, email:u.email};
+    const tt=DB.teachers.find(x=>x.userId===u.id);
+    if(tt) return {kind:'staff', id:tt.id, name:u.name, email:u.email};
+  }
+  return null;
+}
+
+/* ---------- invitations issued by the school ---------- */
+function inviteFor(guardianId){
+  return DB.invites.find(i=>i.guardianId===guardianId) || null;
+}
+function inviteState(guardianId){
+  const g=byId(DB.parents,guardianId);
+  if(g && g.joinedAt) return 'joined';
+  const inv=inviteFor(guardianId);
+  if(!inv) return 'none';
+  return inv.expiresAt < nowISO() ? 'expired' : 'sent';
+}
+function issueInvite(guardianId){
+  const g=byId(DB.parents,guardianId);
+  let inv=inviteFor(guardianId);
+  const exp=new Date(Date.now()+INVITE_TTL_DAYS*86400000).toISOString();
+  if(inv){ inv.code=inviteCode(guardianId+Date.now()); inv.expiresAt=exp; inv.sentAt=nowISO(); }
+  else {
+    inv={id:uuid('inv-'+guardianId), schoolId:DB._ref.SCHOOL, guardianId, email:g.email, phone:g.phone,
+      code:inviteCode(guardianId), sentAt:nowISO(), expiresAt:exp, usedAt:null,
+      createdBy:state.session? state.session.userId : null};
+    DB.invites.push(inv);
+  }
+  audit('invite.issue', g.name);
+  return inv;
+}
+
+/* ---------- the sign-in screen ---------- */
+function authBox(){
+  const a=state.ui.auth||{step:'id'};
+  const back='<button class="linkish" data-act="auth-back">'+icon('chevronL',14)+t('back')+'</button>';
+
+  if(a.step==='code'){
+    return '<div class="field"><label class="fl">'+t('code_sent_to')+'</label>'+
+        '<div class="row" style="gap:8px"><span class="chip brand">'+esc(a.sentTo)+'</span>'+back+'</div></div>'+
+      '<div class="field"><label class="fl">'+t('sign_in_code')+'</label>'+
+        '<input type="text" id="authCode" inputmode="numeric" autocomplete="one-time-code" maxlength="6" '+
+        'placeholder="000000" style="letter-spacing:.34em;font-size:20px;text-align:center;font-family:var(--ui)"></div>'+
+      '<button class="btn primary" style="width:100%;justify-content:center" data-act="auth-verify">'+t('sign_in')+'</button>'+
+      '<div class="notice" style="margin-top:13px">'+icon('info',16)+'<span>'+
+        t('demo_code_is')+' <b style="font-family:var(--ui);letter-spacing:.12em">'+esc(a.code)+'</b>. '+t('demo_code_note')+'</span></div>';
+  }
+
+  if(a.step==='password'){
+    return '<div class="field"><label class="fl">'+t('signing_in_as')+'</label>'+
+        '<div class="row" style="gap:8px"><span class="chip brand">'+esc(a.name)+'</span>'+back+'</div></div>'+
+      '<div class="field"><label class="fl">'+t('password')+'</label>'+
+        '<input type="password" id="authPass" autocomplete="current-password" placeholder="••••••••"></div>'+
+      '<button class="btn primary" style="width:100%;justify-content:center" data-act="auth-password">'+t('sign_in')+'</button>'+
+      '<div class="notice" style="margin-top:13px">'+icon('lock',16)+'<span>'+t('staff_password_note')+'</span></div>';
+  }
+
+  return '<div class="field"><label class="fl">'+t('email_or_phone')+'</label>'+
+      '<input type="text" id="authId" autocomplete="username" placeholder="'+t('email_or_phone_ph')+'"></div>'+
+    '<button class="btn primary" style="width:100%;justify-content:center" data-act="auth-start">'+
+      icon('send',16)+t('send_code')+'</button>'+
+    (a.error? '<div class="notice warn" style="margin-top:12px">'+icon('alert',16)+'<span>'+esc(a.error)+'</span></div>' : '')+
+    '<p class="tiny faint" style="margin-top:12px">'+t('no_self_signup')+'</p>';
+}
+
+/* ---------- the school's invitation list ---------- */
+function AdminInvites(){
+  const guardians=DB.parents.slice().sort((a,b)=>a.name.localeCompare(b.name));
+  const counts={joined:0, sent:0, expired:0, none:0};
+  guardians.forEach(g=>counts[inviteState(g.id)]++);
+  const rows=guardians.map(g=>{
+    const st=inviteState(g.id), inv=inviteFor(g.id);
+    const kids=DB.parentStudent.filter(r=>r.parentId===g.id)
+      .map(r=>byId(DB.students,r.studentId)).filter(Boolean);
+    const chip={joined:['ok','joined'], sent:['info','invited'], expired:['warn','expired'], none:['','not_invited']}[st];
+    return '<tr><td><div class="row" style="gap:9px">'+avatar(g.name,30,g.id)+
+        '<div><b style="font-family:var(--ui)">'+esc(g.name)+'</b>'+
+        '<div class="tiny muted">'+esc(kids.map(k=>k.firstName+' · '+classOf(k).name).join(', '))+'</div></div></div></td>'+
+      '<td class="muted small">'+esc(g.email)+'<div class="tiny faint">'+esc(g.phone||'')+'</div></td>'+
+      '<td><span class="chip '+chip[0]+'">'+t(chip[1])+'</span></td>'+
+      '<td class="mono-num">'+(inv && st!=='joined' ? esc(inv.code) : '')+
+        (inv && st==='sent'? '<div class="tiny faint">'+t('expires')+' '+esc(fmtDate(inv.expiresAt.slice(0,10)))+'</div>':'')+'</td>'+
+      '<td>'+(st==='joined' ? '<span class="tiny faint">'+esc(relDay(g.joinedAt.slice(0,10)))+'</span>'
+        : '<button class="btn sm" data-act="invite-issue" data-v="'+g.id+'">'+icon('send',14)+
+          t(st==='none'?'invite':'reissue')+'</button>')+'</td></tr>';
+  });
+  return '<div class="grid g4" style="margin-bottom:16px">'+
+      '<div class="card"><div class="card-b">'+metric(counts.joined,t('joined'),'ok')+'</div></div>'+
+      '<div class="card"><div class="card-b">'+metric(counts.sent,t('invited'),'info')+'</div></div>'+
+      '<div class="card"><div class="card-b">'+metric(counts.expired,t('expired'),counts.expired?'warn':'')+'</div></div>'+
+      '<div class="card"><div class="card-b">'+metric(counts.none,t('not_invited'),counts.none?'warn':'')+'</div></div>'+
+    '</div>'+
+    '<div class="notice" style="margin-bottom:14px">'+icon('info',16)+'<span>'+t('invites_hint')+'</span></div>'+
+    adminTable([t('parent_name'),t('contact'),t('status'),t('code'),''], rows,
+      '<div class="row" style="gap:8px">'+
+        '<button class="btn" data-act="invite-print">'+icon('download',16)+t('print_letters')+'</button>'+
+        '<button class="btn primary" data-act="invite-all">'+icon('send',16)+t('invite_all')+'</button></div>',
+      guardians.length+' '+t('nav_parents').toLowerCase());
+}
+
+/* one printable slip per guardian, for the September parents' meeting */
+function invitePrintSheet(){
+  const pend=DB.parents.filter(g=>inviteState(g.id)!=='joined');
+  if(!pend.length){ toast(t('nothing_to_print'),'info'); return; }
+  const url=location.origin+location.pathname;
+  const html=pend.map(g=>{
+    const inv=inviteFor(g.id) || issueInvite(g.id);
+    const kids=DB.parentStudent.filter(r=>r.parentId===g.id)
+      .map(r=>byId(DB.students,r.studentId)).filter(Boolean);
+    return '<div class="slip">'+
+      '<div class="slip-h">'+esc(DB.schools[0].name)+'</div>'+
+      '<div class="slip-n">'+esc(g.name)+'</div>'+
+      '<div class="slip-k">'+esc(kids.map(k=>k.fullName+' — '+classOf(k).name).join(' · '))+'</div>'+
+      '<div class="slip-u">'+esc(url)+'</div>'+
+      '<div class="slip-c">'+esc(inv.code)+'</div>'+
+      '<div class="slip-f">'+esc(t('slip_hint'))+'</div>'+
+    '</div>';
+  }).join('');
+  const w=window.open('','_blank');
+  if(!w){ toast(t('popup_blocked'),'alert'); return; }
+  w.document.write('<!doctype html><meta charset="utf-8"><title>'+esc(t('print_letters'))+'</title>'+
+    '<style>body{font-family:system-ui,sans-serif;margin:0;padding:14px;background:#fff;color:#111}'+
+    '.slip{border:1px dashed #999;border-radius:10px;padding:16px 18px;margin:0 0 12px;page-break-inside:avoid}'+
+    '.slip-h{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#666}'+
+    '.slip-n{font-size:19px;font-weight:700;margin-top:6px}'+
+    '.slip-k{font-size:13px;color:#444;margin-top:2px}'+
+    '.slip-u{font-size:13px;margin-top:12px;color:#333}'+
+    '.slip-c{font-size:30px;font-weight:800;letter-spacing:.18em;margin-top:6px}'+
+    '.slip-f{font-size:11px;color:#666;margin-top:10px;max-width:62ch}'+
+    '@media print{.slip{border-style:solid;border-color:#ccc}}</style>'+html);
+  w.document.close();
+  audit('invite.print', pend.length+' slips');
+  setTimeout(()=>{ try{ w.print(); }catch(e){} }, 250);
+}
+
+/* =========================================================================
+   WIRING
+   ========================================================================= */
+Object.assign(VIEWS, {'admin/invites':AdminInvites});
+
+Object.assign(ACTIONS, {
+  'auth-start':()=>{
+    const el=document.getElementById('authId');
+    const v=el? el.value.trim() : '';
+    const acc=findAccount(v);
+    if(!acc){
+      state.ui.auth={step:'id', error:t('account_not_found')};
+      render(); return;
+    }
+    if(acc.kind==='guardian'){
+      const code=sixDigits(acc.id);
+      const isEmail=v.indexOf('@')>=0;
+      state.ui.auth={step:'code', code, target:'parent:'+acc.id, name:acc.name,
+        sentTo: isEmail? acc.email : (acc.phone||acc.email),
+        expiresAt: new Date(Date.now()+CODE_TTL_MIN*60000).toISOString()};
+      audit('auth.code_sent', acc.email);
+    } else {
+      state.ui.auth={step:'password', name:acc.name,
+        target:(acc.kind==='admin'?'admin:':'teacher:')+acc.id};
+    }
+    render();
+  },
+  'auth-back':()=>{ state.ui.auth={step:'id'}; render(); },
+  'auth-verify':()=>{
+    const a=state.ui.auth||{};
+    const el=document.getElementById('authCode');
+    const v=el? el.value.trim() : '';
+    if(a.expiresAt && a.expiresAt < nowISO()){
+      state.ui.auth={step:'id', error:t('code_expired')}; render(); return;
+    }
+    if(v!==a.code){
+      state.ui.auth=Object.assign({},a,{error:t('code_wrong')});
+      toast(t('code_wrong'),'alert'); render(); return;
+    }
+    const g=byId(DB.parents, a.target.split(':')[1]);
+    if(g && !g.joinedAt){ g.joinedAt=nowISO(); const inv=inviteFor(g.id); if(inv) inv.usedAt=nowISO(); }
+    audit('auth.signin','otp');
+    ACTIONS['login-as']({v:a.target});
+  },
+  'auth-password':()=>{
+    const a=state.ui.auth||{};
+    const el=document.getElementById('authPass');
+    const v=el? el.value : '';
+    if(!v){ toast(t('enter_password'),'alert'); return; }
+    audit('auth.signin','password');
+    ACTIONS['login-as']({v:a.target});
+  },
+
+  'invite-issue':(d)=>{
+    if(state.session.role!=='admin'){ toast(t('no_access'),'lock'); return; }
+    const inv=issueInvite(d.v);
+    toast(t('invite_sent')+' · '+inv.code,'send');
+    render();
+  },
+  'invite-all':()=>{
+    if(state.session.role!=='admin'){ toast(t('no_access'),'lock'); return; }
+    const pend=DB.parents.filter(g=>inviteState(g.id)!=='joined' && inviteState(g.id)!=='sent');
+    pend.forEach(g=>issueInvite(g.id));
+    toast(tf('invited_n',{n:pend.length}),'send');
+    render();
+  },
+  'invite-print':()=>{
+    if(state.session.role!=='admin'){ toast(t('no_access'),'lock'); return; }
+    invitePrintSheet();
+  }
+});
+
+
+/* =========================================================================
+   PAGESAT — tuition, extras, invoices and receipts
+   The administration issues the month, records what comes in, and can see who
+   is behind. A guardian sees only their own children's invoices, and only what
+   they owe — never anyone else's balance.
+   ========================================================================= */
+
+const PAY_METHODS=[
+  {key:'bank', sq:'Bankë',   en:'Bank transfer'},
+  {key:'cash', sq:'Kesh',    en:'Cash'},
+  {key:'card', sq:'Kartelë', en:'Card'}
+];
+function methodLabel(k){ const m=PAY_METHODS.find(x=>x.key===k); return m? (state.lang==='sq'?m.sq:m.en) : k; }
+function money(v){ return (Math.round(v*100)/100).toFixed(0)+' €'; }
+function periodLabel(p){
+  const [y,m]=p.split('-'); return MONTHS[state.lang][Number(m)-1]+' '+y;
+}
+function planOf(id){ return DB.feePlans.find(p=>p.id===id) || null; }
+
+/* the tuition line a child falls under, used when they have no history yet —
+   a child enrolled in November still has to be billed in November */
+function defaultPlanFor(student){
+  const cls=classOf(student), lvl=byId(DB.gradeLevels, cls.gradeLevelId);
+  const byKey=k=>DB.feePlans.find(p=>p.active!==false && p.gradeLevelKey===k);
+  if(lvl.ordinal===0) return byKey('kg') || DB.feePlans[0];
+  return (lvl.ordinal<=5 ? byKey('g1') : byKey('g8')) || byKey('kg') || DB.feePlans[0];
+}
+
+/* an invoice is overdue once its due date has passed and nothing has arrived */
+function invoiceStatus(inv){
+  if(inv.status==='paid') return 'paid';
+  const paid=paidOn(inv.id);
+  if(paid>=inv.amount) return 'paid';
+  if(paid>0) return 'part';
+  return inv.dueDate < ymd(today()) ? 'overdue' : 'open';
+}
+function paidOn(invoiceId){
+  return DB.payments.filter(p=>p.invoiceId===invoiceId).reduce((a,p)=>a+p.amount,0);
+}
+const PAY_TONE={paid:'ok', part:'info', open:'', overdue:'err'};
+
+function invoicesForStudent(studentId){
+  return DB.invoices.filter(i=>i.studentId===studentId)
+    .sort((a,b)=>b.period.localeCompare(a.period) || a.dueDate.localeCompare(b.dueDate));
+}
+function balanceForStudent(studentId){
+  return invoicesForStudent(studentId)
+    .reduce((a,i)=>a + Math.max(0, i.amount - paidOn(i.id)), 0);
+}
+function financeTotals(period){
+  const list=DB.invoices.filter(i=>!period || i.period===period);
+  const billed=list.reduce((a,i)=>a+i.amount,0);
+  const collected=list.reduce((a,i)=>a+Math.min(i.amount, paidOn(i.id)),0);
+  const overdue=list.filter(i=>invoiceStatus(i)==='overdue')
+    .reduce((a,i)=>a+(i.amount-paidOn(i.id)),0);
+  return {billed, collected, outstanding:billed-collected, overdue,
+    rate: billed? Math.round(collected/billed*100) : 0, count:list.length};
+}
+function billingPeriods(){
+  return [...new Set(DB.invoices.map(i=>i.period))].sort().reverse();
+}
+
+/* ---------- administration ---------- */
+function AdminFinance(){
+  const periods=billingPeriods();
+  const period=periods.indexOf(state.params.p)>=0 ? state.params.p : periods[0];
+  const tot=financeTotals(period);
+  const filter=state.ui.finFilter||'all';
+  let list=DB.invoices.filter(i=>i.period===period);
+  if(filter!=='all') list=list.filter(i=>invoiceStatus(i)===filter);
+  list=list.sort((a,b)=>{
+    const sa=byId(DB.students,a.studentId), sb=byId(DB.students,b.studentId);
+    return sa.fullName.localeCompare(sb.fullName) || a.dueDate.localeCompare(b.dueDate);
+  });
+  const counts={};
+  ['open','part','overdue','paid'].forEach(k=>
+    counts[k]=DB.invoices.filter(i=>i.period===period && invoiceStatus(i)===k).length);
+
+  const tabs='<div class="pill-tabs" style="margin-bottom:14px">'+periods.slice(0,6).map(p=>
+    '<a class="'+(p===period?'on':'')+'" href="#/admin/finance?p='+p+'" style="padding:9px 14px;border-radius:999px;'+
+    'font-family:var(--ui);font-weight:600;font-size:13px;text-decoration:none;'+
+    (p===period?'background:var(--surface);box-shadow:var(--sh-1);color:var(--text)':'color:var(--muted)')+'">'+
+    esc(periodLabel(p))+'</a>').join('')+'</div>';
+
+  const filters='<div class="row wrap" style="gap:7px;margin-bottom:12px">'+
+    [['all','all_invoices',null],['overdue','overdue',counts.overdue],['open','unpaid',counts.open],
+     ['part','partly_paid',counts.part],['paid','paid',counts.paid]].map(([k,lbl,n])=>
+      '<button class="chip '+(filter===k?'brand':'')+'" data-act="fin-filter" data-v="'+k+'" '+
+      'style="cursor:pointer;border:1px solid var(--border)">'+t(lbl)+(n!=null? ' · '+n : '')+'</button>').join('')+'</div>';
+
+  const rows=list.map(inv=>{
+    const st=byId(DB.students,inv.studentId), pl=planOf(inv.planId);
+    const s=invoiceStatus(inv), paid=paidOn(inv.id);
+    return '<tr><td><div class="row" style="gap:9px">'+avatar(st.fullName,28,st.id)+
+        '<div><b style="font-family:var(--ui)">'+esc(st.fullName)+'</b>'+
+        '<div class="tiny muted">'+esc(classOf(st).name)+'</div></div></div></td>'+
+      '<td class="muted">'+esc(pl? L(pl.name) : '—')+
+        (inv.discount? '<div class="tiny" style="color:var(--ok)">−'+money(inv.discount)+' '+t('sibling_discount')+'</div>':'')+'</td>'+
+      '<td class="mono-num">'+esc(fmtDate(inv.dueDate))+'</td>'+
+      '<td class="mono-num"><b>'+money(inv.amount)+'</b>'+
+        (paid && paid<inv.amount? '<div class="tiny muted">'+t('paid')+' '+money(paid)+'</div>':'')+'</td>'+
+      '<td><span class="chip '+PAY_TONE[s]+'">'+t(s==='part'?'partly_paid':(s==='open'?'unpaid':s))+'</span></td>'+
+      '<td>'+(s==='paid' ? '<span class="tiny faint">'+esc(lastPaymentLabel(inv.id))+'</span>'
+        : '<button class="btn sm primary" data-act="pay-open" data-v="'+inv.id+'">'+icon('check',14)+t('record_payment')+'</button>')+
+      '</td></tr>';
+  });
+
+  return tabs+
+    '<div class="grid g4" style="margin-bottom:16px">'+
+      '<div class="card"><div class="card-b">'+metric(money(tot.billed), t('billed'))+'</div></div>'+
+      '<div class="card"><div class="card-b"><div class="rowb">'+metric(money(tot.collected), t('collected'),'ok')+
+        ring(tot.rate,{size:60,color:'var(--ok)'})+'</div></div></div>'+
+      '<div class="card"><div class="card-b">'+metric(money(tot.outstanding), t('outstanding'), tot.outstanding?'warn':'')+'</div></div>'+
+      '<div class="card"><div class="card-b">'+metric(money(tot.overdue), t('overdue'), tot.overdue?'err':'')+'</div></div>'+
+    '</div>'+
+    '<div class="rowb" style="margin-bottom:12px;gap:9px;flex-wrap:wrap">'+filters+
+      '<div class="row" style="gap:8px">'+
+        '<a class="btn" href="#/admin/fees">'+icon('layers',15)+t('fee_plans')+'</a>'+
+        '<button class="btn" data-act="fin-remind" data-v="'+period+'">'+icon('bell',15)+t('send_reminders')+'</button>'+
+        '<button class="btn primary" data-act="fin-generate">'+icon('plus',15)+t('generate_month')+'</button>'+
+      '</div></div>'+
+    (rows.length? '<div class="card"><div class="table-wrap"><table><thead><tr>'+
+        [t('student'),t('fee'),t('due'),t('amount'),t('status'),''].map(c=>'<th>'+esc(c)+'</th>').join('')+
+      '</tr></thead><tbody>'+rows.join('')+'</tbody></table></div></div>'
+      : '<div class="card"><div class="card-b">'+emptyState('nothing_here','nothing_here_hint','chart')+'</div></div>');
+}
+function lastPaymentLabel(invoiceId){
+  const p=DB.payments.filter(x=>x.invoiceId===invoiceId).sort((a,b)=>b.date.localeCompare(a.date))[0];
+  return p? fmtDate(p.date)+' · '+methodLabel(p.method) : '';
+}
+
+function AdminFees(){
+  const rows=DB.feePlans.map(p=>{
+    const n=DB.invoices.filter(i=>i.planId===p.id).length;
+    const gross=DB.invoices.filter(i=>i.planId===p.id).reduce((a,i)=>a+i.amount,0);
+    return '<tr><td><b style="font-family:var(--ui)">'+esc(L(p.name))+'</b></td>'+
+      '<td class="mono-num"><b>'+money(p.amount)+'</b></td>'+
+      '<td class="muted">'+t(p.period==='monthly'?'monthly':'yearly')+'</td>'+
+      '<td class="mono-num muted">'+n+'</td><td class="mono-num muted">'+money(gross)+'</td>'+
+      '<td><button class="btn sm ghost" data-act="fee-edit" data-v="'+p.id+'">'+icon('edit',14)+'</button></td></tr>';
+  });
+  return '<div class="rowb" style="margin-bottom:14px;gap:10px;flex-wrap:wrap">'+
+      '<div><h1 style="font-size:20px">'+t('fee_plans')+'</h1>'+
+      '<div class="tiny muted">'+t('fees_hint')+'</div></div>'+
+      '<a class="btn" href="#/admin/finance">'+t('back')+'</a></div>'+
+    adminTable([t('fee'),t('amount'),t('period'),t('invoices'),t('billed'),''], rows,
+      '<button class="btn primary" data-act="fee-new">'+icon('plus',16)+t('add_fee')+'</button>',
+      DB.feePlans.length+' '+t('fee_plans').toLowerCase());
+}
+
+function modalPayment(invoiceId){
+  const inv=DB.invoices.find(i=>i.id===invoiceId);
+  const st=byId(DB.students,inv.studentId), pl=planOf(inv.planId);
+  const due=inv.amount-paidOn(inv.id);
+  openModal({title:t('record_payment'), body:
+    '<div class="row" style="gap:10px;margin-bottom:14px">'+avatar(st.fullName,38,st.id)+
+      '<div style="flex:1;min-width:0"><div style="font-family:var(--ui);font-weight:700">'+esc(st.fullName)+'</div>'+
+      '<div class="tiny muted">'+esc(pl?L(pl.name):'')+' · '+esc(periodLabel(inv.period))+'</div></div>'+
+      '<div style="font-family:var(--ui);font-weight:800;font-size:19px">'+money(due)+'</div></div>'+
+    '<div class="grid g2" style="gap:12px">'+
+      '<div class="field" style="margin:0"><label class="fl">'+t('amount')+'</label>'+
+        '<input type="number" id="pyAmount" value="'+due+'" min="1" step="1"></div>'+
+      '<div class="field" style="margin:0"><label class="fl">'+t('date')+'</label>'+
+        '<input type="date" id="pyDate" value="'+ymd(today())+'"></div>'+
+    '</div>'+
+    '<div class="field" style="margin-top:12px"><label class="fl">'+t('method')+'</label><select id="pyMethod">'+
+      PAY_METHODS.map(m=>'<option value="'+m.key+'">'+esc(state.lang==='sq'?m.sq:m.en)+'</option>').join('')+'</select></div>'+
+    '<div class="field" style="margin-bottom:0"><label class="fl">'+t('reference')+'</label>'+
+      '<input type="text" id="pyRef" placeholder="'+t('reference_ph')+'"></div>'+
+    '<div class="notice" style="margin-top:13px">'+icon('bell',16)+'<span>'+t('receipt_note')+'</span></div>',
+    footer:'<button class="btn" data-act="close-modal">'+t('cancel')+'</button>'+
+      '<button class="btn primary" data-act="pay-save" data-v="'+inv.id+'">'+t('save')+'</button>'});
+}
+
+function modalFee(planId){
+  const p=planId? planOf(planId) : null;
+  openModal({title: p? t('edit')+' · '+esc(L(p.name)) : t('add_fee'), body:
+    '<div class="field"><label class="fl">'+t('name')+' (SQ)</label>'+
+      '<input type="text" id="feSq" value="'+esc(p?p.name.sq:'')+'" placeholder="p.sh. Aktivitete jashtëshkollore"></div>'+
+    '<div class="field"><label class="fl">'+t('name')+' (EN)</label>'+
+      '<input type="text" id="feEn" value="'+esc(p?p.name.en:'')+'"></div>'+
+    '<div class="grid g2" style="gap:12px">'+
+      '<div class="field" style="margin:0"><label class="fl">'+t('amount')+' (€)</label>'+
+        '<input type="number" id="feAmount" value="'+(p?p.amount:0)+'" min="0" step="5"></div>'+
+      '<div class="field" style="margin:0"><label class="fl">'+t('period')+'</label><select id="fePeriod">'+
+        '<option value="monthly"'+(p&&p.period==='monthly'?' selected':'')+'>'+t('monthly')+'</option>'+
+        '<option value="yearly"'+(p&&p.period==='yearly'?' selected':'')+'>'+t('yearly')+'</option></select></div>'+
+    '</div>'+
+    (p? '<div class="notice" style="margin-top:13px">'+icon('info',16)+'<span>'+t('fee_change_note')+'</span></div>':''),
+    footer:'<button class="btn" data-act="close-modal">'+t('cancel')+'</button>'+
+      '<button class="btn primary" data-act="fee-save"'+(p?' data-v="'+p.id+'"':'')+'>'+t('save')+'</button>'});
+}
+
+function modalGenerate(){
+  const periods=billingPeriods();
+  const last=periods[0]||'2026-09';
+  const [y,m]=last.split('-').map(Number);
+  const nextM=m===12?1:m+1, nextY=m===12?y+1:y;
+  const next=nextY+'-'+String(nextM).padStart(2,'0');
+  const already=DB.invoices.some(i=>i.period===next);
+  const n=DB.students.length;
+  openModal({title:t('generate_month'), body:
+    '<div class="field"><label class="fl">'+t('period')+'</label>'+
+      '<input type="text" id="gnPeriod" value="'+next+'" placeholder="2026-10"></div>'+
+    '<p class="small muted">'+esc(tf('generate_hint',{n:n}))+'</p>'+
+    (already? '<div class="notice warn" style="margin-top:12px">'+icon('alert',16)+'<span>'+t('period_exists')+'</span></div>':'')+
+    '<div class="notice" style="margin-top:12px">'+icon('info',16)+'<span>'+t('generate_note')+'</span></div>',
+    footer:'<button class="btn" data-act="close-modal">'+t('cancel')+'</button>'+
+      '<button class="btn primary" data-act="gen-save">'+t('generate')+'</button>'});
+}
+
+/* ---------- what a guardian sees ---------- */
+function ParentPayments(){
+  const st=activeChild(); if(!st) return notFoundView();
+  const list=invoicesForStudent(st.id);
+  const owed=balanceForStudent(st.id);
+  const overdue=list.filter(i=>invoiceStatus(i)==='overdue');
+  if(!list.length) return childHeroCard(st)+'<div class="card" style="margin-top:16px"><div class="card-b">'+
+    emptyState('nothing_here','nothing_here_hint','chart')+'</div></div>';
+  return childHeroCard(st)+
+    '<div class="card" style="margin-top:16px'+(owed? ';border-color:'+(overdue.length?'var(--err-50)':'var(--warn-50)') : '')+'">'+
+      '<div class="card-b"><div class="rowb" style="gap:12px;flex-wrap:wrap">'+
+        '<div>'+metric(money(owed), t('balance_due'), owed? (overdue.length?'err':'warn') : 'ok')+
+          '<div class="tiny muted" style="margin-top:5px">'+
+            (owed? esc(tf('invoices_open',{n:list.filter(i=>invoiceStatus(i)!=='paid').length}))
+                 : t('all_settled'))+'</div></div>'+
+        '<div class="tiny faint" style="max-width:34ch;text-align:right">'+t('payments_office_note')+'</div>'+
+      '</div></div></div>'+
+    sectionHead(t('invoices'))+
+    '<div class="card"><div class="card-b" style="padding-top:6px">'+
+      list.map(inv=>{
+        const s=invoiceStatus(inv), pl=planOf(inv.planId), paid=paidOn(inv.id);
+        return '<div class="list-row" style="align-items:flex-start">'+
+          '<span class="chip '+PAY_TONE[s]+'">'+t(s==='part'?'partly_paid':(s==='open'?'unpaid':s))+'</span>'+
+          '<div style="flex:1;min-width:0">'+
+            '<div style="font-family:var(--ui);font-weight:600;font-size:13.5px">'+esc(pl?L(pl.name):'—')+'</div>'+
+            '<div class="tiny muted">'+esc(periodLabel(inv.period))+' · '+t('due')+' '+esc(fmtDate(inv.dueDate))+
+              (inv.discount? ' · <span style="color:var(--ok)">−'+money(inv.discount)+'</span>':'')+'</div>'+
+            (s==='part'? '<div class="tiny muted">'+t('paid')+' '+money(paid)+' '+t('of')+' '+money(inv.amount)+'</div>':'')+
+            (s==='paid'? '<div class="tiny faint">'+esc(lastPaymentLabel(inv.id))+'</div>':'')+
+          '</div>'+
+          '<div style="font-family:var(--ui);font-weight:700;white-space:nowrap">'+money(inv.amount)+'</div>'+
+        '</div>';
+      }).join('')+
+    '</div></div>';
+}
+
+/* =========================================================================
+   WIRING
+   ========================================================================= */
+Object.assign(VIEWS, {
+  'admin/finance':AdminFinance, 'admin/fees':AdminFees, 'parent/payments':ParentPayments
+});
+
+Object.assign(ACTIONS, {
+  'fin-filter':(d)=>{ state.ui.finFilter=d.v; render(); },
+  'pay-open':(d)=>{
+    if(state.session.role!=='admin'){ toast(t('no_access'),'lock'); return; }
+    modalPayment(d.v);
+  },
+  'pay-save':(d)=>{
+    if(state.session.role!=='admin'){ toast(t('no_access'),'lock'); return; }
+    const inv=DB.invoices.find(i=>i.id===d.v); if(!inv) return;
+    const v=id=>{ const e=document.getElementById(id); return e? e.value.trim():''; };
+    const amount=Number(v('pyAmount'));
+    if(!(amount>0)){ toast(t('amount_required'),'alert'); return; }
+    DB.payments.push({id:uuid('pay'+Date.now()), schoolId:DB._ref.SCHOOL, invoiceId:inv.id,
+      studentId:inv.studentId, amount, date:v('pyDate')||ymd(today()),
+      method:v('pyMethod')||'cash', reference:v('pyRef')||null,
+      recordedBy:state.session.userId, created_at:nowISO()});
+    if(paidOn(inv.id)>=inv.amount) inv.status='paid';
+    /* the receipt is the guardian's, so they are told it landed */
+    DB.parentStudent.filter(r=>r.studentId===inv.studentId).forEach(r=>
+      pushNotification('parent:'+r.parentId,'payment',
+        'Pagesa u regjistrua — '+money(amount), 'Payment recorded — '+money(amount), '#/parent/payments'));
+    audit('payment.record', inv.id+' '+amount);
+    closeModal(); toast(t('payment_recorded'),'checkcircle'); render();
+  },
+  'fin-remind':(d)=>{
+    if(state.session.role!=='admin'){ toast(t('no_access'),'lock'); return; }
+    const late=DB.invoices.filter(i=>i.period===d.v && invoiceStatus(i)==='overdue');
+    let n=0;
+    late.forEach(inv=>DB.parentStudent.filter(r=>r.studentId===inv.studentId).forEach(r=>{
+      pushNotification('parent:'+r.parentId,'payment',
+        'Kujtesë për pagesën — '+periodLabel(inv.period),
+        'Payment reminder — '+periodLabel(inv.period), '#/parent/payments'); n++;
+    }));
+    audit('payment.reminders', d.v+' n='+n);
+    toast(n? tf('reminders_sent',{n:n}) : t('nothing_overdue'),'bell');
+    render();
+  },
+  'fin-generate':()=>{
+    if(state.session.role!=='admin'){ toast(t('no_access'),'lock'); return; }
+    modalGenerate();
+  },
+  'gen-save':()=>{
+    if(state.session.role!=='admin'){ toast(t('no_access'),'lock'); return; }
+    const el=document.getElementById('gnPeriod');
+    const period=el? el.value.trim() : '';
+    if(!/^[0-9]{4}-[0-9]{2}$/.test(period)){ toast(t('period_format'),'alert'); return; }
+    if(DB.invoices.some(i=>i.period===period)){ toast(t('period_exists'),'alert'); return; }
+    /* repeat last month's lines for every child, so nothing is invented — and
+       bill children who joined since, who have no history to repeat */
+    const prev=billingPeriods()[0];
+    let n=0;
+    const add=(studentId, classId, planId, discount)=>{
+      const pl=planOf(planId); if(!pl || pl.active===false) return;
+      DB.invoices.push({id:uuid('inv'+Date.now()+'-'+n), schoolId:DB._ref.SCHOOL, studentId,
+        classId, planId, period, dueDate:period+'-10',
+        amount:pl.amount - (discount||0), discount:discount||0, currency:'EUR',
+        issuedAt:nowISO(), status:'open'});
+      n++;
+    };
+    DB.students.forEach(st=>{
+      const lines=DB.invoices.filter(i=>i.period===prev && i.studentId===st.id);
+      if(lines.length) lines.forEach(src=>add(st.id, st.classId, src.planId, src.discount));
+      else { const pl=defaultPlanFor(st); if(pl) add(st.id, st.classId, pl.id, 0); }
+    });
+    audit('invoice.generate', period+' n='+n);
+    closeModal(); toast(tf('invoices_generated',{n:n}),'checkcircle');
+    go('admin/finance?p='+period); onRoute();
+  },
+  'fee-new':()=>modalFee(null),
+  'fee-edit':(d)=>modalFee(d.v),
+  'fee-save':(d)=>{
+    if(state.session.role!=='admin'){ toast(t('no_access'),'lock'); return; }
+    const v=id=>{ const e=document.getElementById(id); return e? e.value.trim():''; };
+    const sq=v('feSq'), en=v('feEn')||sq, amount=Number(v('feAmount')), period=v('fePeriod')||'monthly';
+    if(!sq || !(amount>=0)){ toast(t('row_error_fields'),'alert'); return; }
+    if(d.v){
+      const p=planOf(d.v); p.name={sq,en}; p.amount=amount; p.period=period;
+      audit('fee.edit', sq);
+    } else {
+      DB.feePlans.push({id:uuid('plan'+Date.now()), schoolId:DB._ref.SCHOOL,
+        key:sq.toLowerCase().replace(/\s+/g,'_').slice(0,16), name:{sq,en},
+        amount, currency:'EUR', period, gradeLevelKey:null, active:true});
+      audit('fee.create', sq);
+    }
+    closeModal(); toast(t('saved'),'checkcircle'); render();
+  }
+});
+
+
+/* =========================================================================
+   RUAJTJA — keeping the data between reloads
+   There is still no server here, so this saves into the browser's own storage.
+   That means the data survives a reload on this device and in this browser,
+   and nowhere else: what a teacher enters on a tablet does not appear on a
+   parent's phone. For that you need the backend in supabase/.
+   ========================================================================= */
+
+const STORE_KEY = 'hello-academy:' + APP_VARIANT + ':v1';
+let storeOK = true;          /* flips false once the browser refuses to save */
+let storeWarned = false;
+
+function storageAvailable(){
+  try{
+    const k='__probe__';
+    window.localStorage.setItem(k,'1');
+    window.localStorage.removeItem(k);
+    return true;
+  }catch(e){ return false; }
+}
+const HAS_STORE = storageAvailable();
+
+/* Video object URLs die with the page, so there is no point storing them.
+   Image data URLs are kept until the browser complains, then dropped too —
+   the record stays, only the picture goes, which degrades honestly. */
+function serialise(dropMedia){
+  const db=JSON.parse(JSON.stringify(DB));
+  (db.photos||[]).forEach(p=>{
+    if(p.mediaType==='video' || (dropMedia && p.src)) { p.src=null; p.mediaLost=true; }
+  });
+  if(dropMedia){
+    (db.students||[]).forEach(s=>{ if(s.photoUrl) s.photoUrl=null; });
+    (db.parents||[]).forEach(s=>{ if(s.photoUrl) s.photoUrl=null; });
+    (db.teachers||[]).forEach(s=>{ if(s.photoUrl) s.photoUrl=null; });
+  }
+  return JSON.stringify({
+    v:1, savedAt:new Date().toISOString(), db,
+    session:state.session, childId:state.childId, lang:state.lang
+  });
+}
+
+function saveNow(){
+  if(!HAS_STORE || !storeOK) return;
+  try{
+    window.localStorage.setItem(STORE_KEY, serialise(false));
+  }catch(e){
+    /* almost always the quota: try again without the pictures */
+    try{
+      window.localStorage.setItem(STORE_KEY, serialise(true));
+      if(!storeWarned){ storeWarned=true; toast(t('store_media_dropped'),'alert'); }
+    }catch(e2){
+      storeOK=false;
+      if(!storeWarned){ storeWarned=true; toast(t('store_failed'),'alert'); }
+    }
+  }
+}
+
+let saveTimer=null;
+function scheduleSave(){
+  if(!HAS_STORE || !storeOK) return;
+  clearTimeout(saveTimer);
+  saveTimer=setTimeout(saveNow, 400);
+}
+
+function restore(){
+  if(!HAS_STORE) return false;
+  let raw;
+  try{ raw=window.localStorage.getItem(STORE_KEY); }catch(e){ return false; }
+  if(!raw) return false;
+  try{
+    const parsed=JSON.parse(raw);
+    if(!parsed || parsed.v!==1 || !parsed.db || !parsed.db.students) return false;
+    DB=parsed.db;
+    /* a session from the other portal must not be honoured here */
+    const s=parsed.session;
+    const fits = !s || (APP_VARIANT==='parent' ? s.role==='parent' : s.role!=='parent');
+    state.session = fits ? s : null;
+    state.childId = fits ? (parsed.childId||null) : null;
+    if(parsed.lang) state.lang=parsed.lang;
+    rebuildAvatars();
+    return true;
+  }catch(e){ return false; }
+}
+
+function rebuildAvatars(){
+  Object.keys(AVATARS).forEach(k=>{ delete AVATARS[k]; });
+  [].concat(DB.students||[], DB.parents||[], DB.teachers||[]).forEach(p=>{
+    if(p && p.photoUrl) AVATARS[p.id]=p.photoUrl;
+  });
+}
+
+function clearStore(){
+  try{ window.localStorage.removeItem(STORE_KEY); }catch(e){}
+  storeOK=true; storeWarned=false;
+}
+
+function lastSavedAt(){
+  if(!HAS_STORE) return null;
+  try{
+    const raw=window.localStorage.getItem(STORE_KEY);
+    return raw? JSON.parse(raw).savedAt : null;
+  }catch(e){ return null; }
+}
+
+/* the card shown in settings, so nobody has to guess where the data lives */
+function storageCard(){
+  const saved=lastSavedAt();
+  const state_ = !HAS_STORE ? 'off' : (!storeOK ? 'failed' : (saved ? 'on' : 'empty'));
+  const tone={on:'ok', empty:'', failed:'err', off:'warn'}[state_];
+  return '<div class="card"><div class="card-h"><h3>'+t('data_storage')+'</h3>'+
+      '<span class="chip '+tone+'">'+t('store_'+state_)+'</span></div>'+
+    '<div class="card-b">'+
+      '<p class="small muted">'+t('store_explain')+'</p>'+
+      (saved? '<div class="tiny faint" style="margin-top:8px">'+t('last_saved')+' '+esc(relTime(saved))+'</div>' : '')+
+      '<div class="notice" style="margin:14px 0 0">'+icon('info',16)+'<span>'+t('store_limit')+'</span></div>'+
+      '<div class="row" style="gap:8px;margin-top:14px">'+
+        '<button class="btn" data-act="store-export">'+icon('download',15)+t('export_data')+'</button>'+
+        '<button class="btn ghost" data-act="store-clear">'+icon('trash',15)+t('clear_data')+'</button>'+
+      '</div>'+
+    '</div></div>';
+}
+
+Object.assign(ACTIONS, {
+  'store-clear':()=>{
+    clearStore();
+    DB=seed(); state.ui={}; state.childId=null;
+    rebuildAvatars();
+    toast(t('demo_reset'),'sparkle');
+    render();
+  },
+  'store-export':()=>{
+    const blob=new Blob([serialise(false)],{type:'application/json'});
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);
+    a.download='hello-academy-'+APP_VARIANT+'-'+ymd(today())+'.json';
+    document.body.appendChild(a); a.click(); a.remove();
+    audit('data.export','local');
+  }
+});
+
+/* the existing reset should forget the saved copy too, not just the memory */
+ACTIONS['reset-demo']=()=>{
+  clearStore();
+  DB=seed(); state.ui={}; state.childId=null;
+  rebuildAvatars();
+  toast(t('demo_reset'),'sparkle');
+  render();
+};
+
+/* every render follows a change, so this is the one place worth hooking */
+const renderWithoutSave = render;
+render = function(){ renderWithoutSave.apply(null, arguments); scheduleSave(); };
+/* and once more on the way out, in case a change never triggered a render */
+window.addEventListener('pagehide', saveNow);
+window.addEventListener('beforeunload', saveNow);
+
+restore();
 window.addEventListener('hashchange', onRoute);
 onRoute();
 </script>
