@@ -131,6 +131,34 @@ button,input,select,textarea{font:inherit;color:inherit}
 .iconbtn{width:34px;height:34px;border-radius:var(--r-sm);display:grid;place-items:center;border:1px solid transparent;background:transparent;cursor:pointer;color:var(--muted);position:relative}
 .iconbtn:hover{background:var(--surface-3);color:var(--text)}
 .menubtn{display:none}
+.hero-top{display:flex;gap:14px;align-items:flex-start}
+.hero-avatar{position:relative;flex:none;width:60px;height:60px;border-radius:50%;border:2px solid rgba(255,255,255,.5);
+  background:rgba(255,255,255,.16);color:#fff;cursor:pointer;padding:0;display:grid;place-items:center;overflow:visible}
+.hero-avatar img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block}
+.hero-avatar .ini{font-family:var(--ui);font-weight:700;font-size:20px;letter-spacing:-.02em}
+.hero-avatar .cam{position:absolute;right:-3px;bottom:-3px;width:23px;height:23px;border-radius:50%;
+  background:#fff;color:var(--brand);display:grid;place-items:center;box-shadow:var(--sh-1)}
+.hero-avatar:hover{border-color:#fff}
+.today-cell{position:relative;display:block;text-decoration:none;color:inherit;transition:border-color .12s,transform .12s}
+.today-cell:hover{border-color:var(--brand);transform:translateY(-1px)}
+.today-cell .go{position:absolute;top:10px;right:10px;color:var(--border-2);opacity:0;transition:opacity .12s}
+.today-cell:hover .go{opacity:1}
+.subject-card{transition:border-color .12s,box-shadow .12s}
+.subject-card:hover{border-color:var(--brand);box-shadow:var(--sh-2)}
+.list-row.tappable{cursor:pointer;border-radius:10px;margin:0 -8px;padding-left:8px;padding-right:8px}
+.list-row.tappable:hover{background:var(--surface-2)}
+.viewer{position:fixed;inset:0;z-index:120;background:rgba(16,20,40,.82);backdrop-filter:blur(6px);
+  display:grid;place-items:center;padding:16px;animation:fade .16s ease-out}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.viewer-inner{max-width:min(940px,96vw);width:100%;background:var(--surface);border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--sh-3)}
+.viewer-media{position:relative;background:#0d1020;display:grid;place-items:center;max-height:74vh}
+.viewer-media img,.viewer-media video{max-width:100%;max-height:74vh;display:block;object-fit:contain}
+.viewer-svg{width:min(640px,92vw)}
+.viewer-nav{position:absolute;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:50%;
+  border:0;cursor:pointer;background:rgba(255,255,255,.86);color:var(--text);display:grid;place-items:center}
+.viewer-nav.prev{left:12px} .viewer-nav.next{right:12px}
+.viewer-bar{display:flex;align-items:center;gap:10px;padding:12px 14px;flex-wrap:wrap}
+@media(max-width:860px){ .hero-avatar{width:52px;height:52px} .viewer-inner{border-radius:var(--r-lg)} }
 .linkish{border:0;background:none;padding:0;cursor:pointer;color:var(--brand);font-family:var(--ui);
   font-weight:600;font-size:12.5px;display:inline-flex;align-items:center;gap:3px}
 .notice.warn{background:var(--warn-50);color:var(--warn)}
@@ -234,7 +262,8 @@ tbody tr:hover{background:var(--surface-2)}
   padding:22px 16px;border:1.5px dashed var(--border-2);border-radius:var(--r);background:var(--surface-2);
   color:var(--muted);font-family:var(--ui);font-weight:600;font-size:14px;cursor:pointer;transition:border-color .12s,background .12s}
 .uploader:hover{border-color:var(--brand);background:var(--brand-50);color:var(--brand-700)}
-.uploader input[type=file]{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.uploader input[type=file]{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;z-index:2}
+.uploader>*:not(input){position:relative;z-index:1;pointer-events:none}
 .photo .cap{position:absolute;left:0;right:0;bottom:0;padding:16px 10px 8px;color:#fff;font-size:11.5px;font-weight:600;font-family:var(--ui);
   background:linear-gradient(to top,rgba(6,10,24,.62),rgba(6,10,24,0))}
 .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
@@ -258,7 +287,8 @@ tbody tr:hover{background:var(--surface-2)}
 .notice svg{flex:none;margin-top:1px}
 
 /* ---------- parent mobile ---------- */
-.parent-hero{background:linear-gradient(155deg,var(--brand-700) 0%,var(--brand) 55%,#4A5CBF 100%);color:#fff;border-radius:var(--r-xl);padding:20px;position:relative;overflow:hidden}
+.parent-hero{background:linear-gradient(152deg,#2F2560 0%,#4A3C8C 52%,#6D58A7 100%);color:#fff;
+  border-radius:var(--r-xl);padding:20px;position:relative;overflow:hidden;box-shadow:0 10px 28px -14px rgba(47,37,96,.55)}
 .parent-hero::after{content:"";position:absolute;right:-60px;top:-70px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.07)}
 .parent-hero::before{content:"";position:absolute;right:30px;bottom:-90px;width:170px;height:170px;border-radius:50%;background:rgba(255,255,255,.05)}
 .parent-hero h2{color:#fff;font-size:19px}
@@ -417,6 +447,38 @@ tbody tr:hover{background:var(--surface-2)}
   .mx .mx-term{left:174px}
   .mx td.mx-cell{width:34px;min-width:34px}
 }
+.report-sheet{font-size:14px}
+.bus-badge{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;color:#fff;flex:none}
+.bus-badge.sm{width:28px;height:28px;border-radius:9px}
+.map-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;padding:2px}
+.bus-map{display:block;max-width:100%;height:auto}
+.bus-map .stop-node{cursor:pointer}
+.bus-map .stop-node rect{transition:fill .12s}
+.bus-map .stop-node:hover rect{fill:var(--surface-3)}
+.bus-map .stop-node.on:hover rect{fill:inherit}
+.bus-map text{font-family:var(--ui)}
+.route-card .card-h h3{font-size:14.5px}
+.bus-stop{position:relative;display:flex;align-items:center;gap:12px;width:100%;padding:7px 6px 7px 4px;
+  border:0;background:none;cursor:pointer;text-align:left;border-radius:9px}
+.bus-stop:hover{background:var(--surface-2)}
+.bus-stop.on{background:var(--brand-50)}
+.bus-stop .rail{position:absolute;left:10.5px;top:22px;bottom:-7px;width:2px;background:var(--border)}
+.bus-stop .dot{width:11px;height:11px;border-radius:50%;border:2.5px solid;flex:none;margin-left:5px;z-index:1}
+.bus-stop .txt{flex:1;min-width:0}
+.bus-stop .txt b{display:block;font-family:var(--ui);font-weight:600;font-size:13.5px;line-height:1.3}
+.bus-stop .txt i{display:block;font-style:normal;font-size:11.5px;color:var(--faint)}
+.bus-stop .tm{font-family:var(--ui);font-weight:700;font-size:12.5px;padding:3px 8px;border-radius:7px;white-space:nowrap}
+.bus-stop .tm.muted{color:var(--faint);background:var(--surface-3)}
+@media (max-width:860px){ .bus-map{min-height:240px} }
+.meal-grid{gap:14px}
+.meal-card{overflow:hidden;transition:transform .12s,box-shadow .12s}
+.meal-card:hover{transform:translateY(-2px);box-shadow:var(--sh-2)}
+.meal-card.warn{border-color:var(--warn)}
+.meal-pic{position:relative;aspect-ratio:120/88;background:var(--surface-2)}
+.meal-pic svg{width:100%;height:100%;display:block}
+.meal-time{position:absolute;left:9px;top:9px;background:rgba(255,255,255,.9);color:var(--text);
+  border-radius:999px;padding:3px 8px;font-family:var(--ui);font-weight:700;font-size:11px}
+@media (max-width:860px){ .meal-grid{grid-template-columns:repeat(2,minmax(0,1fr))} }
 @media print{
   .mx-wrap{overflow:visible;max-height:none}
   .mx thead th{position:static}
@@ -436,6 +498,7 @@ tbody tr:hover{background:var(--surface-2)}
 <div id="root"></div>
 <div class="toasts" id="toasts"></div>
 <div id="overlay"></div>
+<script src="config.js"></script>
 <script>
 "use strict";
 /* =========================================================================
@@ -624,7 +687,25 @@ sq:{
  nav_reports_admin:'Raporte', nav_settings:'Cilësimet', nav_school:'Shkolla',
  /* general */
  today:'Sot', yesterday:'Dje', tomorrow:'Nesër', just_now:'tani', min_ago:'min më parë', hr_ago:'orë më parë', day_ago:'ditë më parë',
- save:'Ruaj', cancel:'Anulo', close:'Mbyll', open:'Hap', add:'Shto', edit:'Ndrysho', delete:'Fshij', publish:'Publiko',
+ save:'Ruaj', cancel:'Anulo', early_report_note:'Në kopsht vlerësimi është përshkrues dhe bazohet në vëzhgimin e përditshëm.',
+ line_map:'Harta e linjave', all_lines:'Të gjitha', tap_a_stop:'Prekni një ndalesë në hartë për detajet.',
+ set_my_stop:'Cakto si ndalesën time', arrival:'Mbërritja', departure_point:'Nisja',
+ nav_transport:'Transporti', to_school:'Në shkollë', from_school:'Në kthim',
+ bus_lines:'Linjat', stops:'Ndalesa', stop:'Ndalesa', riders:'Udhëtarë', no_bus:'Pa autobus',
+ departs:'Niset', your_stop:'Ndalesa juaj', change_stop:'Ndrysho ndalesën',
+ pick_stop:'Zgjidh ndalesën', pick_stop_title:'Cilën ndalesë përdor fëmija juaj?',
+ pick_stop_hint:'Zgjidhni ndalesën e {n} dhe ora do t\u2019ju shfaqet çdo mëngjes këtu.',
+ stop_saved:'Ndalesa u ruajt', stop_cleared:'Ndalesa u hoq', add_stop:'Shto ndalesë',
+ in_minutes:'për {n} minuta', already_passed:'Ka kaluar për sot',
+ bus_five_min:'Ju lutemi që nxënësit të jenë në ndalesë 5 minuta para orarit të caktuar.',
+ bus_map_note:'Skemë e linjave, jo hartë gjeografike',
+ stop_in_use:'{n} nxënës e përdorin këtë ndalesë', time_format:'Ora duhet të jetë si 07:45',
+ optional:'Opsionale',
+ whole_week:'Java e plotë', day:'Dita', dev_report:'Raport zhvillimi', dev_area:'Fusha e zhvillimit',
+ days_reported:'Ditë të raportuara', educator_comment:'Vlerësimi i edukatores', principal:'Drejtori',
+ menu_allergy:'Përmban {a} — fëmija juaj ka kufizim për këtë.',
+ menu_child_note:'Paralajmërimet bazohen në alergjitë e regjistruara për {n}.',
+ close:'Mbyll', open:'Hap', add:'Shto', edit:'Ndrysho', delete:'Fshij', publish:'Publiko',
  published:'U publikua', saved:'U ruajt', send:'Dërgo', search:'Kërko', all:'Të gjithë', none:'Asnjë', view_all:'Shiko të gjitha',
  back:'Kthehu', next:'Vazhdo', details:'Detajet', class:'Klasa', student:'Nxënësi', students:'Nxënës', teacher:'Mësuesi/ja',
  subject:'Lënda', date:'Data', time:'Ora', note:'Shënim', notes:'Shënime', status:'Statusi', actions:'Veprime',
@@ -723,6 +804,26 @@ sq:{
  attendance_pct:'Prezenca', absences_count:'Mungesa',
  download:'Shkarko', save_photo:'Ruaj foton', issued_on:'Lëshuar më',
  nav_matrix:'Matrica e suksesit', lesson_log:'Orët e ditës',
+ close:'Mbyll', next_step_photo:'Tjetra', mark_not_done:'Shëno si pa bërë',
+ marked_done:'U shënua si e kryer', marked_not_done:'U shënua si pa bërë',
+ homework_late:'Afati ka kaluar. Flisni me mësuesin nëse duhet kohë shtesë.',
+ homework_mark_note:'Shënimi juaj e ndihmon mësuesin të dijë se detyra u bë në shtëpi.',
+ export_ready:'Skedari u shkarkua', send_request:'Dërgo kërkesën', request_sent:'Kërkesa u dërgua në zyrë',
+ delete_intro:'Kërkesa për fshirjen e të dhënave të {n} shkon te administrata e shkollës, e cila ju kontakton.',
+ delete_legal:'Shkolla është e detyruar me ligj të ruajë disa të dhëna, si prezenca dhe notat, edhe pas kërkesës. Pjesa tjetër fshihet.',
+ delete_reason:'Arsyeja', delete_reason_ph:'Opsionale — na ndihmon ta trajtojmë më shpejt',
+ delete_confirm:'Konfirmoj se kërkoj fshirjen e të dhënave të {n}.',
+ delete_confirm_required:'Konfirmoni kërkesën para se ta dërgoni',
+ nav_requests:'Kërkesat', requests_hint:'Kërkesat e prindërve për fshirje të dhënash, sipas GDPR-së.',
+ no_requests:'Asnjë kërkesë', no_requests_hint:'Kur një prind kërkon fshirje të dhënash, shfaqet këtu.',
+ mark_handled:'Shëno si e trajtuar', handled:'E trajtuar',
+ store_server:'Në server', store_server_explain:'Të dhënat ruhen në bazën e të dhënave të shkollës dhe shihen nga çdo pajisje.',
+ store_server_rls:'Secili sheh vetëm atë që i takon: rregullat zbatohen në bazën e të dhënave, jo në shfletues.',
+ sync_saved:'Ruajtur', sync_saving:'Po ruhet…', sync_loading:'Po ngarkohet…',
+ sync_error:'Nuk u ruajt', sync_off:'Jashtë linje',
+ demo_login_off:'Hyrja demo është e çaktivizuar kur lidhja me serverin është aktive.',
+ server_backed:'Të dhënat ruhen në server dhe nuk fshihen nga këtu.',
+ signin_failed:'Hyrja dështoi. Kontrolloni të dhënat.',
  data_storage:'Ruajtja e të dhënave', store_on:'Aktive', store_empty:'Ende bosh',
  store_failed:'Nuk ruhet dot', store_off:'E padisponueshme',
  store_explain:'Të dhënat ruhen në këtë shfletues dhe nuk humbin kur rifreskohet faqja.',
@@ -877,7 +978,25 @@ en:{
  nav_parents:'Parents', nav_teachers:'Teaching staff', nav_subjects:'Subjects', nav_announcements:'Announcements',
  nav_reports_admin:'Reports', nav_settings:'Settings', nav_school:'School',
  today:'Today', yesterday:'Yesterday', tomorrow:'Tomorrow', just_now:'just now', min_ago:'min ago', hr_ago:'hr ago', day_ago:'d ago',
- save:'Save', cancel:'Cancel', close:'Close', open:'Open', add:'Add', edit:'Edit', delete:'Delete', publish:'Publish',
+ save:'Save', cancel:'Cancel', early_report_note:'In kindergarten the assessment is descriptive and based on daily observation.',
+ line_map:'Line map', all_lines:'All lines', tap_a_stop:'Tap a stop on the map for details.',
+ set_my_stop:'Set as my stop', arrival:'Arrival', departure_point:'Departure',
+ nav_transport:'Transport', to_school:'To school', from_school:'Home',
+ bus_lines:'Lines', stops:'Stops', stop:'Stop', riders:'Riders', no_bus:'No bus',
+ departs:'Departs', your_stop:'Your stop', change_stop:'Change the stop',
+ pick_stop:'Choose the stop', pick_stop_title:'Which stop does your child use?',
+ pick_stop_hint:'Choose {n}\u2019s stop and the time will be here every morning.',
+ stop_saved:'Stop saved', stop_cleared:'Stop removed', add_stop:'Add a stop',
+ in_minutes:'in {n} minutes', already_passed:'Already passed for today',
+ bus_five_min:'Please have students at the stop five minutes before the scheduled time.',
+ bus_map_note:'A line diagram, not a geographic map',
+ stop_in_use:'{n} students use this stop', time_format:'The time must look like 07:45',
+ optional:'Optional',
+ whole_week:'The whole week', day:'Day', dev_report:'Development report', dev_area:'Area of development',
+ days_reported:'Days reported', educator_comment:'Educator\u2019s assessment', principal:'Principal',
+ menu_allergy:'Contains {a} — your child has a restriction for this.',
+ menu_child_note:'Warnings are based on the allergies recorded for {n}.',
+ close:'Close', open:'Open', add:'Add', edit:'Edit', delete:'Delete', publish:'Publish',
  published:'Published', saved:'Saved', send:'Send', search:'Search', all:'All', none:'None', view_all:'View all',
  back:'Back', next:'Continue', details:'Details', class:'Class', student:'Student', students:'Students', teacher:'Teacher',
  subject:'Subject', date:'Date', time:'Time', note:'Note', notes:'Notes', status:'Status', actions:'Actions',
@@ -961,6 +1080,26 @@ en:{
  attendance_pct:'Attendance', absences_count:'Absences',
  download:'Download', save_photo:'Save photo', issued_on:'Issued on',
  nav_matrix:'Success matrix', lesson_log:'Lessons',
+ close:'Close', next_step_photo:'Next', mark_not_done:'Mark as not done',
+ marked_done:'Marked as done', marked_not_done:'Marked as not done',
+ homework_late:'The due date has passed. Talk to the teacher if more time is needed.',
+ homework_mark_note:'Marking it helps the teacher know it was done at home.',
+ export_ready:'The file has been downloaded', send_request:'Send the request', request_sent:'The request has gone to the office',
+ delete_intro:'A request to delete {n}\u2019s data goes to the school administration, who will contact you.',
+ delete_legal:'The school is legally required to keep some records, such as attendance and marks, even after a request. Everything else is deleted.',
+ delete_reason:'Reason', delete_reason_ph:'Optional — it helps us handle it faster',
+ delete_confirm:'I confirm that I am asking for {n}\u2019s data to be deleted.',
+ delete_confirm_required:'Please confirm the request before sending it',
+ nav_requests:'Requests', requests_hint:'Guardians\u2019 requests to delete data, under GDPR.',
+ no_requests:'No requests', no_requests_hint:'When a guardian asks for data to be deleted, it appears here.',
+ mark_handled:'Mark as handled', handled:'Handled',
+ store_server:'On the server', store_server_explain:'Data is kept in the school database and is the same on every device.',
+ store_server_rls:'Everyone sees only what is theirs: the rules run in the database, not in the browser.',
+ sync_saved:'Saved', sync_saving:'Saving…', sync_loading:'Loading…',
+ sync_error:'Not saved', sync_off:'Offline',
+ demo_login_off:'Demo sign-in is disabled while the server connection is active.',
+ server_backed:'Data lives on the server and is not cleared from here.',
+ signin_failed:'Sign-in failed. Check the details.',
  data_storage:'Data storage', store_on:'Active', store_empty:'Nothing saved yet',
  store_failed:'Cannot save', store_off:'Unavailable',
  store_explain:'Data is kept in this browser and survives a reload.',
@@ -1167,7 +1306,7 @@ function seed(){
     announcements:[], events:[], conversations:[], messages:[], notifications:[],
     medical:[], pickups:[], emergencyContacts:[], absences:[], periods:[], menus:[], terms:[], lessons:[],
     areas:[], classSubjects:[], termGrades:[], conduct:[], invites:[],
-    feePlans:[], invoices:[], payments:[], auditLog:[]
+    feePlans:[], invoices:[], payments:[], deletionRequests:[], busRoutes:[], auditLog:[]
   };
   const T0 = today();
   const SCHOOL = uuid('school-hello-academy');
@@ -1913,6 +2052,9 @@ function seed(){
     });
   });
 
+  /* the bus timetable lives with the rest of the seed, so a reset keeps it */
+  if(typeof seedTransport==='function') seedTransport(db);
+
   db._ref = {SCHOOL, YEAR, TERM1, TERM2, AREA, PLAN, C_KG, C_1A, C_KG2, C_KG3, C_5A, C_8A, S, P, SUBJ, LVL,
              T_ALBINA, T_TEUTA, T_EDONA, T_BLERIM, T_ARTAD, T_MIRLINDA, T_VJOLLCA, T_SHPEND, T_LINDITA, T_FATOS, U_ADMIN, P_ARTA, U_TEUTA, U_BLERIM, U_ARTAD};
   return db;
@@ -2194,6 +2336,7 @@ const NAV = {
     {r:'parent/reportcard',ic:'award',k:'nav_reportcard'},
     {r:'parent/menu',ic:'utensils',k:'nav_menu'},
     {r:'parent/payments',ic:'chart',k:'nav_payments'},
+    {r:'parent/transport',ic:'bus',k:'nav_transport'},
     {r:'parent/photos',ic:'image',k:'nav_photos'},
     {r:'parent/calendar',ic:'calendar',k:'nav_calendar'},
     {r:'parent/messages',ic:'message',k:'nav_messages'},
@@ -2220,6 +2363,7 @@ const NAV = {
     {r:'admin/students',ic:'users',k:'nav_students'},
     {r:'admin/parents',ic:'child',k:'nav_parents'},
     {r:'admin/invites',ic:'send',k:'nav_invites'},
+    {r:'admin/requests',ic:'shield',k:'nav_requests'},
     {r:'admin/teachers',ic:'cap',k:'nav_teachers'},
     {r:'admin/classes',ic:'layers',k:'nav_classes'},
     {r:'admin/subjects',ic:'book',k:'nav_subjects'},
@@ -2227,6 +2371,7 @@ const NAV = {
     {r:'admin/attendance',ic:'clipboard',k:'nav_attendance'},
     {r:'admin/announcements',ic:'bell',k:'nav_announcements'},
     {r:'admin/menu',ic:'utensils',k:'nav_menu'},
+    {r:'admin/transport',ic:'bus',k:'nav_transport'},
     {r:'admin/calendar',ic:'calendar',k:'nav_calendar'},
     {r:'admin/finance',ic:'chart',k:'nav_finance'},
     {r:'admin/reports',ic:'chart',k:'nav_reports_admin'},
@@ -2312,6 +2457,7 @@ function topbarView(){
   const showMenu = state.session.role!=='parent';
   return '<header class="topbar">'+
     (showMenu?'<button class="iconbtn menubtn" data-act="toggle-sidebar" aria-label="Menu">'+icon('menu',20)+'</button>':'')+
+    (typeof sbStatusHTML==='function'? sbStatusHTML() : '')+
     '<div><h1>'+esc(routeTitle())+'</h1></div>'+
     '<div class="spacer"></div>'+
     '<button class="btn sm ghost" data-act="toggle-lang" title="'+t('language')+'">'+icon('globe',16)+(state.lang==='sq'?'SQ':'EN')+'</button>'+
@@ -2420,7 +2566,8 @@ function childSwitcher(){
 function childHeroCard(st){
   const cls=classOf(st), att=attendanceFor(st.id, ymd(today()));
   return '<div class="parent-hero">'+
-    '<div style="position:relative"><div class="sub">'+esc(greeting())+', '+esc(actorName().split(' ')[0])+'</div>'+
+    '<div style="position:relative" class="hero-top">'+heroAvatar(st)+
+    '<div style="flex:1;min-width:0"><div class="sub">'+esc(greeting())+', '+esc(actorName().split(' ')[0])+'</div>'+
     '<h2 style="margin-top:2px">'+esc(st.fullName)+'</h2>'+
     '<div class="row" style="margin-top:8px;gap:8px;flex-wrap:wrap">'+
       '<span class="chip" style="background:rgba(255,255,255,.16);color:#fff">'+icon('layers',13)+esc(cls.name)+'</span>'+
@@ -2428,33 +2575,35 @@ function childHeroCard(st){
       (att? '<span class="chip" style="background:'+(att.status==='present'?'rgba(255,255,255,.92)':'rgba(255,255,255,.16)')+';color:'+(att.status==='present'?'var(--brand-700)':'#fff')+'">'+
         icon(att.status==='present'?'checkcircle':'clock',13)+t(ATT_STATUS[att.status].label)+'</span>'
         : '<span class="chip" style="background:rgba(255,255,255,.16);color:#fff">'+icon('clock',13)+(state.lang==='sq'?'Prezenca pa shënuar':'Attendance not taken')+'</span>')+
-    '</div>'+
+    '</div></div></div>'+
     childSwitcher()+
-    '</div></div>';
+  '</div>';
 }
 function todayGrid(st){
   const d=ymd(today());
   const att=attendanceFor(st.id,d), meals=mealsFor(st.id,d), acts=activitiesFor(st.id,d),
         md=moodFor(st.id,d), notes=notesFor(st.id,d), nap=napFor(st.id,d);
   const cells=[];
-  cells.push({lab:t('attendance'), val: att? t(ATT_STATUS[att.status].label) : '—', ic:'checkcircle',
+  cells.push({key:'attendance', lab:t('attendance'), val: att? t(ATT_STATUS[att.status].label) : '—', ic:'checkcircle',
               tone: att? ATT_STATUS[att.status].tone : ''});
   if(isEarlyYears(st)){
     const lunch=meals.find(m=>m.type==='lunch');
-    cells.push({lab:t('meals'), val: meals.length? (lunch? t(consumptionMeta(lunch.consumption).label) : meals.length+'/4') : '—', ic:'utensils'});
-    cells.push({lab:t('mood'), val: md? moodMeta(md.mood).emoji+' '+t(moodMeta(md.mood).label) : '—', ic:'smile'});
-    cells.push({lab:t('nap'), val: nap? Math.floor(nap.minutes/60)+'h '+(nap.minutes%60)+'m' : '—', ic:'moon'});
+    cells.push({key:'meals', lab:t('meals'), val: meals.length? (lunch? t(consumptionMeta(lunch.consumption).label) : meals.length+'/4') : '—', ic:'utensils'});
+    cells.push({key:'mood', lab:t('mood'), val: md? moodMeta(md.mood).emoji+' '+t(moodMeta(md.mood).label) : '—', ic:'smile'});
+    cells.push({key:'nap', lab:t('nap'), val: nap? Math.floor(nap.minutes/60)+'h '+(nap.minutes%60)+'m' : '—', ic:'moon'});
   } else {
     const hw=homeworkFor(st).filter(h=>h.dueDate>=d && hwStatus(h.id,st.id)!=='completed');
-    cells.push({lab:t('homework'), val: hw.length? hw.length+' '+(state.lang==='sq'?'për të bërë':'to do') : (state.lang==='sq'?'Asnjë':'None'), ic:'clipboard'});
+    cells.push({key:'homework', lab:t('homework'), val: hw.length? hw.length+' '+(state.lang==='sq'?'për të bërë':'to do') : (state.lang==='sq'?'Asnjë':'None'), ic:'clipboard'});
     const ov=overallAverage(st.id);
-    cells.push({lab:t('overall'), val: ov? ov.toFixed(2) : '—', ic:'cap'});
+    cells.push({key:'overall', lab:t('overall'), val: ov? markLabel(classOf(st),ov) : '—', ic:'cap'});
   }
-  cells.push({lab:t('activities'), val: acts.length? String(acts.length) : '—', ic:'palette'});
-  cells.push({lab:t('teacher_note'), val: notes.length? (state.lang==='sq'?'Po':'Yes') : '—', ic:'message'});
+  cells.push({key:'activities', lab:t('activities'), val: acts.length? String(acts.length) : '—', ic:'palette'});
+  cells.push({key:'note', lab:t('teacher_note'), val: notes.length? (state.lang==='sq'?'Po':'Yes') : '—', ic:'message'});
   return '<div class="today-grid">'+cells.map(c=>
-    '<div class="today-cell"><div class="row" style="gap:6px;color:var(--faint)">'+icon(c.ic,15)+'<span class="lab">'+esc(c.lab)+'</span></div>'+
-    '<div class="val"'+(c.tone?' style="color:var(--'+c.tone+')"':'')+'>'+esc(c.val)+'</div></div>').join('')+'</div>';
+    '<a class="today-cell" href="'+todayCellLink(c.key,st)+'">'+
+    '<div class="row" style="gap:6px;color:var(--faint)">'+icon(c.ic,15)+'<span class="lab">'+esc(c.lab)+'</span></div>'+
+    '<div class="val"'+(c.tone?' style="color:var(--'+c.tone+')"':'')+'>'+esc(c.val)+'</div>'+
+    '<span class="go">'+icon('chevron',13)+'</span></a>').join('')+'</div>';
 }
 function noteCard(note){
   const author=byId(DB.teachers, note.authorId);
@@ -2569,12 +2718,15 @@ function homeworkRow(h, st){
     : (late? '<span class="chip err">'+t('overdue')+'</span>'
     : (h.dueDate===dTod? '<span class="chip warn">'+t('due_today')+'</span>'
     : '<span class="chip">'+t('due')+' '+relDay(h.dueDate)+'</span>'));
-  return '<div class="list-row">'+
+  const clickable = state.session.role==='parent';
+  return '<div class="list-row'+(clickable?' tappable':'')+'"'+
+      (clickable? ' data-act="hw-open" data-hw="'+h.id+'" data-st="'+st.id+'" role="button" tabindex="0"':'')+'>'+
     '<div class="mood-badge" style="background:var(--brand-50);color:var(--brand)">'+icon(sj.icon,17)+'</div>'+
     '<div style="flex:1;min-width:0"><div style="font-weight:600;font-family:var(--ui);font-size:13.5px">'+esc(L(h.title))+'</div>'+
     '<div class="tiny muted">'+esc(L(sj.name))+(h.attachment?' · '+esc(h.attachment):'')+'</div></div>'+chip+
-    (state.session.role==='parent' && status!=='completed'?
-      '<button class="btn sm" data-act="hw-done" data-hw="'+h.id+'" data-st="'+st.id+'">'+t('mark_done')+'</button>':'')+
+    (clickable && status!=='completed'?
+      '<button class="btn sm" data-act="hw-toggle" data-hw="'+h.id+'" data-st="'+st.id+'">'+t('mark_done')+'</button>':'')+
+    (clickable? '<span class="tiny faint">'+icon('chevron',14)+'</span>':'')+
   '</div>';
 }
 
@@ -2740,14 +2892,14 @@ function ParentAcademics(){
       const a=subjectAverage(st.id,sj.id);
       const n=DB.grades.filter(g=>g.studentId===st.id && g.subjectId===sj.id).length;
       const p=a? Math.round((a/5)*100) : 0;
-      return '<div class="card flat"><div class="card-b">'+
+      return '<button class="card flat subject-card" data-act="subject-open" data-s="'+st.id+'" data-sub="'+sj.id+'" style="text-align:left;width:100%;border:1px solid var(--border);cursor:pointer"><div class="card-b">'+
         '<div class="row" style="gap:10px"><div class="mood-badge" style="background:var(--brand-50);color:var(--brand)">'+icon(sj.icon,17)+'</div>'+
         '<div style="flex:1;min-width:0"><div style="font-family:var(--ui);font-weight:700;font-size:14px">'+esc(L(sj.name))+'</div>'+
         '<div class="tiny muted">'+n+' '+(state.lang==='sq'?'vlerësime':'assessments')+'</div></div>'+
         '<div style="font-family:var(--ui);font-weight:'+(assessmentMode(classOf(st))==='descriptive'?'700;font-size:13px;text-align:right;max-width:104px':'800;font-size:19px')+'">'+
           (a!==null? esc(markLabel(classOf(st),a)) : '—')+'</div></div>'+
         '<div class="progress '+(p>=80?'ok':(p>=60?'teal':'warn'))+'" style="margin-top:11px"><i style="width:'+p+'%"></i></div>'+
-      '</div></div>';
+      '</div></button>';
     }).join('')+'</div>'+
     sectionHead(t('recent_grades'))+
     '<div class="card"><div class="card-b" style="padding-top:6px">'+grades.slice(0,8).map(g=>{
@@ -2965,8 +3117,10 @@ function ParentProfile(){
       (state.lang==='sq'?'Të dhënat e fëmijës suaj ruhen të koduara dhe shihen vetëm nga ju dhe stafi i autorizuar. Mund të kërkoni një kopje ose fshirjen e tyre në çdo kohë.'
                         :'Your child\u2019s data is stored encrypted and seen only by you and authorised staff. You can request a copy or its deletion at any time.')+'</p>'+
       '<div class="row wrap" style="gap:8px">'+
-        '<button class="btn" data-act="demo-only">'+icon('download',16)+t('data_export')+'</button>'+
-        '<button class="btn" data-act="demo-only">'+icon('trash',16)+t('data_delete')+'</button>'+
+        myChildren().map(c=>'<button class="btn" data-act="data-export" data-s="'+c.id+'">'+
+          icon('download',16)+t('data_export')+' · '+esc(c.firstName)+'</button>').join('')+
+        myChildren().map(c=>'<button class="btn ghost" data-act="data-delete" data-s="'+c.id+'">'+
+          icon('trash',16)+t('data_delete')+' · '+esc(c.firstName)+'</button>').join('')+
       '</div></div></div>'+
     '<div style="margin-top:16px">'+storageCard()+'</div>'+
     '<div style="margin-top:16px"><button class="btn block" data-act="logout">'+icon('logout',16)+t('switch_role')+'</button></div>';
@@ -4114,13 +4268,22 @@ const ACTIONS = {
    EVENTS + BOOT
    ========================================================================= */
 document.addEventListener('click', e=>{
+  /* Form controls keep their own behaviour. A file input opens its picker as
+     the default action of the click, so calling preventDefault on the way past
+     — which the modal backdrop used to do — silently disables uploading. */
+  const tag=(e.target.tagName||'').toLowerCase();
+  const isControl = tag==='input' || tag==='select' || tag==='textarea' ||
+                    tag==='option' || !!e.target.closest('label');
   const el=e.target.closest('[data-act]');
   if(!el) return;
   const act=el.dataset.act, fn=ACTIONS[act];
   if(!fn) return;
+  /* a backdrop only reacts to a click on the backdrop itself */
+  if(act==='modal-backdrop' && e.target!==el) return;
+  if(isControl && el.tagName!=='BUTTON' && el.tagName!=='A') return;
   const href=el.getAttribute('href');
   const isLink = el.tagName==='A' && href && href!=='#';
-  if(!isLink) e.preventDefault();
+  if(!isLink && !isControl) e.preventDefault();
   fn(el.dataset, e);
 });
 document.addEventListener('input', e=>{
@@ -4678,18 +4841,21 @@ function readMediaFiles(fileList){
 }
 
 /* one renderer for every place media is shown */
-function mediaTile(p){
+function mediaTile(p, opts){
   const cap=esc(L(p.caption)||'');
+  const openable = (opts&&opts.open) !== false && state.session && state.session.role==='parent'
+    && p.mediaType!=='video';
+  const openAttr = openable? ' data-act="view-photo" data-v="'+p.id+'" role="button" tabindex="0" style="cursor:zoom-in"' : '';
   const save='<button class="photo-x save" data-act="media-download" data-v="'+p.id+'" aria-label="'+t('save_photo')+'">'+icon('download',13)+'</button>';
   if(p.src && p.mediaType==='video'){
     return '<div class="photo vid"><video src="'+esc(p.src)+'" controls playsinline preload="metadata"></video>'+
       (cap? '<span class="cap top">'+cap+'</span>':'')+save+'</div>';
   }
   if(p.src){
-    return '<div class="photo"><img src="'+esc(p.src)+'" alt="'+cap+'" loading="lazy">'+
+    return '<div class="photo"'+openAttr+'><img src="'+esc(p.src)+'" alt="'+cap+'" loading="lazy">'+
       (cap? '<span class="cap">'+cap+'</span>':'')+save+'</div>';
   }
-  return '<div class="photo">'+photoSVG(p.id,p.kind)+(cap? '<span class="cap">'+cap+'</span>':'')+save+'</div>';
+  return '<div class="photo"'+openAttr+'>'+photoSVG(p.id,p.kind)+(cap? '<span class="cap">'+cap+'</span>':'')+save+'</div>';
 }
 
 /* ---------- profile picture: child, guardian or staff ---------- */
@@ -6739,6 +6905,7 @@ function restore(){
     const parsed=JSON.parse(raw);
     if(!parsed || parsed.v!==1 || !parsed.db || !parsed.db.students) return false;
     DB=parsed.db;
+    backfill();
     /* a session from the other portal must not be honoured here */
     const s=parsed.session;
     const fits = !s || (APP_VARIANT==='parent' ? s.role==='parent' : s.role!=='parent');
@@ -6748,6 +6915,25 @@ function restore(){
     rebuildAvatars();
     return true;
   }catch(e){ return false; }
+}
+
+/* A saved copy was written by an older build and knows nothing about whatever
+   has been added since — bus routes, fee plans, a new collection entirely.
+   Without this, restoring a week-old save silently wipes the new features. */
+const SEED_REFERENCE=['busRoutes','feePlans','terms','areas','subjects','gradeLevels',
+  'classSubjects','periods','menus','schools','schoolYears'];
+function backfill(){
+  let base=null;
+  const fresh=()=>{ if(!base) base=seed(); return base; };
+  Object.keys(fresh()).forEach(k=>{
+    if(k==='_ref') return;
+    if(DB[k]===undefined){ DB[k]=fresh()[k]; return; }
+    if(Array.isArray(DB[k]) && !DB[k].length && SEED_REFERENCE.indexOf(k)>=0
+       && Array.isArray(fresh()[k]) && fresh()[k].length){
+      DB[k]=fresh()[k];
+    }
+  });
+  if(!DB._ref) DB._ref=fresh()._ref;
 }
 
 function rebuildAvatars(){
@@ -6772,6 +6958,13 @@ function lastSavedAt(){
 
 /* the card shown in settings, so nobody has to guess where the data lives */
 function storageCard(){
+  if(typeof SB!=='undefined' && SB.enabled){
+    return '<div class="card"><div class="card-h"><h3>'+t('data_storage')+'</h3>'+
+        '<span class="chip ok">'+t('store_server')+'</span></div>'+
+      '<div class="card-b"><p class="small muted">'+t('store_server_explain')+'</p>'+
+      '<div class="notice privacy" style="margin-top:12px">'+icon('lock',16)+'<span>'+t('store_server_rls')+'</span></div>'+
+      '</div></div>';
+  }
   const saved=lastSavedAt();
   const state_ = !HAS_STORE ? 'off' : (!storeOK ? 'failed' : (saved ? 'on' : 'empty'));
   const tone={on:'ok', empty:'', failed:'err', off:'warn'}[state_];
@@ -6822,8 +7015,1633 @@ render = function(){ renderWithoutSave.apply(null, arguments); scheduleSave(); }
 window.addEventListener('pagehide', saveNow);
 window.addEventListener('beforeunload', saveNow);
 
-restore();
+
+/* =========================================================================
+   SUPABASE — the real backend
+   No library and no build step: PostgREST and GoTrue are plain HTTP, so this
+   talks to them with fetch. Configure it by editing config.js; with no keys
+   the app falls back to the browser storage it used before, unchanged.
+
+   The application keeps a mutable in-memory DB, as it always has. This layer
+   loads that DB from Postgres on sign-in and, after every render, diffs it
+   against the last snapshot and pushes what changed. That way none of the
+   fifteen feature files had to be rewritten to know about a server.
+   ========================================================================= */
+
+const SB = (function(){
+  const cfg = (typeof window!=='undefined' && window.HELLO_CONFIG) || {};
+  const url = (cfg.supabaseUrl||'').replace(/\/+$/,'');
+  const key = cfg.supabaseAnonKey||'';
+  return {enabled: !!(url && key), url, key};
+})();
+
+let SB_TOKEN = null;          /* the signed-in user's access token */
+let SB_USER  = null;          /* the app_user row for whoever is signed in */
+let SB_STATE = 'off';         /* off | idle | loading | saving | error */
+let SB_ERROR = null;
+
+/* ---------- the shape of each table ---------- */
+/* left: the key used in DB, right: the column in Postgres */
+const SB_MAP = [
+  ['schools','school',{id:'id',name:'name',shortName:'short_name',city:'city',country:'country',
+    address:'address',phone:'phone',email:'email',locale:'locale'}],
+  ['schoolYears','school_year',{id:'id',schoolId:'school_id',name:'name',startDate:'start_date',
+    endDate:'end_date',active:'active'}],
+  ['terms','term',{id:'id',schoolId:'school_id',yearId:'year_id',name:'name',start:'start_date',
+    end:'end_date',current:'current'}],
+  ['gradeLevels','grade_level',{id:'id',schoolId:'school_id',key:'key',name:'name',ordinal:'ordinal',
+    stage:'stage',assessment:'assessment'}],
+  ['areas','curricular_area',{id:'id',schoolId:'school_id',key:'key',name:'name',ordinal:'ordinal'}],
+  ['subjects','subject',{id:'id',schoolId:'school_id',key:'key',name:'name',icon:'icon',
+    areaId:'area_id',ordinal:'ordinal',active:'active'}],
+  ['users','app_user',{id:'id',schoolId:'school_id',name:'name',email:'email',role:'role',active:'active'}],
+  ['teachers','staff',{id:'id',userId:'user_id',schoolId:'school_id',title:'title',stage:'stage',phone:'phone',photoUrl:'photo_url'}],
+  ['parents','guardian',{id:'id',userId:'user_id',schoolId:'school_id',name:'name',email:'email',
+    phone:'phone',photoUrl:'photo_url',joinedAt:'joined_at'}],
+  ['classes','class',{id:'id',schoolId:'school_id',yearId:'year_id',gradeLevelId:'grade_level_id',
+    name:'name',shortName:'short_name',room:'room',ageLabel:'age_label',
+    homeroomTeacherId:'homeroom_staff_id',stage:'stage',startTime:'start_time',endTime:'end_time'}],
+  ['teacherClass','staff_class',{id:'id',teacherId:'staff_id',classId:'class_id',role:'role',subjectId:'subject_id'}],
+  ['classSubjects','class_subject',{id:'id',classId:'class_id',subjectId:'subject_id',ordinal:'ordinal',teacherId:'staff_id'}],
+  ['students','student',{id:'id',schoolId:'school_id',yearId:'year_id',classId:'class_id',
+    busMorning:'bus_morning',busAfternoon:'bus_afternoon',
+    firstName:'first_name',lastName:'last_name',dob:'dob',gender:'gender',registerNo:'register_no',
+    photoUrl:'photo_url',photoConsent:'photo_consent',photoConsentAt:'photo_consent_at',
+    profileConfirmedAt:'profile_confirmed_at',enrolledOn:'enrolled_on'}],
+  ['parentStudent','guardian_student',{id:'id',parentId:'guardian_id',studentId:'student_id',
+    relation:'relation',isPrimary:'is_primary',canPickup:'can_pickup',emergencyOrder:'emergency_order'}],
+  ['medical','medical_information',{id:'id',studentId:'student_id',allergies:'allergies',
+    allergiesAnswered:'allergies_answered',foodRestrictions:'food_restrictions',medications:'medications',
+    clinic:'clinic',notes:'notes',doctor:'doctor',doctorPhone:'doctor_phone'}],
+  ['pickups','authorised_pickup',{id:'id',studentId:'student_id',name:'name',relation:'relation',
+    phone:'phone',idChecked:'id_checked',addedBy:'added_by'}],
+  ['emergencyContacts','emergency_contact',{id:'id',studentId:'student_id',name:'name',
+    relation:'relation',phone:'phone'}],
+  ['periods','period',{id:'id',schoolId:'school_id',classId:'class_id',day:'day',order:'ordinal',
+    start:'start_time',end:'end_time',subjectId:'subject_id',teacherId:'staff_id',room:'room'}],
+  ['attendance','attendance',{id:'id',schoolId:'school_id',studentId:'student_id',classId:'class_id',
+    date:'date',status:'status',time:'time',note:'note',recordedBy:'recorded_by'}],
+  ['absences','absence_report',{id:'id',schoolId:'school_id',studentId:'student_id',classId:'class_id',
+    date:'date',reason:'reason',note:'note',reportedBy:'reported_by',status:'status'}],
+  ['meals','meal',{id:'id',schoolId:'school_id',studentId:'student_id',classId:'class_id',date:'date',
+    type:'type',consumption:'consumption',menu:'menu',time:'time',recordedBy:'recorded_by'}],
+  ['menus','weekly_menu',{id:'id',schoolId:'school_id',weekStart:'week_start',days:'days',
+    publishedAt:'published_at',publishedBy:'published_by'}],
+  ['activities','activity',{id:'id',schoolId:'school_id',classId:'class_id',date:'date',time:'time',
+    category:'category',name:'name',description:'description',studentIds:'student_ids',
+    participation:'participation',recordedBy:'recorded_by'}],
+  ['naps','nap',{id:'id',studentId:'student_id',date:'date',startTime:'start_time',minutes:'minutes',recordedBy:'recorded_by'}],
+  ['moods','mood_entry',{id:'id',studentId:'student_id',date:'date',time:'time',mood:'mood',recordedBy:'recorded_by'}],
+  ['teacherNotes','staff_note',{id:'id',studentId:'student_id',classId:'class_id',date:'date',
+    text:'text',authorId:'author_id',visibility:'visibility'}],
+  ['dailyReports','daily_report',{id:'id',studentId:'student_id',classId:'class_id',date:'date',
+    published:'published',publishedAt:'published_at',publishedBy:'published_by'}],
+  ['lessons','lesson',{id:'id',schoolId:'school_id',classId:'class_id',date:'date',periodId:'period_id',
+    order:'ordinal',subjectId:'subject_id',teacherId:'staff_id',topic:'topic',note:'note',
+    homework:'homework',absentIds:'absent_ids',remarks:'remarks',recordedBy:'recorded_by',recordedAt:'recorded_at'}],
+  ['grades','grade',{id:'id',schoolId:'school_id',studentId:'student_id',classId:'class_id',
+    subjectId:'subject_id',type:'type',value:'value',max:'max',comment:'comment',date:'date',teacherId:'staff_id'}],
+  ['termGrades','term_grade',{id:'id',schoolId:'school_id',studentId:'student_id',classId:'class_id',
+    subjectId:'subject_id',termId:'term_id',value:'value',recordedBy:'recorded_by'}],
+  ['conduct','conduct',{id:'id',studentId:'student_id',termId:'term_id',value:'value'}],
+  ['homework','homework',{id:'id',schoolId:'school_id',classId:'class_id',subjectId:'subject_id',
+    title:'title',description:'description',assignedDate:'assigned_date',dueDate:'due_date',teacherId:'staff_id'}],
+  ['homeworkStatus','homework_status',{id:'id',homeworkId:'homework_id',studentId:'student_id',status:'status'}],
+  ['invites','invitation',{id:'id',schoolId:'school_id',guardianId:'guardian_id',email:'email',
+    phone:'phone',code:'code',sentAt:'sent_at',expiresAt:'expires_at',usedAt:'used_at'}],
+  ['feePlans','fee_plan',{id:'id',schoolId:'school_id',key:'key',name:'name',amount:'amount',
+    currency:'currency',period:'period',gradeLevelKey:'grade_level_key',active:'active'}],
+  ['invoices','invoice',{id:'id',schoolId:'school_id',studentId:'student_id',classId:'class_id',
+    planId:'plan_id',period:'period',dueDate:'due_date',amount:'amount',discount:'discount',
+    currency:'currency',issuedAt:'issued_at',status:'status'}],
+  ['payments','payment',{id:'id',schoolId:'school_id',invoiceId:'invoice_id',studentId:'student_id',
+    amount:'amount',date:'date',method:'method',reference:'reference',recordedBy:'recorded_by'}],
+];
+
+/* three tables whose shape differs enough to be worth writing out */
+const SB_CUSTOM = {
+  busRoutes:{
+    table:'bus_route',
+    toRow:r=>({id:r.id, school_id:r.schoolId, key:r.key, name:r.name, sub:r.sub||null,
+      colour:r.color, direction:r.direction, departs:r.departs||null}),
+    fromRow:r=>({id:r.id, schoolId:r.school_id, key:r.key, name:r.name, sub:r.sub,
+      color:r.colour, direction:r.direction, departs:r.departs, stops:[]})
+  },
+  events:{
+    table:'event',
+    toRow:e=>({id:e.id, school_id:e.schoolId, title:e.title, date:e.date, time:e.time||null,
+      type:e.type||null, audience_type:(e.scope&&e.scope.type)||'school',
+      audience_ref:(e.scope&&e.scope.classId)||null}),
+    fromRow:r=>({id:r.id, schoolId:r.school_id, title:r.title, date:r.date, time:r.time,
+      type:r.type, scope:{type:r.audience_type||'school', classId:r.audience_ref}})
+  },
+  photos:{
+    table:'media',
+    toRow:p=>({id:p.id, school_id:p.schoolId, class_id:p.classId, date:p.date,
+      type:p.mediaType==='video'?'video':(p.src?'image':'illustration'),
+      storage_path:p.storagePath||null, kind:p.kind, caption:p.caption,
+      student_ids:p.studentIds||[], author_id:p.authorId||null}),
+    fromRow:r=>({id:r.id, schoolId:r.school_id, classId:r.class_id, date:r.date,
+      mediaType:r.type, storagePath:r.storage_path, src:null, kind:r.kind, caption:r.caption,
+      studentIds:r.student_ids||[], authorId:r.author_id, storage:'private'})
+  },
+  announcements:{
+    table:'announcement',
+    toRow:a=>({id:a.id, school_id:a.schoolId, title:a.title, body:a.body,
+      audience_type:(a.audience&&a.audience.type)||'school',
+      audience_ref:(a.audience&&(a.audience.classId||a.audience.gradeLevelId))||null,
+      author_id:a.authorId||null, published_at:a.publishedAt, pinned:!!a.pinned}),
+    fromRow:r=>({id:r.id, schoolId:r.school_id, title:r.title, body:r.body,
+      audience:{type:r.audience_type, classId:r.audience_ref}, authorId:r.author_id,
+      publishedAt:r.published_at, pinned:r.pinned})
+  },
+  conversations:{
+    table:'conversation',
+    toRow:c=>({id:c.id, school_id:c.schoolId, subject:c.subject,
+      participant_user_ids:(c.participants||[]).map(sbActorToUser).filter(Boolean),
+      updated_at:c.updated_at}),
+    fromRow:r=>({id:r.id, schoolId:r.school_id, subject:r.subject,
+      participants:(r.participant_user_ids||[]).map(sbUserToActor).filter(Boolean),
+      unreadFor:[], updated_at:r.updated_at})
+  },
+  messages:{
+    table:'message',
+    toRow:m=>({id:m.id, conversation_id:m.conversationId,
+      sender_user_id:sbActorToUser(sbParseActor(m.senderId)), body:m.body, created_at:m.at}),
+    fromRow:r=>({id:r.id, conversationId:r.conversation_id,
+      senderId:sbActorKey(r.sender_user_id), body:r.body, at:r.created_at})
+  },
+  notifications:{
+    table:'notification',
+    toRow:n=>({id:n.id, target_user_id:sbActorToUser(sbParseActor(n.target)),
+      type:n.type, title:n.title, link:n.link, read:!!n.read, created_at:n.at}),
+    fromRow:r=>({id:r.id, target:sbActorKey(r.target_user_id), type:r.type, title:r.title,
+      link:r.link, read:r.read, at:r.created_at})
+  }
+};
+
+/* the app addresses people as 'parent:<guardianId>'; Postgres uses the user id */
+function sbParseActor(k){ const [kind,id]=String(k||'').split(':'); return {kind,id}; }
+function sbActorToUser(p){
+  if(!p || !p.id) return null;
+  if(p.kind==='parent'){ const g=byId(DB.parents,p.id); return g? g.userId : null; }
+  if(p.kind==='teacher'){ const t2=byId(DB.teachers,p.id); return t2? t2.userId : null; }
+  return p.id;                                  /* admin ids are already user ids */
+}
+function sbUserToActor(uid){
+  const g=DB.parents.find(x=>x.userId===uid);   if(g) return {kind:'parent', id:g.id};
+  const t2=DB.teachers.find(x=>x.userId===uid); if(t2) return {kind:'teacher', id:t2.id};
+  return {kind:'admin', id:uid};
+}
+function sbActorKey(uid){ const a=sbUserToActor(uid); return a.kind+':'+a.id; }
+
+/* ---------- HTTP ---------- */
+function sbHeaders(extra){
+  return Object.assign({
+    'apikey': SB.key,
+    'Authorization': 'Bearer ' + (SB_TOKEN || SB.key),
+    'Content-Type': 'application/json'
+  }, extra||{});
+}
+async function sbFetch(path, opts){
+  const res = await fetch(SB.url + path, opts);
+  if(!res.ok){
+    let detail='';
+    try{ detail=(await res.json()).message || ''; }catch(e){}
+    const err=new Error(res.status + (detail? ' — '+detail : ''));
+    err.status=res.status;
+    throw err;
+  }
+  return res.status===204 ? null : res.json();
+}
+function sbSelect(table){
+  return sbFetch('/rest/v1/'+table+'?select=*', {headers:sbHeaders()});
+}
+function sbUpsert(table, rows){
+  return sbFetch('/rest/v1/'+table, {method:'POST', headers:sbHeaders({
+    'Prefer':'resolution=merge-duplicates,return=minimal'}), body:JSON.stringify(rows)});
+}
+function sbDelete(table, ids){
+  return sbFetch('/rest/v1/'+table+'?id=in.('+ids.join(',')+')',
+    {method:'DELETE', headers:sbHeaders({'Prefer':'return=minimal'})});
+}
+
+/* ---------- conversion ---------- */
+function sbToRow(coll, obj){
+  const c=SB_CUSTOM[coll];
+  if(c) return c.toRow(obj);
+  const spec=SB_MAP.find(m=>m[0]===coll);
+  const out={};
+  Object.keys(spec[2]).forEach(k=>{ const v=obj[k]; out[spec[2][k]] = v===undefined? null : v; });
+  return out;
+}
+function sbFromRow(coll, row){
+  const c=SB_CUSTOM[coll];
+  if(c) return c.fromRow(row);
+  const spec=SB_MAP.find(m=>m[0]===coll);
+  const out={};
+  Object.keys(spec[2]).forEach(k=>{ out[k]=row[spec[2][k]]; });
+  return out;
+}
+function sbTableOf(coll){
+  const c=SB_CUSTOM[coll]; if(c) return c.table;
+  const spec=SB_MAP.find(m=>m[0]===coll); return spec? spec[1] : null;
+}
+function sbCollections(){
+  return SB_MAP.map(m=>m[0]).concat(Object.keys(SB_CUSTOM));
+}
+
+/* ---------- loading ---------- */
+/* Row level security does the filtering: a guardian's request returns their
+   own children and nothing else, so the same call serves every role. */
+async function sbLoadAll(){
+  SB_STATE='loading'; SB_ERROR=null; sbPaintStatus();
+  const colls=sbCollections();
+  const order=['users','parents','teachers'].concat(colls.filter(c=>['users','parents','teachers'].indexOf(c)<0));
+  const fresh={};
+  for(const coll of order){
+    const table=sbTableOf(coll);
+    try{
+      const rows=await sbSelect(table);
+      fresh[coll]=rows;
+    }catch(e){
+      /* a table the role cannot read at all is not an error worth stopping for */
+      if(e.status===401 || e.status===403) fresh[coll]=[];
+      else { SB_STATE='error'; SB_ERROR=table+': '+e.message; sbPaintStatus(); throw e; }
+    }
+  }
+  /* identity tables first, because the actor conversions read them */
+  ['users','parents','teachers'].forEach(c=>{ DB[c]=(fresh[c]||[]).map(r=>sbFromRow(c,r)); });
+  try{ DB._busStops=await sbSelect('bus_stop'); }catch(e){ DB._busStops=[]; }
+  order.forEach(c=>{ if(['users','parents','teachers'].indexOf(c)<0) DB[c]=(fresh[c]||[]).map(r=>sbFromRow(c,r)); });
+  DB.auditLog=DB.auditLog||[];
+  sbDerive();
+  DB._ref=sbBuildRef(DB);
+  rebuildAvatars();
+  await sbSignMedia();
+  sbSnapshot();
+  SB_STATE='idle'; sbPaintStatus();
+}
+
+/* fields the app computes rather than stores: they are not columns, so they
+   have to be rebuilt after a load */
+function sbDerive(){
+  const T0=today();
+  (DB.students||[]).forEach(s=>{
+    s.fullName=(s.firstName||'')+' '+(s.lastName||'');
+    if(s.dob){
+      const d=new Date(s.dob);
+      let a=T0.getFullYear()-d.getFullYear();
+      const m=T0.getMonth()-d.getMonth();
+      if(m<0 || (m===0 && T0.getDate()<d.getDate())) a--;
+      s.age=a;
+    }
+    s.allergies=s.allergies||[];
+  });
+  (DB.conversations||[]).forEach(c=>{ c.unreadFor=c.unreadFor||[]; });
+  /* bus stops arrive as their own table and are nested back onto the route */
+  if(DB._busStops){
+    (DB.busRoutes||[]).forEach(r=>{
+      r.stops=DB._busStops.filter(s=>s.route_id===r.id)
+        .sort((a,b)=>a.ordinal-b.ordinal)
+        .map(s=>({id:s.id, name:s.name, time:s.time, note:s.note, ordinal:s.ordinal,
+                  lat:s.lat, lng:s.lng}));
+    });
+    delete DB._busStops;
+  }
+  (DB.photos||[]).forEach(p=>{ p.storage=p.storage||'private'; });
+}
+
+/* _ref is looked up by stable keys, never by position */
+function sbBuildRef(db){
+  const school=db.schools[0]||{}, year=db.schoolYears[0]||{};
+  const cls=n=>(db.classes.find(c=>c.shortName===n)||{}).id;
+  const S={}; db.students.forEach(s=>{ S[s.firstName]=s.id; });
+  const P={}; db.parents.forEach(p=>{ P[p.name]=p.id; });
+  const SUBJ={}; db.subjects.forEach(s=>{ SUBJ[s.key]=s.id; });
+  const LVL={}; db.gradeLevels.forEach(l=>{ LVL[l.key]=l.id; });
+  const byEmail=e=>{ const u=db.users.find(x=>x.email===e); return u? (db.teachers.find(t2=>t2.userId===u.id)||{}).id : undefined; };
+  const admin=db.users.find(u=>u.role==='admin');
+  return {SCHOOL:school.id, YEAR:year.id,
+    TERM1:(db.terms[0]||{}).id, TERM2:(db.terms[1]||{}).id,
+    C_KG:cls('Lulet'), C_KG2:cls('Bletët'), C_KG3:cls('Yjet'),
+    C_1A:cls('1/A'), C_5A:cls('5/A'), C_8A:cls('8/A'),
+    S, P, SUBJ, LVL, AREA:{},
+    U_ADMIN:admin? admin.id : undefined,
+    T_ALBINA:byEmail('albina.sylejmani@helloacademy.example'),
+    T_TEUTA:byEmail('teuta.hoxha@dituria.example'),
+    T_EDONA:byEmail('edona.nikci@helloacademy.example'),
+    T_MIRLINDA:byEmail('mirlinda.zeka@helloacademy.example'),
+    T_BLERIM:byEmail('blerim.gashi@dituria.example'),
+    T_ARTAD:byEmail('arta.dervishi@dituria.example'),
+    P_ARTA:(db.parents.find(p=>p.name==='Arta Krasniqi')||{}).id};
+}
+
+/* photos live in a private bucket; links are minted per load and expire */
+async function sbSignMedia(){
+  const paths=(DB.photos||[]).filter(p=>p.storagePath).map(p=>p.storagePath);
+  if(!paths.length) return;
+  try{
+    const out=await sbFetch('/storage/v1/object/sign/media', {method:'POST', headers:sbHeaders(),
+      body:JSON.stringify({expiresIn:3600, paths})});
+    const by={}; (out||[]).forEach(o=>{ by[o.path]=SB.url+'/storage/v1'+o.signedURL; });
+    DB.photos.forEach(p=>{ if(p.storagePath && by[p.storagePath]) p.src=by[p.storagePath]; });
+  }catch(e){ /* pictures simply stay blank rather than breaking the screen */ }
+}
+
+/* an uploaded picture goes to the bucket, and only its path is stored */
+async function sbUploadMedia(photo){
+  if(!photo.src || photo.mediaType==='video' || photo.storagePath) return;
+  if(String(photo.src).slice(0,5)!=='data:') return;
+  const [meta,b64]=photo.src.split(',');
+  const mime=(meta.match(/data:([^;]+)/)||[])[1]||'image/jpeg';
+  const bin=atob(b64); const arr=new Uint8Array(bin.length);
+  for(let i=0;i<bin.length;i++) arr[i]=bin.charCodeAt(i);
+  const ext=mime.split('/')[1]||'jpg';
+  const path=photo.schoolId+'/'+photo.classId+'/'+photo.id+'.'+ext;
+  await fetch(SB.url+'/storage/v1/object/media/'+path, {method:'POST',
+    headers:{'apikey':SB.key,'Authorization':'Bearer '+SB_TOKEN,'Content-Type':mime,'x-upsert':'true'},
+    body:arr});
+  photo.storagePath=path;
+}
+
+/* ---------- change detection ---------- */
+/* The feature code mutates DB directly. Rather than rewrite every action to
+   call a repository, take a snapshot and diff it — the same trick the local
+   storage layer uses, just pushed further. */
+let SB_SNAP = null;
+function sbSnapshot(){
+  SB_SNAP={};
+  sbCollections().forEach(c=>{
+    SB_SNAP[c]={};
+    (DB[c]||[]).forEach(o=>{ SB_SNAP[c][o.id]=JSON.stringify(sbToRow(c,o)); });
+  });
+}
+function sbDiff(){
+  if(!SB_SNAP) return null;
+  const out={};
+  sbCollections().forEach(c=>{
+    const seen={}, up=[], del=[];
+    (DB[c]||[]).forEach(o=>{
+      if(!o || !o.id) return;
+      seen[o.id]=1;
+      const json=JSON.stringify(sbToRow(c,o));
+      if(SB_SNAP[c][o.id]!==json) up.push(o);
+    });
+    Object.keys(SB_SNAP[c]||{}).forEach(id=>{ if(!seen[id]) del.push(id); });
+    if(up.length||del.length) out[c]={up, del};
+  });
+  return Object.keys(out).length? out : null;
+}
+
+let sbBusy=false, sbAgain=false;
+async function sbPush(){
+  if(!SB.enabled || !SB_TOKEN || !SB_SNAP) return;
+  if(sbBusy){ sbAgain=true; return; }
+  const diff=sbDiff();
+  if(!diff) return;
+  sbBusy=true; SB_STATE='saving'; SB_ERROR=null; sbPaintStatus();
+  try{
+    /* pictures first, so the row can carry a path rather than the bytes */
+    if(diff.photos) for(const p of diff.photos.up) await sbUploadMedia(p);
+    /* parents before children, so foreign keys are satisfied */
+    const order=sbCollections();
+    for(const c of order){
+      const d=diff[c]; if(!d) continue;
+      if(d.up.length) await sbUpsert(sbTableOf(c), d.up.map(o=>sbToRow(c,o)));
+    }
+    /* stops belong to a table of their own, flattened out of the routes */
+    if(diff.busRoutes){
+      const rows=[];
+      (DB.busRoutes||[]).forEach(r=>(r.stops||[]).forEach((s,i)=>rows.push({
+        id:s.id, route_id:r.id, name:s.name, time:s.time||null, note:s.note||null,
+        lat:s.lat||null, lng:s.lng||null, ordinal:i+1})));
+      if(rows.length) await sbUpsert('bus_stop', rows);
+    }
+    /* deletes run in reverse, for the same reason */
+    for(const c of order.slice().reverse()){
+      const d=diff[c]; if(!d || !d.del.length) continue;
+      await sbDelete(sbTableOf(c), d.del);
+    }
+    sbSnapshot();
+    SB_STATE='idle';
+  }catch(e){
+    SB_STATE='error'; SB_ERROR=e.message;
+  }
+  sbBusy=false; sbPaintStatus();
+  if(sbAgain){ sbAgain=false; sbPush(); }
+}
+
+let sbTimer=null;
+function sbSchedule(){
+  if(!SB.enabled || !SB_TOKEN) return;
+  clearTimeout(sbTimer);
+  sbTimer=setTimeout(sbPush, 700);
+}
+
+/* ---------- authentication ---------- */
+async function sbSendCode(identifier){
+  const body = identifier.indexOf('@')>=0
+    ? {email:identifier, create_user:false}
+    : {phone:identifier, create_user:false};
+  await sbFetch('/auth/v1/otp', {method:'POST',
+    headers:{'apikey':SB.key,'Content-Type':'application/json'}, body:JSON.stringify(body)});
+}
+async function sbVerifyCode(identifier, token){
+  const body = identifier.indexOf('@')>=0
+    ? {email:identifier, token, type:'email'}
+    : {phone:identifier, token, type:'sms'};
+  const out=await sbFetch('/auth/v1/verify', {method:'POST',
+    headers:{'apikey':SB.key,'Content-Type':'application/json'}, body:JSON.stringify(body)});
+  SB_TOKEN=out.access_token;
+  return out;
+}
+async function sbSignInPassword(email, password){
+  const out=await sbFetch('/auth/v1/token?grant_type=password', {method:'POST',
+    headers:{'apikey':SB.key,'Content-Type':'application/json'},
+    body:JSON.stringify({email, password})});
+  SB_TOKEN=out.access_token;
+  return out;
+}
+async function sbSignOut(){
+  try{ await sbFetch('/auth/v1/logout',{method:'POST',headers:sbHeaders()}); }catch(e){}
+  SB_TOKEN=null; SB_USER=null; SB_STATE='off'; sbPaintStatus();
+}
+
+/* turn the signed-in auth user into the app's own session shape */
+async function sbAdoptSession(){
+  const me=await sbFetch('/rest/v1/app_user?select=*&id=eq.'+sbAuthUserId(), {headers:sbHeaders()});
+  SB_USER=me && me[0];
+  if(!SB_USER) throw new Error('no app_user row for this account');
+  await sbLoadAll();
+  if(SB_USER.role==='parent'){
+    const g=DB.parents.find(p=>p.userId===SB_USER.id);
+    state.session={role:'parent', parentId:g? g.id : null, userId:SB_USER.id};
+  } else if(SB_USER.role==='teacher'){
+    const t2=DB.teachers.find(x=>x.userId===SB_USER.id);
+    state.session={role:'teacher', teacherId:t2? t2.id : null, userId:SB_USER.id};
+  } else {
+    state.session={role:'admin', userId:SB_USER.id};
+  }
+  state.childId=null; state.ui={};
+  go(state.session.role+'/'+(state.session.role==='parent'?'home':'dashboard'));
+  onRoute();
+}
+function sbAuthUserId(){
+  if(!SB_TOKEN) return '';
+  try{
+    const p=JSON.parse(atob(SB_TOKEN.split('.')[1].replace(/-/g,'+').replace(/_/g,'/')));
+    return p.sub||'';
+  }catch(e){ return ''; }
+}
+
+/* ---------- the little status light in the top bar ---------- */
+function sbStatusHTML(){
+  if(!SB.enabled) return '';
+  const map={idle:['ok','sync_saved'], saving:['info','sync_saving'],
+             loading:['info','sync_loading'], error:['err','sync_error'], off:['','sync_off']};
+  const [tone,lbl]=map[SB_STATE]||map.off;
+  return '<span class="chip '+tone+'" id="sbStatus" title="'+esc(SB_ERROR||'')+'">'+
+    icon(SB_STATE==='error'?'alert':(SB_STATE==='idle'?'check':'clock'),12)+t(lbl)+'</span>';
+}
+function sbPaintStatus(){
+  const el=document.getElementById('sbStatus');
+  if(el && el.parentNode) el.outerHTML=sbStatusHTML();
+}
+
+/* =========================================================================
+   WIRING — only when configured; otherwise nothing below changes behaviour
+   ========================================================================= */
+if(SB.enabled){
+  /* the demo shortcuts have no meaning against a real database */
+  const plainLogin=ACTIONS['login-as'];
+  ACTIONS['login-as']=()=>toast(t('demo_login_off'),'lock');
+
+  ACTIONS['auth-start']=async()=>{
+    const el=document.getElementById('authId');
+    const v=el? el.value.trim() : '';
+    if(!v){ state.ui.auth={step:'id', error:t('account_not_found')}; render(); return; }
+    if(APP_VARIANT==='parent'){
+      try{
+        await sbSendCode(v);
+        state.ui.auth={step:'code', code:null, sentTo:v, identifier:v, remote:true,
+          expiresAt:new Date(Date.now()+CODE_TTL_MIN*60000).toISOString()};
+      }catch(e){
+        /* the server does not say whether the address exists, and neither do we */
+        state.ui.auth={step:'code', code:null, sentTo:v, identifier:v, remote:true,
+          expiresAt:new Date(Date.now()+CODE_TTL_MIN*60000).toISOString()};
+      }
+    } else {
+      state.ui.auth={step:'password', identifier:v, remote:true, name:v};
+    }
+    render();
+  };
+  ACTIONS['auth-verify']=async()=>{
+    const a=state.ui.auth||{};
+    const el=document.getElementById('authCode');
+    const v=el? el.value.trim() : '';
+    if(!v) return;
+    try{
+      await sbVerifyCode(a.identifier, v);
+      await sbAdoptSession();
+    }catch(e){
+      state.ui.auth=Object.assign({},a,{error:t('code_wrong')});
+      toast(t('code_wrong'),'alert'); render();
+    }
+  };
+  ACTIONS['auth-password']=async()=>{
+    const a=state.ui.auth||{};
+    const el=document.getElementById('authPass');
+    const v=el? el.value : '';
+    if(!v){ toast(t('enter_password'),'alert'); return; }
+    try{
+      await sbSignInPassword(a.identifier, v);
+      await sbAdoptSession();
+    }catch(e){
+      toast(t('signin_failed'),'alert');
+    }
+  };
+  const plainLogout=ACTIONS['logout'];
+  ACTIONS['logout']=async()=>{ await sbSignOut(); if(plainLogout) plainLogout(); };
+
+  /* nothing is written to the browser when there is a database to write to */
+  ACTIONS['store-clear']=()=>toast(t('server_backed'),'info');
+  ACTIONS['reset-demo']=()=>toast(t('server_backed'),'info');
+
+  const baseRender=render;
+  render=function(){ baseRender.apply(null, arguments); sbSchedule(); };
+  window.addEventListener('pagehide', ()=>{ sbPush(); });
+}
+
+
+/* =========================================================================
+   PËRVOJA E PRINDIT — every control leads somewhere real
+   Nothing in the parent app is a placeholder: each tile, chip and button
+   either opens the screen it describes or performs the thing it names.
+   ========================================================================= */
+
+/* ---------- the hero avatar is the way to set the child's picture ---------- */
+function heroAvatar(st){
+  const pic=AVATARS[st.id];
+  return '<button class="hero-avatar" data-act="kidphoto-open" data-s="'+st.id+'" '+
+    'aria-label="'+esc(t('change_photo'))+'" title="'+esc(t('change_photo'))+'">'+
+    (pic? '<img src="'+esc(pic)+'" alt="">'
+        : '<span class="ini">'+esc(initials(st.fullName))+'</span>')+
+    '<span class="cam">'+icon('camera',13)+'</span>'+
+  '</button>';
+}
+
+/* ---------- today's grid: every cell goes where it says ---------- */
+function todayCellLink(key, st){
+  const d=ymd(today());
+  const published=!!reportFor(st.id,d);
+  const map={
+    attendance: published? '#/parent/report?s='+st.id+'&d='+d : '#/parent/reports',
+    meals:      '#/parent/menu',
+    mood:       published? '#/parent/report?s='+st.id+'&d='+d : '#/parent/reports',
+    nap:        published? '#/parent/report?s='+st.id+'&d='+d : '#/parent/reports',
+    activities: published? '#/parent/report?s='+st.id+'&d='+d : '#/parent/reports',
+    note:       published? '#/parent/report?s='+st.id+'&d='+d : '#/parent/reports',
+    homework:   '#/parent/homework',
+    overall:    '#/parent/academics'
+  };
+  return map[key] || '#/parent/home';
+}
+
+/* ---------- looking at a photo properly ---------- */
+function photoViewer(){
+  const id=state.ui.viewPhoto;
+  if(!id) return '';
+  const st=activeChild();
+  const list=photosFor(st.id);
+  const i=list.findIndex(p=>p.id===id);
+  if(i<0) return '';
+  const p=list[i];
+  const kids=(p.studentIds||[]).map(x=>byId(DB.students,x)).filter(Boolean);
+  return '<div class="viewer" data-act="viewer-close">'+
+    '<div class="viewer-inner" onclick="event.stopPropagation()">'+
+      '<div class="viewer-media">'+
+        (p.src && p.mediaType==='video'
+          ? '<video src="'+esc(p.src)+'" controls playsinline autoplay></video>'
+          : (p.src? '<img src="'+esc(p.src)+'" alt="'+esc(L(p.caption)||'')+'">'
+                  : '<div class="viewer-svg">'+photoSVG(p.id,p.kind)+'</div>'))+
+        (i>0? '<button class="viewer-nav prev" data-act="viewer-go" data-v="'+list[i-1].id+'" aria-label="'+t('back')+'">'+icon('chevronL',22)+'</button>':'')+
+        (i<list.length-1? '<button class="viewer-nav next" data-act="viewer-go" data-v="'+list[i+1].id+'" aria-label="'+t('next_step')+'">'+icon('chevron',22)+'</button>':'')+
+      '</div>'+
+      '<div class="viewer-bar">'+
+        '<div style="flex:1;min-width:0">'+
+          '<div style="font-family:var(--ui);font-weight:600;font-size:14px">'+esc(L(p.caption)||'—')+'</div>'+
+          '<div class="tiny faint">'+esc(fmtDate(p.date,'long'))+
+            (kids.length? ' · '+esc(kids.map(k=>k.firstName).join(', ')) : '')+
+            ' · '+(i+1)+'/'+list.length+'</div>'+
+        '</div>'+
+        '<button class="btn sm" data-act="media-download" data-v="'+p.id+'">'+icon('download',15)+t('save_photo')+'</button>'+
+        '<button class="btn sm ghost" data-act="viewer-close">'+icon('x',15)+'</button>'+
+      '</div>'+
+    '</div></div>';
+}
+
+/* ---------- one subject, in full ---------- */
+function modalSubjectDetail(studentId, subjectId){
+  const st=byId(DB.students,studentId), sj=byId(DB.subjects,subjectId), cls=classOf(st);
+  const list=DB.grades.filter(g=>g.studentId===st.id && g.subjectId===sj.id)
+    .sort((a,b)=>b.date.localeCompare(a.date));
+  const avg=subjectAverage(st.id, sj.id);
+  const trend=list.slice().reverse().map(g=>g.value);
+  const hw=DB.homework.filter(h=>h.classId===st.classId && h.subjectId===sj.id)
+    .sort((a,b)=>b.dueDate.localeCompare(a.dueDate)).slice(0,3);
+  const teacher=(DB.classSubjects.find(c=>c.classId===st.classId && c.subjectId===sj.id)||{}).teacherId;
+  openModal({title:esc(L(sj.name)), body:
+    '<div class="rowb" style="gap:12px;flex-wrap:wrap;margin-bottom:14px">'+
+      '<div class="row" style="gap:11px">'+
+        '<div class="mood-badge" style="background:var(--brand-50);color:var(--brand)">'+icon(sj.icon,18)+'</div>'+
+        '<div><div style="font-family:var(--ui);font-weight:800;font-size:20px">'+
+          esc(avg!=null? markLabel(cls,avg) : '—')+'</div>'+
+        '<div class="tiny muted">'+list.length+' '+(state.lang==='sq'?'vlerësime':'assessments')+
+          (teacher? ' · '+esc(teacherName(teacher)) : '')+'</div></div></div>'+
+      (trend.length>1? '<div style="flex:1;min-width:140px">'+sparkline(trend,{h:44})+'</div>':'')+
+    '</div>'+
+    (list.length? '<div class="tiny faint" style="font-weight:600;margin-bottom:6px">'+t('recent_grades')+'</div>'+
+      list.slice(0,8).map(g=>'<div class="list-row" style="align-items:flex-start">'+
+        '<span class="chip '+markTone(cls,g.value)+'" style="min-width:30px;justify-content:center">'+esc(markLabel(cls,g.value))+'</span>'+
+        '<div style="flex:1;min-width:0"><div style="font-weight:600;font-family:var(--ui);font-size:13px">'+t(g.type)+'</div>'+
+        (L(g.comment)? '<div class="tiny muted">'+esc(L(g.comment))+'</div>':'')+'</div>'+
+        '<span class="tiny faint">'+esc(fmtDate(g.date))+'</span></div>').join('')
+      : '<p class="small faint">'+t('no_marks_yet')+'</p>')+
+    (hw.length? '<div class="divider"></div>'+
+      '<div class="tiny faint" style="font-weight:600;margin-bottom:6px">'+t('homework')+'</div>'+
+      hw.map(h=>'<div class="list-row"><span class="chip '+(hwStatus(h.id,st.id)==='completed'?'ok':'')+'">'+
+        icon(hwStatus(h.id,st.id)==='completed'?'check':'clock',12)+'</span>'+
+        '<div style="flex:1;min-width:0"><div class="small" style="font-weight:600">'+esc(L(h.title))+'</div>'+
+        '<div class="tiny muted">'+t('due')+' '+esc(fmtDate(h.dueDate))+'</div></div></div>').join('')
+      : ''),
+    footer:'<button class="btn" data-act="close-modal">'+t('close')+'</button>'+
+      '<a class="btn primary" href="#/parent/academics" data-act="close-modal">'+t('view_all')+'</a>'});
+}
+
+/* ---------- one homework, in full ---------- */
+function modalHomeworkDetail(homeworkId, studentId){
+  const h=byId(DB.homework,homeworkId), st=byId(DB.students,studentId);
+  const sj=h.subjectId? byId(DB.subjects,h.subjectId) : null;
+  const done=hwStatus(h.id,st.id)==='completed';
+  const late=!done && h.dueDate < ymd(today());
+  openModal({title:esc(L(h.title)), body:
+    '<div class="row wrap" style="gap:8px;margin-bottom:13px">'+
+      (sj? '<span class="chip brand">'+icon(sj.icon,12)+esc(L(sj.name))+'</span>':'')+
+      '<span class="chip '+(late?'err':(done?'ok':''))+'">'+icon(done?'check':'clock',12)+
+        t('due')+' '+esc(fmtDate(h.dueDate))+'</span>'+
+      (h.teacherId? '<span class="chip">'+esc(teacherName(h.teacherId))+'</span>':'')+
+    '</div>'+
+    '<p class="small" style="line-height:1.6">'+esc(L(h.description)||L(h.title))+'</p>'+
+    (late? '<div class="notice warn" style="margin-top:13px">'+icon('alert',16)+'<span>'+t('homework_late')+'</span></div>':'')+
+    '<div class="notice" style="margin-top:13px">'+icon('info',16)+'<span>'+t('homework_mark_note')+'</span></div>',
+    footer:'<button class="btn" data-act="close-modal">'+t('close')+'</button>'+
+      '<button class="btn '+(done?'':'primary')+'" data-act="hw-toggle" data-hw="'+h.id+'" data-st="'+st.id+'">'+
+        icon(done?'x':'check',16)+t(done? 'mark_not_done' : 'mark_done')+'</button>'});
+}
+
+/* ---------- the data a family is entitled to ---------- */
+function childExport(studentId){
+  const st=byId(DB.students,studentId);
+  const med=DB.medical.find(m=>m.studentId===st.id)||{};
+  const out={
+    exportedAt:new Date().toISOString(),
+    school:DB.schools[0].name,
+    child:{name:st.fullName, dob:st.dob, class:classOf(st).name, registerNo:st.registerNo,
+      photoConsent:st.photoConsent, profileConfirmedAt:st.profileConfirmedAt},
+    guardians:DB.parentStudent.filter(r=>r.studentId===st.id).map(r=>{
+      const p=byId(DB.parents,r.parentId);
+      return {name:p.name, email:p.email, phone:p.phone, relation:L(r.relation)};
+    }),
+    health:{allergies:med.allergies||[], foodRestrictions:med.foodRestrictions||[],
+      medications:med.medications||'', doctor:med.doctor||'', doctorPhone:med.doctorPhone||'',
+      notes:L(med.notes)||''},
+    emergencyContacts:DB.emergencyContacts.filter(c=>c.studentId===st.id)
+      .map(c=>({name:c.name, relation:c.relation, phone:c.phone})),
+    authorisedPickup:DB.pickups.filter(p=>p.studentId===st.id)
+      .map(p=>({name:p.name, relation:L(p.relation), phone:p.phone})),
+    attendance:DB.attendance.filter(a=>a.studentId===st.id)
+      .map(a=>({date:a.date, status:a.status, time:a.time})),
+    meals:DB.meals.filter(m=>m.studentId===st.id)
+      .map(m=>({date:m.date, type:m.type, consumption:m.consumption, menu:L(m.menu)})),
+    dailyReports:DB.dailyReports.filter(r=>r.studentId===st.id && r.published).map(r=>r.date),
+    notes:DB.teacherNotes.filter(n=>n.studentId===st.id).map(n=>({date:n.date, text:L(n.text)})),
+    grades:DB.grades.filter(g=>g.studentId===st.id).map(g=>({date:g.date,
+      subject:L(byId(DB.subjects,g.subjectId).name), type:g.type, value:g.value, comment:L(g.comment)})),
+    termGrades:DB.termGrades.filter(g=>g.studentId===st.id).map(g=>({
+      subject:L(byId(DB.subjects,g.subjectId).name), term:L(byId(DB.terms,g.termId).name), value:g.value})),
+    register:DB.lessons.filter(l=>l.classId===st.classId).map(l=>({date:l.date, order:l.order,
+      subject:L(byId(DB.subjects,l.subjectId).name), topic:L(l.topic),
+      absent:(l.absentIds||[]).indexOf(st.id)>=0,
+      remark:((l.remarks||[]).find(r=>r.studentId===st.id)||{}).text ?
+        L((l.remarks||[]).find(r=>r.studentId===st.id).text) : null})),
+    invoices:DB.invoices.filter(i=>i.studentId===st.id).map(i=>({period:i.period,
+      fee:L(planOf(i.planId).name), amount:i.amount, due:i.dueDate, status:invoiceStatus(i)})),
+    payments:DB.payments.filter(p=>p.studentId===st.id)
+      .map(p=>({date:p.date, amount:p.amount, method:p.method, reference:p.reference})),
+    photos:photosFor(st.id).map(p=>({date:p.date, caption:L(p.caption)}))
+  };
+  const blob=new Blob([JSON.stringify(out,null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=st.fullName.replace(/\s+/g,'-').toLowerCase()+'-'+ymd(today())+'.json';
+  document.body.appendChild(a); a.click(); a.remove();
+  audit('gdpr.export', st.fullName);
+}
+
+function modalDeleteRequest(studentId){
+  const st=byId(DB.students,studentId);
+  openModal({title:t('data_delete'), body:
+    '<p class="small" style="line-height:1.6">'+esc(tf('delete_intro',{n:st.firstName}))+'</p>'+
+    '<div class="notice warn" style="margin:14px 0">'+icon('alert',16)+'<span>'+t('delete_legal')+'</span></div>'+
+    '<div class="field" style="margin-bottom:0"><label class="fl">'+t('delete_reason')+'</label>'+
+      '<textarea id="delReason" rows="3" placeholder="'+t('delete_reason_ph')+'"></textarea></div>'+
+    '<label class="row" style="gap:8px;margin-top:12px;align-items:flex-start;cursor:pointer">'+
+      '<input type="checkbox" id="delConfirm">'+
+      '<span class="small">'+esc(tf('delete_confirm',{n:st.fullName}))+'</span></label>',
+    footer:'<button class="btn" data-act="close-modal">'+t('cancel')+'</button>'+
+      '<button class="btn primary" data-act="del-request" data-s="'+st.id+'" '+
+        'style="background:var(--err);border-color:var(--err)">'+t('send_request')+'</button>'});
+}
+
+/* the administration's side of that request */
+function AdminRequests(){
+  const list=(DB.deletionRequests||[]).slice().sort((a,b)=>b.at.localeCompare(a.at));
+  if(!list.length) return '<div class="card"><div class="card-b">'+
+    emptyState('no_requests','no_requests_hint','shield')+'</div></div>';
+  const rows=list.map(r=>{
+    const st=byId(DB.students,r.studentId), g=byId(DB.parents,r.requestedBy);
+    return '<tr><td><div class="row" style="gap:9px">'+avatar(st?st.fullName:'—',28,r.studentId)+
+        '<div><b style="font-family:var(--ui)">'+esc(st?st.fullName:'—')+'</b>'+
+        '<div class="tiny muted">'+esc(g?g.name:'')+'</div></div></div></td>'+
+      '<td class="muted small">'+esc(L(r.reason)||'—')+'</td>'+
+      '<td class="muted">'+esc(relTime(r.at))+'</td>'+
+      '<td><span class="chip '+(r.status==='open'?'warn':'ok')+'">'+t(r.status==='open'?'pending':'handled')+'</span></td>'+
+      '<td>'+(r.status==='open'
+        ? '<button class="btn sm" data-act="req-handle" data-v="'+r.id+'">'+icon('check',14)+t('mark_handled')+'</button>'
+        : '<span class="tiny faint">'+esc(relTime(r.handledAt))+'</span>')+'</td></tr>';
+  });
+  return '<div class="notice" style="margin-bottom:14px">'+icon('shield',16)+'<span>'+t('requests_hint')+'</span></div>'+
+    adminTable([t('student'),t('delete_reason'),t('date'),t('status'),''], rows, '',
+      list.filter(r=>r.status==='open').length+' '+t('pending').toLowerCase());
+}
+
+/* =========================================================================
+   WIRING
+   ========================================================================= */
+Object.assign(VIEWS, {'admin/requests':AdminRequests});
+
+Object.assign(ACTIONS, {
+  'view-photo':(d)=>{ state.ui.viewPhoto=d.v; render(); },
+  'viewer-go':(d)=>{ state.ui.viewPhoto=d.v; render(); },
+  'viewer-close':()=>{ state.ui.viewPhoto=null; render(); },
+  'subject-open':(d)=>{ if(!canAccessStudent(d.s)) return; modalSubjectDetail(d.s, d.sub); },
+  'hw-open':(d)=>{ if(!canAccessStudent(d.st)) return; modalHomeworkDetail(d.hw, d.st); },
+  'hw-toggle':(d)=>{
+    if(!canAccessStudent(d.st)){ toast(t('no_access'),'lock'); return; }
+    const r=DB.homeworkStatus.find(x=>x.homeworkId===d.hw && x.studentId===d.st);
+    const done=r && r.status==='completed';
+    if(r) r.status = done? 'pending':'completed';
+    else DB.homeworkStatus.push({id:uuid('hs'+d.hw+d.st), homeworkId:d.hw, studentId:d.st,
+      status:'completed', updated_at:nowISO()});
+    closeModal(); toast(t(done? 'marked_not_done' : 'marked_done'),'checkcircle'); render();
+  },
+  'data-export':(d)=>{
+    if(!canAccessStudent(d.s)){ toast(t('no_access'),'lock'); return; }
+    childExport(d.s);
+    toast(t('export_ready'),'download');
+  },
+  'data-delete':(d)=>{ if(!canAccessStudent(d.s)) return; modalDeleteRequest(d.s); },
+  'del-request':(d)=>{
+    if(!canAccessStudent(d.s)){ toast(t('no_access'),'lock'); return; }
+    const ok=document.getElementById('delConfirm');
+    if(!ok || !ok.checked){ toast(t('delete_confirm_required'),'alert'); return; }
+    const el=document.getElementById('delReason');
+    DB.deletionRequests=DB.deletionRequests||[];
+    DB.deletionRequests.push({id:uuid('dr'+Date.now()), schoolId:DB._ref.SCHOOL, studentId:d.s,
+      requestedBy:state.session.parentId, reason: el && el.value.trim()? bi(el.value.trim()) : null,
+      at:nowISO(), status:'open', handledAt:null});
+    DB.users.filter(u=>u.role==='admin').forEach(u=>
+      pushNotification('admin:'+u.id,'gdpr',
+        'Kërkesë për fshirje të dhënash', 'Data deletion request', '#/admin/requests'));
+    audit('gdpr.delete_request', d.s);
+    closeModal(); toast(t('request_sent'),'checkcircle'); render();
+  },
+  'req-handle':(d)=>{
+    if(state.session.role!=='admin') return;
+    const r=(DB.deletionRequests||[]).find(x=>x.id===d.v);
+    if(!r) return;
+    r.status='handled'; r.handledAt=nowISO();
+    audit('gdpr.delete_handled', r.studentId);
+    toast(t('saved'),'checkcircle'); render();
+  }
+});
+
+/* the viewer sits above everything, and Escape closes it */
+const renderBeforeViewer = render;
+render = function(){
+  renderBeforeViewer.apply(null, arguments);
+  if(state.ui.viewPhoto && state.session && state.session.role==='parent'){
+    const root=document.getElementById('root');
+    if(root) root.insertAdjacentHTML('beforeend', photoViewer());
+  }
+};
+document.addEventListener('keydown', e=>{
+  if(!state.ui.viewPhoto) return;
+  const st=activeChild(); if(!st) return;
+  const list=photosFor(st.id);
+  const i=list.findIndex(p=>p.id===state.ui.viewPhoto);
+  if(e.key==='Escape'){ state.ui.viewPhoto=null; render(); }
+  if(e.key==='ArrowLeft' && i>0){ state.ui.viewPhoto=list[i-1].id; render(); }
+  if(e.key==='ArrowRight' && i<list.length-1){ state.ui.viewPhoto=list[i+1].id; render(); }
+});
+
+
+/* =========================================================================
+   MENYJA dhe DËFTESA
+   The menu is read by a parent on a phone at 7am, so it opens on today with
+   the four meals as cards rather than a wall of rows. The report card is a
+   document a family keeps, so it carries the school's mark and downloads.
+   ========================================================================= */
+
+/* ---------- illustrations, not stock photography of food ---------- */
+const FOOD_KINDS=[
+  {k:'soup',  w:['supë','soup','corbë']},
+  {k:'fish',  w:['peshk','fish']},
+  {k:'meat',  w:['mish','pule','chicken','meat','qofte']},
+  {k:'pasta', w:['makarona','pasta','oriz','rice','pilaf']},
+  {k:'fruit', w:['frut','mollë','apple','banane','banana','dardhë','pear','portokall','orange','rrush','grape','kompost']},
+  {k:'bread', w:['bukë','bread','kifle','roll','petulla','pancake','sandwich']},
+  {k:'dairy', w:['qumësht','milk','jogurt','yoghurt','djathë','cheese','gjizë']},
+  {k:'egg',   w:['vezë','egg','omlet']},
+  {k:'beans', w:['fasule','bean','bathë','lentil','thjerrëza']},
+  {k:'veg',   w:['perime','vegetable','sallatë','salad','patate','potato']},
+  {k:'sweet', w:['biskota','biscuit','mjaltë','honey','tërshërë','oat','cookie']}
+];
+function foodKind(text){
+  const s=String(text||'').toLowerCase();
+  const hit=FOOD_KINDS.find(f=>f.w.some(w=>s.indexOf(w)>=0));
+  return hit? hit.k : 'veg';
+}
+function foodSVG(text){
+  const k=foodKind(text);
+  const P={soup:['#E8A33D','#C97B22'], fish:['#5FB8D6','#2E86A8'], meat:['#D97B6C','#B4503F'],
+    pasta:['#EBC66A','#C99B2E'], fruit:['#E3705E','#C24B38'], bread:['#D9A85F','#B07C33'],
+    dairy:['#BFD4EA','#8FAECD'], egg:['#F0D06A','#D9A93A'], beans:['#B08A5E','#8A6640'],
+    veg:['#7CB87F','#4E9455'], sweet:['#C79A6B','#A0713F']}[k];
+  const bg={soup:'#FDF3E3', fish:'#E9F5FA', meat:'#FBEDEA', pasta:'#FCF5E2', fruit:'#FCEBE7',
+    bread:'#FAF1E1', dairy:'#EEF4FB', egg:'#FDF7E2', beans:'#F5EFE7', veg:'#EDF7EE', sweet:'#F7F0E7'}[k];
+  const bowl='<ellipse cx="60" cy="66" rx="34" ry="9" fill="'+P[1]+'" opacity=".22"/>'+
+    '<path d="M26 44h68a34 34 0 0 1-34 30 34 34 0 0 1-34-30z" fill="'+P[0]+'"/>'+
+    '<rect x="24" y="40" width="72" height="7" rx="3.5" fill="'+P[1]+'"/>';
+  const art={
+    soup: bowl+'<path d="M46 30c0-5 6-5 6-10M60 28c0-5 6-5 6-10M74 30c0-5 6-5 6-10" stroke="'+P[1]+'" stroke-width="3" fill="none" stroke-linecap="round" opacity=".6"/>',
+    fish: '<ellipse cx="56" cy="52" rx="30" ry="17" fill="'+P[0]+'"/><path d="M86 52l16-11v22z" fill="'+P[1]+'"/>'+
+          '<circle cx="42" cy="47" r="3" fill="#fff"/><path d="M30 52h34" stroke="'+P[1]+'" stroke-width="2.5" opacity=".5"/>',
+    meat: '<ellipse cx="60" cy="54" rx="30" ry="19" fill="'+P[0]+'"/><ellipse cx="60" cy="50" rx="21" ry="12" fill="'+P[1]+'" opacity=".45"/>'+
+          '<path d="M40 66c14 6 26 6 40 0" stroke="'+P[1]+'" stroke-width="3" fill="none" stroke-linecap="round"/>',
+    pasta: bowl+'<path d="M40 44c6-8 14-8 20 0s14 8 20 0" stroke="'+P[1]+'" stroke-width="3.4" fill="none" stroke-linecap="round"/>',
+    fruit: '<circle cx="56" cy="54" r="24" fill="'+P[0]+'"/><path d="M56 30c0-8 6-12 12-12-1 8-5 12-12 12z" fill="#6FAE63"/>'+
+           '<circle cx="86" cy="62" r="12" fill="'+P[1]+'" opacity=".65"/>',
+    bread: '<rect x="28" y="38" width="64" height="30" rx="13" fill="'+P[0]+'"/>'+
+           '<path d="M40 46h40M40 56h32" stroke="'+P[1]+'" stroke-width="3" stroke-linecap="round" opacity=".6"/>',
+    dairy: '<path d="M46 26h28l6 14v34a6 6 0 0 1-6 6H46a6 6 0 0 1-6-6V40z" fill="'+P[0]+'"/>'+
+           '<rect x="40" y="52" width="40" height="16" fill="#fff" opacity=".55"/>',
+    egg: '<ellipse cx="60" cy="54" rx="30" ry="20" fill="#fff"/><circle cx="60" cy="54" r="12" fill="'+P[0]+'"/>'+
+         '<circle cx="60" cy="54" r="12" fill="none" stroke="'+P[1]+'" stroke-width="2"/>',
+    beans: bowl+'<circle cx="50" cy="52" r="5" fill="'+P[1]+'"/><circle cx="62" cy="56" r="5" fill="'+P[1]+'"/>'+
+           '<circle cx="72" cy="50" r="5" fill="'+P[1]+'"/>',
+    veg: bowl+'<circle cx="50" cy="50" r="7" fill="#E3705E"/><circle cx="64" cy="54" r="8" fill="#6FAE63"/>'+
+         '<circle cx="76" cy="49" r="6" fill="#EBC66A"/>',
+    sweet: '<circle cx="60" cy="54" r="23" fill="'+P[0]+'"/><circle cx="52" cy="48" r="3" fill="'+P[1]+'"/>'+
+           '<circle cx="66" cy="52" r="3" fill="'+P[1]+'"/><circle cx="58" cy="62" r="3" fill="'+P[1]+'"/>'
+  }[k];
+  return '<svg viewBox="0 0 120 88" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">'+
+    '<rect width="120" height="88" fill="'+bg+'"/>'+art+'</svg>';
+}
+
+/* a dish a child cannot eat is worth saying out loud */
+function allergyHit(text, studentId){
+  const med=DB.medical.find(m=>m.studentId===studentId);
+  if(!med) return null;
+  const s=String(text||'').toLowerCase();
+  const all=(med.allergies||[]).concat(med.foodRestrictions||[]);
+  const hit=all.find(a=>a && s.indexOf(String(a).toLowerCase())>=0);
+  return hit || null;
+}
+
+const MEAL_TIMES={breakfast:'08:30', snack_am:'10:00', lunch:'12:00', snack_pm:'15:00'};
+
+function MenuView2(){
+  const weeks=menuWeeks();
+  const wk=state.params.w || weeks[0].key;
+  const menu=menuForWeek(wk);
+  const canEdit=state.session.role==='admin';
+  const child=state.session.role==='parent' ? activeChild() : null;
+
+  const weekTabs='<div class="pill-tabs" style="margin-bottom:12px">'+weeks.map(w=>
+    '<a class="'+(w.key===wk?'on':'')+'" href="#/'+state.session.role+'/menu?w='+w.key+'" '+
+    'style="padding:9px 14px;border-radius:999px;font-family:var(--ui);font-weight:600;font-size:13px;text-decoration:none;'+
+    (w.key===wk?'background:var(--surface);box-shadow:var(--sh-1);color:var(--text)':'color:var(--muted)')+'">'+
+    esc(w.label)+'</a>').join('')+'</div>';
+
+  if(!menu) return weekTabs+'<div class="card"><div class="card-b">'+
+    emptyState('menu_not_published','nothing_here_hint','utensils')+'</div></div>';
+
+  const todayY=ymd(today());
+  const day = menu.days.find(d=>d.date===state.params.d)
+           || menu.days.find(d=>d.date===todayY)
+           || menu.days[0];
+
+  const dayStrip='<div class="row" style="gap:7px;overflow-x:auto;padding-bottom:6px;margin-bottom:16px">'+
+    menu.days.map(d=>{
+      const on=d.date===day.date, isT=d.date===todayY;
+      const dd=new Date(d.date);
+      return '<a href="#/'+state.session.role+'/menu?w='+wk+'&d='+d.date+'" '+
+        'style="flex:none;text-align:center;padding:9px 14px;border-radius:14px;text-decoration:none;'+
+        'border:1px solid '+(on?'var(--brand)':'var(--border)')+';background:'+(on?'var(--brand)':'var(--surface)')+';'+
+        'color:'+(on?'#fff':'var(--text)')+'">'+
+        '<div class="tiny" style="opacity:.75">'+esc(WD_SHORT[state.lang][dd.getDay()])+'</div>'+
+        '<div style="font-family:var(--ui);font-weight:700;font-size:16px">'+dd.getDate()+'</div>'+
+        (isT? '<div class="tiny" style="opacity:.85">'+t('date_today')+'</div>':'')+
+      '</a>';
+    }).join('')+'</div>';
+
+  const cards='<div class="grid g4 meal-grid">'+MEAL_TYPES.map(k=>{
+    const text=L(day[k])||'';
+    const warn=child? allergyHit(text, child.id) : null;
+    return '<div class="card meal-card'+(warn?' warn':'')+'">'+
+      '<div class="meal-pic">'+foodSVG(text)+
+        '<span class="meal-time">'+MEAL_TIMES[k]+'</span></div>'+
+      '<div class="card-b" style="padding:13px 14px">'+
+        '<div class="tiny faint" style="font-weight:700;letter-spacing:.05em;text-transform:uppercase">'+t(k)+'</div>'+
+        '<div style="font-family:var(--ui);font-weight:600;font-size:14px;margin-top:4px;line-height:1.4">'+
+          esc(text||'—')+'</div>'+
+        (warn? '<div class="notice warn" style="margin-top:9px;padding:7px 9px">'+icon('alert',14)+
+          '<span class="tiny">'+esc(tf('menu_allergy',{a:warn}))+'</span></div>':'')+
+      '</div></div>';
+  }).join('')+'</div>';
+
+  const isToday=day.date===todayY;
+  return weekTabs+dayStrip+
+    '<div class="rowb" style="margin-bottom:12px;gap:10px;flex-wrap:wrap">'+
+      '<div><h2 style="font-size:18px">'+esc(fmtDate(day.date,'long'))+'</h2>'+
+        (isToday? '<span class="chip brand" style="margin-top:5px">'+t('date_today')+'</span>':'')+'</div>'+
+      (canEdit? '<button class="btn" data-act="menu-edit" data-w="'+menu.weekStart+'" data-d="'+day.date+'">'+
+        icon('edit',15)+t('edit_menu')+'</button>':'')+
+    '</div>'+
+    cards+
+    (child? '<div class="notice privacy" style="margin-top:16px">'+icon('shield',16)+'<span>'+
+      esc(tf('menu_child_note',{n:child.firstName}))+'</span></div>' : '')+
+    sectionHead(t('whole_week'))+
+    '<div class="card"><div class="table-wrap"><table><thead><tr><th>'+t('day')+'</th>'+
+      MEAL_TYPES.map(k=>'<th>'+t(k)+'</th>').join('')+'</tr></thead><tbody>'+
+      menu.days.map(d=>'<tr'+(d.date===todayY?' style="background:var(--brand-50)"':'')+'>'+
+        '<td><b style="font-family:var(--ui)">'+esc(WEEKDAYS[state.lang][new Date(d.date).getDay()])+'</b>'+
+        '<div class="tiny faint">'+esc(fmtDate(d.date))+'</div></td>'+
+        MEAL_TYPES.map(k=>'<td class="small">'+esc(L(d[k])||'—')+'</td>').join('')+
+      '</tr>').join('')+
+    '</tbody></table></div></div>';
+}
+
+/* =========================================================================
+   DËFTESA — a document, not a screen
+   ========================================================================= */
+
+/* the school mark, pulled out of the stylesheet so it is not stored twice */
+function logoDataURL(cls){
+  try{
+    const el=document.createElement('span');
+    el.className=cls||'logo-full';
+    el.style.position='absolute'; el.style.left='-9999px';
+    document.body.appendChild(el);
+    const bg=window.getComputedStyle(el).backgroundImage||'';
+    el.remove();
+    const m=bg.match(/url\(["']?(data:[^"')]+)["']?\)/);
+    return m? m[1] : null;
+  }catch(e){ return null; }
+}
+
+/* early years get a development report rather than marks */
+const DEV_AREAS=[
+  {key:'social',   sq:'Zhvillimi social dhe emocional', en:'Social and emotional development'},
+  {key:'language', sq:'Gjuha dhe komunikimi',           en:'Language and communication'},
+  {key:'motor',    sq:'Zhvillimi motorik',              en:'Physical development'},
+  {key:'cognitive',sq:'Të menduarit dhe zbulimi',       en:'Thinking and discovery'},
+  {key:'creative', sq:'Shprehja krijuese',              en:'Creative expression'},
+  {key:'selfcare', sq:'Pavarësia dhe kujdesi për vete', en:'Independence and self-care'}
+];
+function devLevel(studentId, key){
+  /* derived from what the group actually recorded, not invented */
+  const acts=DB.activities.filter(a=>(a.studentIds||[]).indexOf(studentId)>=0);
+  const part=acts.map(a=>(a.participation||{})[studentId]).filter(Boolean);
+  const good=part.filter(p=>p==='excellent').length;
+  const ratio=part.length? good/part.length : 0.5;
+  const seed=(key.charCodeAt(0)+key.length)%3;
+  const score=Math.min(5, Math.max(3, Math.round(3.4 + ratio*1.4 + (seed-1)*0.3)));
+  return score;
+}
+function reportCardData2(studentId, termId){
+  const st=byId(DB.students,studentId), cls=classOf(st);
+  const term=byId(DB.terms,termId)||currentTerm();
+  const att=attendanceStats(studentId,300);
+  if(cls.stage==='early'){
+    const areas=DEV_AREAS.map(a=>({area:a, value:devLevel(studentId,a.key)}));
+    const days=DB.dailyReports.filter(r=>r.studentId===studentId && r.published).length;
+    const meals=DB.meals.filter(m=>m.studentId===studentId).length;
+    return {kind:'early', st, cls, term, att, areas, days, meals};
+  }
+  const d=reportCardData(studentId, termId);
+  d.kind='primary'; d.att=att; d.conduct=conductOf(studentId, term.id);
+  return d;
+}
+
+function reportSheetHTML(studentId, termId, forPrint){
+  const d=reportCardData2(studentId, termId);
+  const st=d.st, cls=d.cls;
+  const logo=logoDataURL('logo-full');
+  const head=
+    '<div class="rc-head">'+
+      (logo? '<img class="rc-logo" src="'+logo+'" alt="">'
+           : '<div class="rc-word">'+esc(DB.schools[0].name)+'</div>')+
+      '<div class="rc-school">'+
+        '<div class="rc-name">'+esc(DB.schools[0].name)+'</div>'+
+        '<div class="rc-sub">'+esc(DB.schools[0].address || DB.schools[0].city || '')+'</div>'+
+        '<div class="rc-sub">'+esc(DB.schoolYears[0].name)+' · '+esc(L(d.term.name))+'</div>'+
+      '</div>'+
+      '<div class="rc-title">'+t(d.kind==='early'?'dev_report':'report_card')+'</div>'+
+    '</div>'+
+    '<div class="rc-student">'+
+      '<div class="rc-field"><span>'+t('student')+'</span><b>'+esc(st.fullName)+'</b></div>'+
+      '<div class="rc-field"><span>'+t('class')+'</span><b>'+esc(cls.name)+'</b></div>'+
+      '<div class="rc-field"><span>'+t('date_of_birth')+'</span><b>'+esc(fmtDate(st.dob))+'</b></div>'+
+      '<div class="rc-field"><span>'+t('nr')+'</span><b>'+esc(st.registerNo||'—')+'</b></div>'+
+      '<div class="rc-field"><span>'+staffWord(cls)+'</span><b>'+esc(teacherName(cls.homeroomTeacherId))+'</b></div>'+
+    '</div>';
+
+  const body = d.kind==='early'
+    ? '<table class="rc-table"><thead><tr><th>'+t('dev_area')+'</th><th>'+t('final_assessment')+'</th></tr></thead><tbody>'+
+        d.areas.map(a=>'<tr><td>'+esc(state.lang==='sq'?a.area.sq:a.area.en)+'</td>'+
+          '<td class="rc-mark">'+esc(descriptiveFor(a.value)[state.lang==='sq'?'sq':'en'])+'</td></tr>').join('')+
+      '</tbody></table>'+
+      '<div class="rc-stats">'+
+        '<div><span>'+t('attendance_pct')+'</span><b>'+d.att.rate+'%</b></div>'+
+        '<div><span>'+t('absences_count')+'</span><b>'+d.att.absent+'</b></div>'+
+        '<div><span>'+t('days_reported')+'</span><b>'+d.days+'</b></div>'+
+      '</div>'
+    : '<table class="rc-table"><thead><tr><th>'+t('subject_col')+'</th><th>'+t('marks_count')+'</th>'+
+        '<th>'+(assessmentMode(cls)==='descriptive'?'':t('term_average'))+'</th>'+
+        '<th>'+(assessmentMode(cls)==='descriptive'? t('final_assessment') : t('final_mark'))+'</th></tr></thead><tbody>'+
+        d.rows.map(r=>'<tr><td>'+esc(L(r.subject.name))+'</td>'+
+          '<td class="rc-num">'+r.count+'</td>'+
+          '<td class="rc-num">'+(r.avg==null||assessmentMode(cls)==='descriptive'?'—':r.avg.toFixed(2))+'</td>'+
+          '<td class="rc-mark">'+(r.mark==null?'—':esc(markLabel(cls,r.mark)))+'</td></tr>').join('')+
+      '</tbody></table>'+
+      '<div class="rc-stats">'+
+        '<div><span>'+t('general_average')+'</span><b>'+
+          (d.overall==null?'—':(assessmentMode(cls)==='descriptive'? esc(markLabel(cls,d.overall)) : d.overall.toFixed(2)))+'</b></div>'+
+        '<div><span>'+t('attendance_pct')+'</span><b>'+d.att.rate+'%</b></div>'+
+        '<div><span>'+t('absences_count')+'</span><b>'+d.att.absent+'</b></div>'+
+        '<div><span>'+t('conduct')+'</span><b>'+esc(d.conduct? conductLabel(d.conduct.value) : '—')+'</b></div>'+
+      '</div>';
+
+  const comment = d.kind==='early'
+    ? (state.lang==='sq'
+        ? st.firstName+' ndjek me interes aktivitetet e grupit dhe ndihet mirë me shokët. Vazhdojmë punën për pavarësinë gjatë ditës.'
+        : st.firstName+' takes part in the group\u2019s activities with interest and is settled with the other children. We keep working on independence during the day.')
+    : homeroomComment(d);
+
+  const note = d.kind==='early' ? t('early_report_note')
+    : (assessmentMode(cls)==='descriptive' ? t('descriptive_note') : '');
+  return head+body+
+    (note? '<p class="rc-note">'+esc(note)+'</p>' : '')+
+    '<div class="rc-comment"><span>'+t(d.kind==='early'?'educator_comment':'homeroom_comment')+'</span>'+
+      '<p>'+esc(comment)+'</p></div>'+
+    '<div class="rc-sign">'+
+      '<div><i></i><span>'+staffWord(cls)+'</span></div>'+
+      '<div><i></i><span>'+t('principal')+'</span></div>'+
+      '<div class="rc-issued">'+t('issued_on')+' '+esc(fmtDate(today(),'long'))+'</div>'+
+    '</div>';
+}
+
+function ReportCardView(){
+  const st = state.session.role==='parent' ? activeChild() : getStudentGuarded(state.params.s);
+  if(!st) return noAccessView();
+  if(state.session.role!=='parent' && !canAccessStudent(st.id)) return noAccessView();
+  const termId=state.params.t || currentTerm().id;
+  const terms='<div class="seg" style="margin-bottom:0">'+DB.terms.map(x=>
+    '<a class="'+(x.id===termId?'on':'')+'" href="#/'+state.session.role+'/reportcard?s='+st.id+'&t='+x.id+'" '+
+    'style="padding:8px 13px;font-size:12.5px;font-weight:600;font-family:var(--ui);text-decoration:none;'+
+    (x.id===termId?'background:var(--brand);color:#fff':'color:var(--muted)')+'">'+esc(L(x.name))+'</a>').join('')+'</div>';
+  return '<div class="rowb" style="margin-bottom:14px;gap:9px;flex-wrap:wrap">'+terms+
+      '<div class="row" style="gap:8px">'+
+        '<button class="btn" data-act="print-page">'+icon('file',15)+t('print')+'</button>'+
+        '<button class="btn primary" data-act="report-download" data-s="'+st.id+'" data-t="'+termId+'">'+
+          icon('download',15)+t('download')+'</button>'+
+      '</div></div>'+
+    '<div class="card sheet-print"><div class="card-b"><div class="report-sheet">'+
+      reportSheetHTML(st.id, termId)+'</div></div></div>';
+}
+
+/* the downloadable document: its own window, its own styles, ready to print
+   or save as PDF from the browser's own dialog */
+function downloadReport(studentId, termId){
+  const st=byId(DB.students,studentId);
+  const w=window.open('','_blank');
+  if(!w){ toast(t('popup_blocked'),'alert'); return; }
+  const css=
+   'body{margin:0;padding:26px;background:#fff;color:#101828;'+
+   "font-family:'Inter',system-ui,-apple-system,sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}"+
+   '.report-sheet{max-width:760px;margin:0 auto}'+
+   REPORT_CSS;
+  w.document.write('<!doctype html><meta charset="utf-8">'+
+    '<title>'+esc(t('report_card')+' — '+st.fullName)+'</title>'+
+    '<style>'+css+'</style><div class="report-sheet">'+reportSheetHTML(studentId, termId, true)+'</div>');
+  w.document.close();
+  audit('reportcard.download', st.fullName);
+  setTimeout(()=>{ try{ w.print(); }catch(e){} }, 300);
+}
+
+/* shared by the screen and the printed document, so they cannot drift */
+const REPORT_CSS =
+ '.rc-head{display:flex;align-items:flex-start;gap:18px;padding-bottom:16px;border-bottom:2px solid #101828}'+
+ '.rc-logo{width:132px;height:auto;flex:none}'+
+ '.rc-word{font-weight:800;font-size:17px}'+
+ '.rc-school{flex:1;min-width:0}'+
+ '.rc-name{font-weight:800;font-size:16px;letter-spacing:-.01em}'+
+ '.rc-sub{font-size:11.5px;color:#667085;margin-top:2px}'+
+ '.rc-title{font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:.12em;'+
+ '  border:1.5px solid #101828;border-radius:6px;padding:7px 11px;white-space:nowrap}'+
+ '.rc-student{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px 18px;margin:16px 0 18px}'+
+ '.rc-field span{display:block;font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:#667085}'+
+ '.rc-field b{font-size:14px}'+
+ '.rc-table{width:100%;border-collapse:collapse;font-size:13px}'+
+ '.rc-table th{text-align:left;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:#667085;'+
+ '  border-bottom:1.5px solid #101828;padding:7px 8px}'+
+ '.rc-table td{padding:8px;border-bottom:1px solid #E4E7EC}'+
+ '.rc-table td:first-child{font-weight:600}'+
+ '.rc-num{text-align:center;color:#667085;font-variant-numeric:tabular-nums}'+
+ '.rc-mark{text-align:right;font-weight:700}'+
+ '.rc-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-top:18px;'+
+ '  padding:14px;background:#F5F6F8;border-radius:10px}'+
+ '.rc-stats span{display:block;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:#667085}'+
+ '.rc-stats b{font-size:17px;font-weight:800}'+
+ '.rc-note{margin:14px 0 0;font-size:11.5px;color:#667085;line-height:1.5}'+
+ '.rc-comment{margin-top:18px}'+
+ '.rc-comment span{display:block;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:#667085;margin-bottom:5px}'+
+ '.rc-comment p{margin:0;font-size:13.5px;line-height:1.6;border-left:3px solid #57489F;padding-left:12px}'+
+ '.rc-sign{display:flex;gap:34px;align-items:flex-end;margin-top:38px;flex-wrap:wrap}'+
+ '.rc-sign>div{flex:1;min-width:150px}'+
+ '.rc-sign i{display:block;border-top:1px solid #101828;margin-bottom:5px}'+
+ '.rc-sign span{font-size:11px;color:#667085}'+
+ '.rc-issued{flex:none;font-size:11px;color:#98A2B3;min-width:0}'+
+ '@media print{@page{margin:14mm}body{padding:0}}';
+
+/* =========================================================================
+   WIRING
+   ========================================================================= */
+Object.assign(VIEWS, {
+  'parent/menu':MenuView2, 'admin/menu':MenuView2, 'teacher/menu':MenuView2,
+  'parent/reportcard':ReportCardView, 'teacher/reportcard':ReportCardView
+});
+ACTIONS['report-download']=(d)=>{
+  if(!canAccessStudent(d.s)){ toast(t('no_access'),'lock'); return; }
+  downloadReport(d.s, d.t);
+};
+
+
+/* =========================================================================
+   TRANSPORTI — linjat e autobusit
+   Built from the school's own printed timetable. There are no coordinates for
+   these stops, so this does not pretend to be a geographic map: it is a line
+   diagram, which is what the poster is and what a parent actually reads. If
+   the school ever records lat/lng for the stops, the same data drives a real
+   map without changing anything else.
+   ========================================================================= */
+
+const BUS_PHONE='044703733';
+
+function seedTransport(db){
+  const S=db.schools[0].id;
+  const mk=(key,name,sub,color,dir,departs,stops)=>({
+    id:uuid('bus-'+key), schoolId:S, key, name, sub:sub||null, color, direction:dir,
+    departs:departs||null,
+    stops:stops.map((s,i)=>({id:uuid('stop-'+key+i), name:s[0], time:s[1]||null, note:s[2]||null, ordinal:i+1}))
+  });
+  db.busRoutes = [
+    mk('m1','Linja 1',null,'#26B36F','morning',null,[
+      ['Biti','07:15'],['Xhamiane Arbëri','07:20'],['Zabel te kryqi','07:25'],['Arktaktan 2','07:30'],
+      ['Fitore 1','07:40','pompa Alba — te Tafa'],['Maxi — Fitore 2','07:40'],['Te Policia','07:45'],
+      ['Biblioteka','07:45'],['Albanika','07:50'],['Ceni','07:55'],['Te ABC — qarkore','08:00'],
+      ['Qarkore ka Kufca','08:05','ka restorant Djati']
+    ]),
+    mk('m2','Linja 2',null,'#25AAE3','morning',null,[
+      ['Qarkore te Gavrani','07:25'],['Furra Shqiponja — qarkore','07:25'],['Restorant Parajsa','07:30'],
+      ['Xoni qebaptore','07:40','shkolla S.H'],['Furra Pashtriku','07:45'],['Xhamia Gavran','07:50'],
+      ['Parku Baja lart','07:50','te rruga'],['Xhamia e Medresesë','07:55'],['Dheu i bardhë','07:55'],
+      ['Parku Baja poshtë','07:55'],['Rr. Koretishtës','08:00'],['Garden','08:00']
+    ]),
+    mk('m22','Linja 2-2',null,'#FFAF44','morning',null,[
+      ['Rr. Prishtinë','08:10'],['Çerdhja','08:15'],['Furra Drita','08:20'],['Stacioni','08:25'],
+      ['Teatri','08:25'],['Rr. Prishtinë','08:30'],['Garden','08:35']
+    ]),
+    mk('m3','Linja 3','Vitia dhe fshatrat sipas orarit të kaluar','#F058A1','morning',null,[
+      ['Livoçi i Poshtëm','07:55'],['Kids World','07:55'],['Astoria','08:00'],['Rrethi i Vivës','08:05'],
+      ['Oaza','08:10'],['Te Zalli','08:15'],['Livoçi i Epërm','08:20']
+    ]),
+    mk('a13','Autobusi 1 dhe 3',null,'#26B36F','afternoon','14:30',[
+      ['Garden','14:35'],['Rr. Prishtinë','14:40'],['Teatri','14:50'],['Stacioni i autobusave','14:50']
+    ]),
+    mk('a1a','Autobusi 1',null,'#25AAE3','afternoon','15:20',[
+      ['Gardeni','15:25'],['Rr. Prishtinë','15:30'],['Aroma','15:35'],['Parajsa','15:40'],
+      ['Xhamia Gavran','15:45'],['Parku Baja','15:45'],['Furra Dora','15:50'],
+      ['Xhamia e Medresesë','15:55'],['Rr. Koretishtës','15:55']
+    ]),
+    mk('a1b','Autobusi 1',null,'#FFAF44','afternoon','16:10',[
+      ['Garden',null],['Rr. Prishtinë',null],['Teatri',null],['Furra Drita',null],['Çerdhja Kamnik',null]
+    ]),
+    mk('a2','Autobusi 2',null,'#5B47A0','afternoon','15:20',[
+      ['Garden','15:25'],['Qarkore','15:30','deri 15:35'],['Ceni','15:40'],['Albanika','15:40'],
+      ['Te Biblioteka',null],['Te Komuna — Teatri',null],['Maxi — Fitore 2','15:55'],
+      ['Arkatane 1','16:00'],['Arkatan 2','16:05'],['Zabel te Kryqi','16:10'],
+      ['Xhamia Arbëri','16:15'],['Biti — Velekincë','16:20']
+    ]),
+    mk('a3','Autobusi 3 — Viti',null,'#F058A1','afternoon','15:20',[
+      ['Qarkore ka Livoçi i Epërm','15:25'],['Restorant Doni te Zalli','15:30'],['Qarkore','15:35'],
+      ['Oaza','15:40'],['Te Bio Labi','15:40'],['Viva Fresh te rrethi','15:45'],
+      ['Livoçi i Poshtëm','15:50'],['Vitia dhe fshatrat',null]
+    ])
+  ];
+  /* a couple of children already ride, so the screen is not empty */
+  const em=db.students.find(s=>s.firstName==='Emma');
+  const rr=db.students.find(s=>s.firstName==='Rron');
+  if(em){ em.busMorning=db.busRoutes[0].stops[8].id; em.busAfternoon=db.busRoutes[7].stops[3].id; }
+  if(rr){ rr.busMorning=db.busRoutes[1].stops[11].id; rr.busAfternoon=db.busRoutes[5].stops[0].id; }
+}
+
+function busRoutes(dir){ return (DB.busRoutes||[]).filter(r=>r.direction===dir); }
+function findStop(stopId){
+  for(const r of (DB.busRoutes||[])){
+    const s=(r.stops||[]).find(x=>x.id===stopId);
+    if(s) return {route:r, stop:s};
+  }
+  return null;
+}
+function ridersOf(stopId){
+  return DB.students.filter(s=>s.busMorning===stopId || s.busAfternoon===stopId);
+}
+/* minutes from now until a HH:MM today, or null once it has passed */
+function minutesUntil(hhmm){
+  if(!hhmm) return null;
+  const n=new Date();
+  const [h,m]=hhmm.split(':').map(Number);
+  const target=new Date(n.getFullYear(),n.getMonth(),n.getDate(),h,m,0);
+  const diff=Math.round((target-n)/60000);
+  return diff;
+}
+
+/* ---------- the line map ----------
+   A transit diagram: one column per line, every stop named and timed, all of
+   them converging on the school. No invented geography, but nothing hidden in
+   a tooltip either — a parent can read the whole network at once. */
+const MAP_COL=248, MAP_GAP=44, MAP_TOP=76, MAP_BOTTOM=104;
+
+function transitMap(dir, activeStopId, only){
+  let routes=busRoutes(dir);
+  if(only) routes=routes.filter(r=>r.key===only);
+  if(!routes.length) return '';
+  const maxStops=Math.max.apply(null, routes.map(r=>r.stops.length));
+  const W=Math.max(routes.length*MAP_COL, 320);
+  const H=MAP_TOP + maxStops*MAP_GAP + MAP_BOTTOM;
+  const schoolX=W/2, schoolY=H-52;
+  const parts=[];
+
+  routes.forEach((r,ri)=>{
+    const cx=ri*MAP_COL + 34;
+    const labelX=cx+20, timeX=ri*MAP_COL + MAP_COL - 18;
+    const lastY=MAP_TOP + (r.stops.length-1)*MAP_GAP;
+
+    /* the line itself */
+    parts.push('<line x1="'+cx+'" y1="'+MAP_TOP+'" x2="'+cx+'" y2="'+lastY+'" '+
+      'stroke="'+r.color+'" stroke-width="6" stroke-linecap="round" opacity=".85"/>');
+    /* and its run into the school */
+    parts.push('<path d="M'+cx+' '+lastY+' L'+cx+' '+(lastY+34)+
+      ' Q'+cx+' '+(schoolY-6)+' '+(cx<schoolX? schoolX-46 : schoolX+46)+' '+(schoolY-6)+'" '+
+      'fill="none" stroke="'+r.color+'" stroke-width="4" stroke-linecap="round" opacity=".45" stroke-dasharray="1 8"/>');
+
+    /* the line's header */
+    parts.push('<g transform="translate('+(cx-14)+',22)">'+
+      '<rect width="'+(MAP_COL-52)+'" height="34" rx="10" fill="'+r.color+'"/>'+
+      '<text x="15" y="16" font-size="13" font-weight="800" fill="#fff">'+esc(r.name)+'</text>'+
+      '<text x="15" y="28" font-size="9.5" fill="#fff" opacity=".85">'+
+        esc(r.departs? t('departs')+' '+r.departs : r.stops.length+' '+t('stops').toLowerCase())+'</text>'+
+    '</g>');
+
+    r.stops.forEach((s,i)=>{
+      const y=MAP_TOP + i*MAP_GAP;
+      const on=s.id===activeStopId;
+      const nm=s.name.length>24 ? s.name.slice(0,23)+'…' : s.name;
+      parts.push('<g class="stop-node'+(on?' on':'')+'" data-act="bus-node" data-v="'+s.id+'" data-d="'+dir+'">'+
+        '<rect x="'+(cx-24)+'" y="'+(y-15)+'" width="'+(MAP_COL-24)+'" height="30" rx="9" '+
+          'fill="'+(on? r.color+'1f' : 'transparent')+'"/>'+
+        '<circle cx="'+cx+'" cy="'+y+'" r="'+(on?9:6.5)+'" fill="'+(on? r.color : '#fff')+'" '+
+          'stroke="'+r.color+'" stroke-width="3"/>'+
+        (on? '<circle cx="'+cx+'" cy="'+y+'" r="14" fill="none" stroke="'+r.color+'" stroke-width="1.5" opacity=".45"/>' : '')+
+        '<text x="'+labelX+'" y="'+(y+(s.note?-1:4))+'" font-size="12.5" '+
+          'font-weight="'+(on?'700':'600')+'" fill="var(--text)">'+esc(nm)+'</text>'+
+        (s.note? '<text x="'+labelX+'" y="'+(y+11)+'" font-size="9.5" fill="var(--faint)">'+
+          esc(s.note.length>26? s.note.slice(0,25)+'…' : s.note)+'</text>' : '')+
+        (s.time? '<text x="'+timeX+'" y="'+(y+4)+'" text-anchor="end" font-size="12" font-weight="700" '+
+          'fill="'+r.color+'">'+esc(s.time)+'</text>' : '')+
+        '<title>'+esc(r.name+' · '+s.name+(s.time? ' · '+s.time : ''))+'</title>'+
+      '</g>');
+    });
+  });
+
+  /* the school, where every line ends or begins */
+  parts.push('<g><rect x="'+(schoolX-92)+'" y="'+(schoolY-22)+'" width="184" height="44" rx="14" fill="var(--brand)"/>'+
+    '<text x="'+schoolX+'" y="'+(schoolY+1)+'" text-anchor="middle" font-size="12.5" font-weight="800" fill="#fff">'+
+      esc(DB.schools[0].shortName||DB.schools[0].name)+'</text>'+
+    '<text x="'+schoolX+'" y="'+(schoolY+14)+'" text-anchor="middle" font-size="9.5" fill="#fff" opacity=".8">'+
+      esc(dir==='morning'? t('arrival') : t('departure_point'))+'</text></g>');
+
+  return '<div class="map-scroll"><svg class="bus-map" viewBox="0 0 '+W+' '+H+'" '+
+    'width="'+W+'" height="'+H+'" xmlns="http://www.w3.org/2000/svg">'+parts.join('')+'</svg></div>';
+}
+
+/* the panel under the map, for whichever stop is being looked at */
+function stopPanel(stopId, dir){
+  const f=stopId? findStop(stopId) : null;
+  if(!f) return '<div class="card"><div class="card-b"><p class="small faint" style="margin:0">'+
+    t('tap_a_stop')+'</p></div></div>';
+  const st=state.session.role==='parent'? activeChild() : null;
+  const mineNow = st && (dir==='morning'? st.busMorning : st.busAfternoon)===stopId;
+  const mins=minutesUntil(f.stop.time || f.route.departs);
+  const riders=ridersOf(stopId).length;
+  return '<div class="card" style="border-color:'+f.route.color+'55">'+
+    '<div class="card-b"><div class="rowb" style="gap:12px;flex-wrap:wrap">'+
+      '<div class="row" style="gap:12px">'+
+        '<div class="bus-badge" style="background:'+f.route.color+'">'+icon('bus',20)+'</div>'+
+        '<div><div style="font-family:var(--ui);font-weight:700;font-size:16px">'+esc(f.stop.name)+'</div>'+
+        '<div class="tiny muted">'+esc(f.route.name)+
+          (f.route.departs? ' · '+t('departs')+' '+esc(f.route.departs):'')+
+          (f.stop.note? ' · '+esc(f.stop.note):'')+'</div></div>'+
+      '</div>'+
+      '<div style="text-align:right">'+
+        '<div style="font-family:var(--ui);font-weight:800;font-size:22px">'+esc(f.stop.time||'—')+'</div>'+
+        (mins!=null && mins>=0 && mins<=90? '<div class="chip '+(mins<=10?'warn':'ok')+'" style="margin-top:3px">'+
+          esc(tf('in_minutes',{n:mins}))+'</div>' : '')+
+      '</div>'+
+    '</div>'+
+    (st? '<div class="row" style="gap:8px;margin-top:13px;flex-wrap:wrap">'+
+      (mineNow
+        ? '<span class="chip ok">'+icon('check',13)+t('your_stop')+'</span>'+
+          '<button class="btn sm ghost" data-act="bus-clear" data-d="'+dir+'">'+t('no_bus')+'</button>'
+        : '<button class="btn sm primary" data-act="bus-set" data-v="'+stopId+'" data-d="'+dir+'">'+
+          icon('check',14)+t('set_my_stop')+'</button>')+
+      '<a class="btn sm" href="tel:'+BUS_PHONE+'">'+icon('phone',14)+BUS_PHONE+'</a>'+
+    '</div>' :
+      '<div class="row" style="gap:8px;margin-top:13px"><span class="chip">'+riders+' '+t('riders').toLowerCase()+'</span></div>')+
+  '</div></div>';
+}
+
+function lineFilter(dir, only){
+  const routes=busRoutes(dir);
+  const q=k=>'#/'+state.session.role+'/transport?dir='+dir+(k?'&line='+k:'');
+  return '<div class="row wrap" style="gap:7px;margin-bottom:12px">'+
+    '<a class="chip '+(!only?'brand':'')+'" href="'+q('')+'" style="border:1px solid var(--border)">'+t('all_lines')+'</a>'+
+    routes.map(r=>'<a class="chip" href="'+q(r.key)+'" style="border:1px solid '+r.color+
+      (only===r.key? ';background:'+r.color+';color:#fff' : ';color:'+r.color)+'">'+esc(r.name)+'</a>').join('')+
+  '</div>';
+}
+
+/* ---------- what a parent sees ---------- */
+function ParentTransport(){
+  const st=activeChild(); if(!st) return notFoundView();
+  const dir = state.params.dir==='afternoon' ? 'afternoon' : 'morning';
+  const mine = dir==='morning' ? st.busMorning : st.busAfternoon;
+  const found = mine? findStop(mine) : null;
+
+  const dirTabs='<div class="seg" style="margin-bottom:14px">'+
+    [['morning','to_school','sun'],['afternoon','from_school','moon']].map(([k,lbl,ic])=>
+      '<a class="'+(dir===k?'on':'')+'" href="#/parent/transport?dir='+k+'" '+
+      'style="padding:9px 14px;font-size:13px;font-weight:600;font-family:var(--ui);text-decoration:none;'+
+      (dir===k?'background:var(--brand);color:#fff':'color:var(--muted)')+'">'+icon(ic,15)+t(lbl)+'</a>').join('')+'</div>';
+
+  let myCard;
+  if(found){
+    const mins=minutesUntil(found.stop.time || found.route.departs);
+    const soon = mins!=null && mins>=0 && mins<=90;
+    myCard='<div class="card" style="border-color:'+found.route.color+'55;background:linear-gradient(180deg,'+found.route.color+'14,var(--surface) 70%)">'+
+      '<div class="card-b"><div class="rowb" style="gap:12px;flex-wrap:wrap">'+
+        '<div class="row" style="gap:12px">'+
+          '<div class="bus-badge" style="background:'+found.route.color+'">'+icon('bus',20)+'</div>'+
+          '<div><div class="tiny faint" style="font-weight:700;letter-spacing:.05em;text-transform:uppercase">'+t('your_stop')+'</div>'+
+          '<div style="font-family:var(--ui);font-weight:700;font-size:17px">'+esc(found.stop.name)+'</div>'+
+          '<div class="tiny muted">'+esc(found.route.name)+
+            (found.stop.note? ' · '+esc(found.stop.note):'')+'</div></div></div>'+
+        '<div style="text-align:right">'+
+          '<div style="font-family:var(--ui);font-weight:800;font-size:26px;letter-spacing:-.02em">'+
+            esc(found.stop.time || found.route.departs || '—')+'</div>'+
+          (soon? '<div class="chip '+(mins<=10?'warn':'ok')+'" style="margin-top:4px">'+
+            icon('clock',12)+esc(tf('in_minutes',{n:mins}))+'</div>'
+            : (mins!=null && mins<0? '<div class="tiny faint" style="margin-top:4px">'+t('already_passed')+'</div>':''))+
+        '</div>'+
+      '</div>'+
+      '<div class="divider"></div>'+
+      '<div class="row" style="gap:8px;flex-wrap:wrap">'+
+        '<button class="btn sm" data-act="bus-choose" data-d="'+dir+'">'+icon('edit',14)+t('change_stop')+'</button>'+
+        '<a class="btn sm" href="tel:'+BUS_PHONE+'">'+icon('phone',14)+BUS_PHONE+'</a>'+
+        '<button class="btn sm ghost" data-act="bus-clear" data-d="'+dir+'">'+t('no_bus')+'</button>'+
+      '</div></div></div>';
+  } else {
+    myCard='<div class="card"><div class="card-b"><div class="rowb" style="gap:12px;flex-wrap:wrap">'+
+      '<div><div style="font-family:var(--ui);font-weight:700;font-size:15px">'+t('pick_stop_title')+'</div>'+
+      '<p class="small muted" style="margin-top:4px;max-width:44ch">'+esc(tf('pick_stop_hint',{n:st.firstName}))+'</p></div>'+
+      '<button class="btn primary" data-act="bus-choose" data-d="'+dir+'">'+icon('bus',16)+t('pick_stop')+'</button>'+
+      '</div></div></div>';
+  }
+
+  const only=state.params.line || null;
+  const sel=state.ui.busSel || mine || null;
+  return dirTabs+
+    '<div class="notice" style="margin-bottom:14px">'+icon('clock',16)+'<span>'+t('bus_five_min')+'</span></div>'+
+    myCard+
+    sectionHead(t('line_map'), '<span class="tiny faint">'+t('bus_map_note')+'</span>')+
+    lineFilter(dir, only)+
+    '<div class="card" style="padding:6px">'+transitMap(dir, sel, only)+'</div>'+
+    '<div style="margin-top:12px">'+stopPanel(sel, dir)+'</div>'+
+    sectionHead(dir==='morning'? t('to_school') : t('from_school'))+
+    '<div class="grid g2">'+busRoutes(dir).filter(r=>!only||r.key===only).map(r=>routeCard(r, mine, dir)).join('')+'</div>';
+}
+
+function routeCard(r, activeStopId, dir){
+  return '<div class="card route-card">'+
+    '<div class="card-h" style="background:'+r.color+'12;border-bottom:1px solid '+r.color+'33">'+
+      '<div class="row" style="gap:10px">'+
+        '<div class="bus-badge sm" style="background:'+r.color+'">'+icon('bus',15)+'</div>'+
+        '<div><h3 style="color:'+r.color+'">'+esc(r.name)+'</h3>'+
+        (r.departs? '<div class="tiny muted">'+t('departs')+' '+esc(r.departs)+'</div>':'')+
+        (r.sub? '<div class="tiny muted">'+esc(r.sub)+'</div>':'')+'</div>'+
+      '</div>'+
+      '<span class="chip">'+r.stops.length+' '+t('stops').toLowerCase()+'</span>'+
+    '</div>'+
+    '<div class="card-b" style="padding-top:8px">'+
+      r.stops.map((s,i)=>{
+        const on=s.id===activeStopId;
+        const last=i===r.stops.length-1;
+        return '<button class="bus-stop'+(on?' on':'')+'" data-act="bus-pick" data-v="'+s.id+'" data-d="'+dir+'">'+
+          '<span class="rail"'+(last?' style="background:transparent"':'')+'></span>'+
+          '<span class="dot" style="border-color:'+r.color+';background:'+(on?r.color:'#fff')+'"></span>'+
+          '<span class="txt"><b>'+esc(s.name)+'</b>'+
+            (s.note? '<i>'+esc(s.note)+'</i>':'')+'</span>'+
+          (s.time? '<span class="tm" style="background:'+r.color+'1f;color:'+r.color+'">'+esc(s.time)+'</span>'
+                 : '<span class="tm muted">—</span>')+
+        '</button>';
+      }).join('')+
+    '</div></div>';
+}
+
+function modalPickStop(dir){
+  const st=activeChild();
+  const routes=busRoutes(dir);
+  const cur = dir==='morning' ? st.busMorning : st.busAfternoon;
+  openModal({title:t('pick_stop'), body:
+    '<p class="small muted" style="margin-bottom:12px">'+esc(tf('pick_stop_hint',{n:st.firstName}))+'</p>'+
+    routes.map(r=>'<div style="margin-bottom:14px">'+
+      '<div class="row" style="gap:8px;margin-bottom:6px"><span class="bus-badge sm" style="background:'+r.color+'">'+
+        icon('bus',14)+'</span><b style="font-family:var(--ui);font-size:13.5px;color:'+r.color+'">'+esc(r.name)+'</b>'+
+        (r.departs? '<span class="tiny muted">'+t('departs')+' '+esc(r.departs)+'</span>':'')+'</div>'+
+      '<div class="row wrap" style="gap:6px">'+r.stops.map(s=>
+        '<button class="chip '+(s.id===cur?'brand':'')+'" data-act="bus-set" data-v="'+s.id+'" data-d="'+dir+'" '+
+        'style="cursor:pointer;border:1px solid var(--border)">'+esc(s.name)+
+        (s.time? ' · '+esc(s.time):'')+'</button>').join('')+'</div>'+
+    '</div>').join(''),
+    footer:'<button class="btn" data-act="close-modal">'+t('cancel')+'</button>'});
+}
+
+/* ---------- the administration's view ---------- */
+function AdminTransport(){
+  const dir = state.params.dir==='afternoon' ? 'afternoon' : 'morning';
+  const routes=busRoutes(dir);
+  const riders=DB.students.filter(s=>s.busMorning||s.busAfternoon).length;
+  const dirTabs='<div class="seg" style="margin-bottom:14px">'+
+    [['morning','to_school'],['afternoon','from_school']].map(([k,lbl])=>
+      '<a class="'+(dir===k?'on':'')+'" href="#/admin/transport?dir='+k+'" '+
+      'style="padding:9px 14px;font-size:13px;font-weight:600;font-family:var(--ui);text-decoration:none;'+
+      (dir===k?'background:var(--brand);color:#fff':'color:var(--muted)')+'">'+t(lbl)+'</a>').join('')+'</div>';
+  const only=state.params.line || null;
+  const sel=state.ui.busSel || null;
+  return dirTabs+
+    lineFilter(dir, only)+
+    '<div class="card" style="padding:6px;margin-bottom:12px">'+transitMap(dir, sel, only)+'</div>'+
+    (sel? '<div style="margin-bottom:16px">'+stopPanel(sel, dir)+'</div>' : '')+
+    '<div class="grid g4" style="margin-bottom:16px">'+
+      '<div class="card"><div class="card-b">'+metric(routes.length, t('bus_lines'))+'</div></div>'+
+      '<div class="card"><div class="card-b">'+metric(routes.reduce((a,r)=>a+r.stops.length,0), t('stops'))+'</div></div>'+
+      '<div class="card"><div class="card-b">'+metric(riders, t('riders'),'ok')+'</div></div>'+
+      '<div class="card"><div class="card-b">'+metric(DB.students.length-riders, t('no_bus'))+'</div></div>'+
+    '</div>'+
+    routes.filter(r=>!only||r.key===only).map(r=>'<div class="card" style="margin-bottom:12px">'+
+      '<div class="card-h" style="background:'+r.color+'12"><div class="row" style="gap:10px">'+
+        '<span class="bus-badge sm" style="background:'+r.color+'">'+icon('bus',15)+'</span>'+
+        '<h3 style="color:'+r.color+'">'+esc(r.name)+'</h3>'+
+        (r.departs? '<span class="chip">'+t('departs')+' '+esc(r.departs)+'</span>':'')+'</div>'+
+        '<button class="btn sm" data-act="stop-new" data-r="'+r.id+'">'+icon('plus',14)+t('add_stop')+'</button>'+
+      '</div>'+
+      '<div class="table-wrap"><table><thead><tr>'+
+        ['#',t('stop'),t('time'),t('riders'),''].map(c=>'<th>'+esc(c)+'</th>').join('')+
+      '</tr></thead><tbody>'+
+      r.stops.map((s,i)=>{
+        const n=ridersOf(s.id).length;
+        return '<tr><td class="mono-num muted">'+(i+1)+'</td>'+
+          '<td><b style="font-family:var(--ui)">'+esc(s.name)+'</b>'+
+            (s.note? '<div class="tiny muted">'+esc(s.note)+'</div>':'')+'</td>'+
+          '<td class="mono-num">'+esc(s.time||'—')+'</td>'+
+          '<td>'+(n? '<span class="chip ok">'+n+'</span>' : '<span class="tiny faint">0</span>')+'</td>'+
+          '<td><div class="row" style="gap:5px">'+
+            '<button class="btn sm ghost" data-act="stop-edit" data-r="'+r.id+'" data-v="'+s.id+'">'+icon('edit',14)+'</button>'+
+            '<button class="btn sm ghost" data-act="stop-del" data-r="'+r.id+'" data-v="'+s.id+'">'+icon('trash',14)+'</button>'+
+          '</div></td></tr>';
+      }).join('')+
+    '</tbody></table></div></div>').join('');
+}
+
+function modalStop(routeId, stopId){
+  const r=(DB.busRoutes||[]).find(x=>x.id===routeId);
+  const s=stopId? r.stops.find(x=>x.id===stopId) : null;
+  openModal({title: s? t('edit')+' · '+esc(s.name) : t('add_stop'), body:
+    '<div class="field"><label class="fl">'+t('stop')+'</label>'+
+      '<input type="text" id="bsName" value="'+esc(s?s.name:'')+'" placeholder="p.sh. Te Biblioteka"></div>'+
+    '<div class="grid g2" style="gap:12px">'+
+      '<div class="field" style="margin:0"><label class="fl">'+t('time')+'</label>'+
+        '<input type="text" id="bsTime" value="'+esc(s&&s.time?s.time:'')+'" placeholder="07:45"></div>'+
+      '<div class="field" style="margin:0"><label class="fl">'+t('note')+'</label>'+
+        '<input type="text" id="bsNote" value="'+esc(s&&s.note?s.note:'')+'" placeholder="'+t('optional')+'"></div>'+
+    '</div>',
+    footer:'<button class="btn" data-act="close-modal">'+t('cancel')+'</button>'+
+      '<button class="btn primary" data-act="stop-save" data-r="'+routeId+'"'+(s?' data-v="'+s.id+'"':'')+'>'+t('save')+'</button>'});
+}
+
+/* =========================================================================
+   WIRING
+   ========================================================================= */
+if(!DB.busRoutes || !DB.busRoutes.length) seedTransport(DB);
+
+Object.assign(VIEWS, {'parent/transport':ParentTransport, 'admin/transport':AdminTransport});
+
+Object.assign(ACTIONS, {
+  'bus-choose':(d)=>modalPickStop(d.d),
+  'bus-node':(d)=>{ state.ui.busSel=d.v; render(); },
+  'bus-pick':(d)=>{ state.ui.busSel=d.v; if(state.session.role==='parent') ACTIONS['bus-set'](d); else render(); },
+  'bus-set':(d)=>{
+    const st=activeChild(); if(!st || !canAccessStudent(st.id)) return;
+    if(d.d==='afternoon') st.busAfternoon=d.v; else st.busMorning=d.v;
+    st.updated_at=nowISO();
+    const f=findStop(d.v);
+    audit('bus.set_stop', st.fullName+' → '+(f? f.stop.name:''));
+    state.ui.busSel=d.v;
+    closeModal(); toast(t('stop_saved')+(f? ' · '+f.stop.name : ''),'bus'); render();
+  },
+  'bus-clear':(d)=>{
+    const st=activeChild(); if(!st || !canAccessStudent(st.id)) return;
+    if(d.d==='afternoon') st.busAfternoon=null; else st.busMorning=null;
+    audit('bus.clear_stop', st.fullName);
+    toast(t('stop_cleared')); render();
+  },
+  'stop-new':(d)=>{ if(state.session.role!=='admin') return; modalStop(d.r, null); },
+  'stop-edit':(d)=>{ if(state.session.role!=='admin') return; modalStop(d.r, d.v); },
+  'stop-save':(d)=>{
+    if(state.session.role!=='admin'){ toast(t('no_access'),'lock'); return; }
+    const r=(DB.busRoutes||[]).find(x=>x.id===d.r); if(!r) return;
+    const v=id=>{ const e=document.getElementById(id); return e? e.value.trim():''; };
+    const name=v('bsName');
+    if(!name){ toast(t('row_error_fields'),'alert'); return; }
+    const time=v('bsTime')||null, note=v('bsNote')||null;
+    if(time && !/^[0-9]{1,2}:[0-9]{2}$/.test(time)){ toast(t('time_format'),'alert'); return; }
+    if(d.v){
+      const s=r.stops.find(x=>x.id===d.v);
+      s.name=name; s.time=time; s.note=note;
+      audit('bus.stop_edit', r.name+' · '+name);
+    } else {
+      r.stops.push({id:uuid('stop'+Date.now()), name, time, note, ordinal:r.stops.length+1});
+      audit('bus.stop_add', r.name+' · '+name);
+    }
+    closeModal(); toast(t('saved'),'checkcircle'); render();
+  },
+  'stop-del':(d)=>{
+    if(state.session.role!=='admin'){ toast(t('no_access'),'lock'); return; }
+    const r=(DB.busRoutes||[]).find(x=>x.id===d.r); if(!r) return;
+    const n=ridersOf(d.v).length;
+    if(n){ toast(tf('stop_in_use',{n:n}),'alert'); return; }
+    const i=r.stops.findIndex(x=>x.id===d.v);
+    if(i>=0){ audit('bus.stop_del', r.name+' · '+r.stops[i].name); r.stops.splice(i,1); }
+    render();
+  }
+});
+
 window.addEventListener('hashchange', onRoute);
+if(!SB.enabled) restore();
 onRoute();
 </script>
 </body>
