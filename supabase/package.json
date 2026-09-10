@@ -1,0 +1,11 @@
+{
+  "name": "hello-academy-backend",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "bootstrap": "node bootstrap-users.mjs"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.0"
+  }
+}
