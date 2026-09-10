@@ -24,7 +24,7 @@
 <link rel="apple-touch-icon-precomposed" href="apple-touch-icon.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#F5F6F8; --surface:#FFFFFF; --surface-2:#FAFAFB; --surface-3:#F0F2F6;
@@ -43,6 +43,9 @@
   --sh-3:0 24px 60px -28px rgba(16,24,40,.34), 0 2px 6px rgba(16,24,40,.06);
   --ui:'Plus Jakarta Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --body:'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  /* used only by the report card, where a serif carries the weight a
+     certificate needs without the interface borrowing it */
+  --serif:'Source Serif 4', Georgia, 'Times New Roman', serif;
   --sidebar:250px;
 }
 *{box-sizing:border-box}
@@ -132,6 +135,8 @@ button,input,select,textarea{font:inherit;color:inherit}
 .iconbtn{width:34px;height:34px;border-radius:var(--r-sm);display:grid;place-items:center;border:1px solid transparent;background:transparent;cursor:pointer;color:var(--muted);position:relative}
 .iconbtn:hover{background:var(--surface-3);color:var(--text)}
 .menubtn{display:none}
+.reset-label{display:inline;margin-left:5px}
+@media(max-width:1080px){.reset-label{display:none}}
 .hero-top{display:flex;gap:14px;align-items:flex-start;min-width:0}
 .hero-avatar{position:relative;flex:0 0 auto;width:60px;height:60px;min-width:60px;aspect-ratio:1;
   border-radius:50%;border:2px solid rgba(255,255,255,.5);background:rgba(255,255,255,.16);color:#fff;
@@ -439,6 +444,11 @@ tbody tr:hover{background:var(--surface-2)}
 .mx .mx-name{left:46px;width:172px;min-width:172px;text-align:left;padding:6px 9px}
 .mx .mx-term{left:218px;width:34px;min-width:34px;text-align:center;font-family:var(--ui);
   font-weight:700;font-size:10.5px;color:var(--muted);background:var(--surface-3)}
+.mx.single td.mx-cell{width:auto;min-width:66px;padding:0 10px}
+.mx.single .mx-name{left:0;width:186px;min-width:186px}
+.mx.single .mx-term{left:186px}
+.mx.single th.mx-sub{height:104px}
+@media (max-width:860px){ .mx.single .mx-name{width:132px;min-width:132px} .mx.single .mx-term{left:132px} }
 .mark-grid{display:grid;grid-template-columns:1fr;gap:8px}
 .mark-opt{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--border);
   border-radius:var(--r);background:var(--surface);cursor:pointer;text-align:left;width:100%}
@@ -452,6 +462,49 @@ tbody tr:hover{background:var(--surface-2)}
   .mx td.mx-cell{width:34px;min-width:34px}
 }
 .report-sheet{font-size:14px}
+.cd-group{padding:11px 0;border-bottom:1px solid var(--border)}
+.cd-group:last-of-type{border-bottom:0}
+.cd-head{display:flex;align-items:center;gap:11px}
+.cd-head b{font-family:var(--ui);font-weight:600;font-size:13.5px}
+.cd-ic{width:30px;height:30px;border-radius:9px;background:var(--surface-3);color:var(--muted);
+  display:grid;place-items:center;flex:none}
+.cd-ic.ok{background:var(--ok-50);color:var(--ok)}
+.cd-ic.warn{background:var(--warn-50);color:var(--warn)}
+.cd-ic.err{background:var(--err-50);color:var(--err)}
+.cd-row{display:flex;align-items:center;gap:11px;margin-top:9px;padding:9px 10px;border-radius:11px;
+  border:1px solid var(--border);background:var(--surface)}
+.cd-row[role=button]{cursor:zoom-in}
+.cd-row[role=button]:hover{border-color:var(--brand)}
+.cd-row.bad{border-color:var(--err);background:var(--err-50)}
+.cd-thumb{width:38px;height:44px;border-radius:7px;background:var(--surface-3);color:var(--muted);
+  display:grid;place-items:center;flex:none;overflow:hidden}
+.cd-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.cd-name{font-family:var(--ui);font-weight:600;font-size:13.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.srch{position:fixed;inset:0;z-index:140;background:rgba(16,20,40,.5);backdrop-filter:blur(4px);
+  display:flex;justify-content:center;align-items:flex-start;padding:9vh 16px 16px}
+.srch-box{width:min(640px,100%);background:var(--surface);border-radius:var(--r-xl);box-shadow:var(--sh-3);overflow:hidden}
+.srch-in{display:flex;align-items:center;gap:10px;padding:13px 15px;border-bottom:1px solid var(--border);color:var(--muted)}
+.srch-in input{flex:1;border:0;box-shadow:none;font-size:16px;padding:4px 0;background:none}
+.srch-res{max-height:58vh;overflow-y:auto;padding:6px}
+.srch-item{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:11px;
+  text-decoration:none;color:inherit}
+.srch-item:hover{background:var(--surface-2)}
+.srch-item b{display:block;font-family:var(--ui);font-weight:600;font-size:14px}
+.srch-item i{display:block;font-style:normal;font-size:12px;color:var(--faint)}
+.urgent-bar{display:flex;align-items:center;gap:13px;padding:13px 15px;margin-bottom:16px;
+  border-radius:var(--r);background:linear-gradient(135deg,#C9453F,#A6332E);color:#fff;box-shadow:var(--sh-2)}
+.urgent-bar .ic{width:34px;height:34px;border-radius:11px;background:rgba(255,255,255,.18);
+  display:grid;place-items:center;flex:none}
+.urgent-bar b{font-family:var(--ui);font-weight:700;font-size:14.5px;display:block}
+.urgent-bar div>div{font-size:12.5px;opacity:.9;margin-top:2px}
+.urgent-bar .btn{background:#fff;border-color:#fff;color:#A6332E;flex:none}
+.ann-urgent{border-color:var(--err) !important;background:var(--err-50)}
+.rcpt-bar{display:grid;grid-template-columns:repeat(auto-fit,minmax(74px,1fr));gap:10px;margin-top:11px;
+  padding:11px 12px;background:var(--surface-2);border-radius:var(--r)}
+.rcpt{text-align:center}
+.rcpt b{display:block;font-family:var(--ui);font-weight:800;font-size:18px}
+.rcpt b.ok{color:var(--ok)} .rcpt b.warn{color:var(--warn)}
+.rcpt span{font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--faint)}
 .more-row{display:flex;align-items:center;gap:13px;padding:13px 12px;border-radius:12px;
   text-decoration:none;color:var(--text);font-family:var(--ui);font-weight:600;font-size:14.5px;cursor:pointer}
 .more-row:hover{background:var(--surface-2)}
@@ -691,7 +744,7 @@ sq:{
  demo_note:'Version demo: të dhënat janë fiktive dhe zhduken kur rifreskohet faqja.',
  language:'Gjuha', albanian:'Shqip', english:'Anglisht',
  /* nav */
- nav_home:'Ballina', nav_child:'Fëmija im', nav_reports:'Raportet ditore', nav_academics:'Mësimi',
+ nav_home:'Ballina', nav_child:'Fëmija im', nav_reports:'Raportet ditore', nav_academics:'Mësimi', nav_marks:'Notat', nav_development:'Zhvillimi',
  nav_homework:'Detyrat', nav_photos:'Fotot', nav_calendar:'Kalendari', nav_messages:'Mesazhet',
  nav_notifications:'Njoftimet', nav_profile:'Profili',
  nav_dashboard:'Paneli', nav_classes:'Klasat e mia', nav_students:'Nxënësit', nav_attendance:'Prezenca',
@@ -714,6 +767,11 @@ sq:{
  bus_map_note:'Skemë e linjave, jo hartë gjeografike',
  stop_in_use:'{n} nxënës e përdorin këtë ndalesë', time_format:'Ora duhet të jetë si 07:45',
  optional:'Opsionale',
+ term_mark:'Nota e semestrit', term_assessment:'Vlerësimi i semestrit',
+ a4_note:'Formati A4 — pamja është njësoj si në printim.',
+ doc_no:'Nr. i dokumentit', school_days:'Ditë mësimi', excused_count:'Të arsyetuara',
+ final_at_year_end:'Nota përfundimtare lëshohet në fund të vitit, pas të dy semestrave.',
+ scale:'Shkalla e vlerësimit', stamp:'Vula',
  whole_week:'Java e plotë', day:'Dita', dev_report:'Raport zhvillimi', dev_area:'Fusha e zhvillimit',
  days_reported:'Ditë të raportuara', educator_comment:'Vlerësimi i edukatores', principal:'Drejtori',
  menu_allergy:'Përmban {a} — fëmija juaj ka kufizim për këtë.',
@@ -797,6 +855,49 @@ sq:{
  coming_soon:'Vjen së shpejti në versionin e plotë',
  /* profile completion + intake */
  /* absence, messaging, menu, timetable, report card */
+ ann_kind:'Lloji', ann_normal:'Njoftim', ann_urgent:'Urgjent',
+ ann_require_ack:'Kërko konfirmim nga prindërit',
+ ann_urgent_hint:'Njoftimet urgjente shfaqen si shirit i kuq te prindi derisa ta konfirmojnë.',
+ cd_title:'Dokumentet e fëmijës', cd_required:'E detyrueshme', cd_missing:'Ende e pangarkuar',
+ cd_upload:'Ngarko', cd_replace:'Zëvendëso', cd_choose:'Zgjidh skedarin',
+ cd_accept:'PDF ose fotografi', cd_expiry:'Skadon më', cd_expires:'Skadon më', cd_expired:'Ka skaduar',
+ cd_saved:'Dokumenti u ngarkua', cd_pick_first:'Zgjidhni një skedar',
+ cd_from_school:'nga shkolla', cd_complete:'Të gjitha dokumentet janë dorëzuar',
+ cd_incomplete:'Mungojnë dokumente të detyrueshme',
+ cd_hint:'Ngarkoni certifikatën e lindjes, letërnjoftimin dhe certifikatën e vaksinimit. Mjafton një herë.',
+ cd_privacy:'Këto dokumente i sheh vetëm familja, kujdestari i klasës dhe zyra e shkollës.',
+ nav_permissions:'Lejet', nav_documents:'Dokumentet', nav_prefs:'Preferencat e njoftimeve',
+ perm_new:'Kërkesë e re', perm_kind:'Lloji', perm_deadline:'Afati', perm_instructions:'Udhëzime',
+ perm_respond:'Përgjigju', perm_approve:'Aprovo', perm_decline:'Refuzo',
+ perm_approved:'E aprovuar', perm_declined:'E refuzuar', perm_no_answer:'Pa përgjigje',
+ perm_note:'Shënim për shkollën', perm_waiting:'Kërkesa që presin përgjigjen tuaj',
+ perm_none:'Asnjë kërkesë', perm_none_hint:'Kur shkolla kërkon një leje, shfaqet këtu.',
+ perm_sent:'Kërkesa u dërgua te prindërit',
+ perm_admin_hint:'Kërkesat për leje dhe përgjigjet e prindërve.',
+ perm_send_note:'Të gjithë prindërit e përfshirë marrin njoftim menjëherë.',
+ doc_hint:'Dokumentet që ju përkasin.', doc_add:'Shto dokument', doc_kind:'Lloji',
+ doc_scope:'Kush e sheh', doc_target:'Për kë', doc_choose:'Zgjidh skedarin',
+ doc_none:'Asnjë dokument', doc_none_hint:'Dokumentet e shkollës do të shfaqen këtu.',
+ doc_no_file:'Ky dokument nuk ka skedar të bashkangjitur',
+ doc_privacy:'Dokumentet për një nxënës i sheh vetëm familja e tij dhe stafi i klasës.',
+ search_ph:'Kërko nxënës, prindër, klasa…', search_min:'Shkruani të paktën dy shkronja',
+ sr_student:'Nxënës', sr_class:'Klasë', sr_parent:'Prind', sr_staff:'Staf',
+ export_csv:'Eksporto CSV', export_rows:'{n} rreshta u eksportuan',
+ pref_hint:'Zgjidhni cilat njoftime doni t\u2019i merrni.',
+ pref_critical:'Njoftimet urgjente, mungesat dhe kërkesat për leje dërgohen gjithmonë.',
+ on:'Aktiv', off:'Joaktiv', open:'Hap', title:'Titulli', description:'Përshkrimi',
+ nav_absences:'Mungesat e njoftuara', abs_from:'Nga', abs_to:'Deri',
+ abs_range_hint:'Për një ditë të vetme lini të njëjtën datë.',
+ abs_not_official:'Ky njoftim shkon te mësuesi. Prezenca zyrtare vendoset gjithmonë nga shkolla.',
+ abs_reported:'E njoftuar', abs_acknowledged:'E parë nga shkolla', abs_resolved:'E arsyetuar',
+ abs_acknowledge:'Konfirmo', abs_excuse:'Shëno si të arsyetuar',
+ abs_excused_n:'{n} ditë u shënuan si të arsyetuara', abs_n_days:'{n} ditë',
+ abs_ack_note:'Shkolla e ka parë njoftimin tuaj.',
+ abs_resolved_note:'Mungesa u regjistrua si e arsyetuar.',
+ abs_admin_hint:'Njoftimet e prindërve. Prezenca zyrtare ndryshon vetëm kur e shënoni ju.',
+ abs_none_hint:'Kur një prind njofton një mungesë, shfaqet këtu.',
+ rc_sent:'Dërguar', rc_read:'Lexuar', rc_ack:'Konfirmuar', rc_pending:'Në pritje',
+ rc_acknowledge:'E kuptova', rc_acknowledged:'U konfirmua', rc_not_responded:'Pa përgjigje',
  report_absence:'Njofto mungesë', absence_reported:'Mungesa u njoftua',
  absence_for:'Mungesa për', absence_reason:'Arsyeja', absence_note:'Shënim për shkollën',
  absence_note_ph:'Diçka që duhet ta dijë shkolla (opsionale)',
@@ -837,6 +938,8 @@ sq:{
  demo_login_off:'Hyrja demo është e çaktivizuar kur lidhja me serverin është aktive.',
  server_backed:'Të dhënat ruhen në server dhe nuk fshihen nga këtu.',
  signin_failed:'Hyrja dështoi. Kontrolloni të dhënat.',
+ reset_explain:'Rikthen të dhënat fillestare të demos: shkollën, nxënësit, orarin dhe gjithçka tjetër ashtu si ishin në fillim. Përdoret për ta nisur prezantimin nga e para.',
+ reset_warning:'Gjithçka që keni shkruar ose ngarkuar në këtë pajisje fshihet — prezenca, notat, fotot dhe profilet e plotësuara.',
  data_storage:'Ruajtja e të dhënave', store_on:'Aktive', store_empty:'Ende bosh',
  store_failed:'Nuk ruhet dot', store_off:'E padisponueshme',
  store_explain:'Të dhënat ruhen në këtë shfletues dhe nuk humbin kur rifreskohet faqja.',
@@ -894,6 +997,8 @@ sq:{
  subject_in_use:'Lënda ka nota të regjistruara dhe nuk hiqet dot',
  subjects_hint:'Zgjidhni lëndët që zhvillohen në secilën klasë. Kolonat e ditarit ndjekin këtë listë.',
  matrix_hint:'Prekni një kutizë për ta vendosur notën. N.P llogaritet nga dy semestrat.',
+ matrix_parent_hint:'E njëjta formë si në ditarin e shkollës, vetëm me fëmijën tuaj.',
+ term_one:'Semestri i parë', term_two:'Semestri i dytë',
  matrix_early_hint:'Matrica vlen për klasat 1–9. Kopshti ka raportin ditor.',
  done:'U krye', saved:'U ruajt', name:'Emri',
  nav_ditari:'Ditari elektronik', ditari_intro:'Çdo orë e regjistruar nga mësuesi: njësia mësuese, prezenca dhe vërejtjet.',
@@ -984,7 +1089,7 @@ en:{
  login_admin_d:'Mimoza Bajrami — Head of school',
  demo_note:'Demo build: the data is fictional and disappears when the page is reloaded.',
  language:'Language', albanian:'Albanian', english:'English',
- nav_home:'Home', nav_child:'My child', nav_reports:'Daily reports', nav_academics:'Academics',
+ nav_home:'Home', nav_child:'My child', nav_reports:'Daily reports', nav_academics:'Academics', nav_marks:'Marks', nav_development:'Development',
  nav_homework:'Homework', nav_photos:'Photos', nav_calendar:'Calendar', nav_messages:'Messages',
  nav_notifications:'Notifications', nav_profile:'Profile',
  nav_dashboard:'Dashboard', nav_classes:'My classes', nav_students:'Students', nav_attendance:'Attendance',
@@ -1006,6 +1111,11 @@ en:{
  bus_map_note:'A line diagram, not a geographic map',
  stop_in_use:'{n} students use this stop', time_format:'The time must look like 07:45',
  optional:'Optional',
+ term_mark:'Term mark', term_assessment:'Term assessment',
+ a4_note:'A4 format — what you see is what prints.',
+ doc_no:'Document no.', school_days:'School days', excused_count:'Excused',
+ final_at_year_end:'The final mark is issued at the end of the year, after both terms.',
+ scale:'Marking scale', stamp:'Stamp',
  whole_week:'The whole week', day:'Day', dev_report:'Development report', dev_area:'Area of development',
  days_reported:'Days reported', educator_comment:'Educator\u2019s assessment', principal:'Principal',
  menu_allergy:'Contains {a} — your child has a restriction for this.',
@@ -1074,6 +1184,49 @@ en:{
  coming_soon:'Coming in the full version',
  /* profile completion + intake */
  /* absence, messaging, menu, timetable, report card */
+ ann_kind:'Type', ann_normal:'Announcement', ann_urgent:'Urgent',
+ ann_require_ack:'Ask guardians to confirm',
+ ann_urgent_hint:'Urgent notices sit as a red bar on the guardian\u2019s screen until confirmed.',
+ cd_title:'Child documents', cd_required:'Required', cd_missing:'Not uploaded yet',
+ cd_upload:'Upload', cd_replace:'Replace', cd_choose:'Choose the file',
+ cd_accept:'PDF or a photo', cd_expiry:'Expires on', cd_expires:'Expires', cd_expired:'Expired on',
+ cd_saved:'Document uploaded', cd_pick_first:'Choose a file first',
+ cd_from_school:'from the school', cd_complete:'All documents are in',
+ cd_incomplete:'Required documents are missing',
+ cd_hint:'Upload the birth certificate, an ID and the vaccination record. Once is enough.',
+ cd_privacy:'Only the family, the class teacher and the school office can see these.',
+ nav_permissions:'Permissions', nav_documents:'Documents', nav_prefs:'Notification preferences',
+ perm_new:'New request', perm_kind:'Type', perm_deadline:'Deadline', perm_instructions:'Instructions',
+ perm_respond:'Respond', perm_approve:'Approve', perm_decline:'Decline',
+ perm_approved:'Approved', perm_declined:'Declined', perm_no_answer:'No answer',
+ perm_note:'Note for the school', perm_waiting:'Requests waiting for your answer',
+ perm_none:'No requests', perm_none_hint:'When the school asks for a permission it appears here.',
+ perm_sent:'The request has gone to the guardians',
+ perm_admin_hint:'Permission requests and how guardians answered.',
+ perm_send_note:'Every guardian involved is notified immediately.',
+ doc_hint:'The documents that belong to you.', doc_add:'Add a document', doc_kind:'Type',
+ doc_scope:'Who sees it', doc_target:'For whom', doc_choose:'Choose the file',
+ doc_none:'No documents', doc_none_hint:'School documents will appear here.',
+ doc_no_file:'This document has no file attached',
+ doc_privacy:'A document for one student is seen only by their family and the class staff.',
+ search_ph:'Search students, guardians, classes…', search_min:'Type at least two letters',
+ sr_student:'Student', sr_class:'Class', sr_parent:'Guardian', sr_staff:'Staff',
+ export_csv:'Export CSV', export_rows:'{n} rows exported',
+ pref_hint:'Choose which notifications you want to receive.',
+ pref_critical:'Urgent notices, absences and permission requests are always sent.',
+ on:'On', off:'Off', open:'Open', title:'Title', description:'Description',
+ nav_absences:'Reported absences', abs_from:'From', abs_to:'To',
+ abs_range_hint:'For a single day leave both dates the same.',
+ abs_not_official:'This goes to the teacher. Official attendance is always set by the school.',
+ abs_reported:'Reported', abs_acknowledged:'Seen by the school', abs_resolved:'Excused',
+ abs_acknowledge:'Acknowledge', abs_excuse:'Mark as excused',
+ abs_excused_n:'{n} days marked excused', abs_n_days:'{n} days',
+ abs_ack_note:'The school has seen your report.',
+ abs_resolved_note:'The absence was recorded as excused.',
+ abs_admin_hint:'Guardians\u2019 reports. Official attendance only changes when you set it.',
+ abs_none_hint:'When a guardian reports an absence it appears here.',
+ rc_sent:'Sent', rc_read:'Read', rc_ack:'Acknowledged', rc_pending:'Pending',
+ rc_acknowledge:'Got it', rc_acknowledged:'Acknowledged', rc_not_responded:'No response',
  report_absence:'Report an absence', absence_reported:'The absence was reported',
  absence_for:'Absence for', absence_reason:'Reason', absence_note:'Note for the school',
  absence_note_ph:'Anything the school should know (optional)',
@@ -1114,6 +1267,8 @@ en:{
  demo_login_off:'Demo sign-in is disabled while the server connection is active.',
  server_backed:'Data lives on the server and is not cleared from here.',
  signin_failed:'Sign-in failed. Check the details.',
+ reset_explain:'Restores the original demo data: the school, students, timetable and everything else as it started. Use it to run the presentation from the top.',
+ reset_warning:'Everything entered or uploaded on this device is removed — attendance, marks, photos and completed profiles.',
  data_storage:'Data storage', store_on:'Active', store_empty:'Nothing saved yet',
  store_failed:'Cannot save', store_off:'Unavailable',
  store_explain:'Data is kept in this browser and survives a reload.',
@@ -1171,6 +1326,8 @@ en:{
  subject_in_use:'This subject has marks recorded and cannot be removed',
  subjects_hint:'Choose the subjects each class takes. The register columns follow this list.',
  matrix_hint:'Tap a cell to set a mark. The final column is calculated from the two terms.',
+ matrix_parent_hint:'The same form as the school register, with your child only.',
+ term_one:'First term', term_two:'Second term',
  matrix_early_hint:'The matrix applies to grades 1–9. Kindergarten has the daily report.',
  done:'Done', saved:'Saved', name:'Name',
  nav_ditari:'Class register', ditari_intro:'Every lesson as the teacher recorded it: the topic, attendance and remarks.',
@@ -1321,7 +1478,8 @@ function seed(){
     announcements:[], events:[], conversations:[], messages:[], notifications:[],
     medical:[], pickups:[], emergencyContacts:[], absences:[], periods:[], menus:[], terms:[], lessons:[],
     areas:[], classSubjects:[], termGrades:[], conduct:[], invites:[],
-    feePlans:[], invoices:[], payments:[], deletionRequests:[], busRoutes:[], auditLog:[]
+    feePlans:[], invoices:[], payments:[], deletionRequests:[], busRoutes:[],
+    receipts:[], permissions:[], permissionResponses:[], documents:[], notifPrefs:[], auditLog:[]
   };
   const T0 = today();
   const SCHOOL = uuid('school-hello-academy');
@@ -2126,6 +2284,15 @@ function canAccessStudent(studentId){
   }
   return false;
 }
+/* A guardian can *read* their child's class — announcements, the register's
+   class-wide lines, the activity list. They must never *write* to it, so every
+   mutating action asks this instead. */
+function canWriteClass(classId){
+  const s=state.session; if(!s) return false;
+  if(s.role==='admin') return true;
+  if(s.role==='teacher') return teacherClasses(s.teacherId).some(c=>c.id===classId);
+  return false;
+}
 function canAccessClass(classId){
   const s=state.session; if(!s) return false;
   if(s.role==='admin') return true;
@@ -2350,6 +2517,8 @@ const NAV = {
     {r:'parent/timetable',ic:'clock',k:'nav_timetable'},
     {r:'parent/reportcard',ic:'award',k:'nav_reportcard'},
     {r:'parent/menu',ic:'utensils',k:'nav_menu'},
+    {r:'parent/permissions',ic:'shield',k:'nav_permissions'},
+    {r:'parent/documents',ic:'file',k:'nav_documents'},
     {r:'parent/payments',ic:'chart',k:'nav_payments'},
     {r:'parent/transport',ic:'bus',k:'nav_transport'},
     {r:'parent/photos',ic:'image',k:'nav_photos'},
@@ -2363,6 +2532,9 @@ const NAV = {
     {r:'teacher/classes',ic:'layers',k:'nav_classes'},
     {r:'teacher/students',ic:'users',k:'nav_students'},
     {r:'teacher/attendance',ic:'clipboard',k:'nav_attendance'},
+    {r:'teacher/absences',ic:'info',k:'nav_absences'},
+    {r:'teacher/permissions',ic:'shield',k:'nav_permissions'},
+    {r:'teacher/documents',ic:'file',k:'nav_documents'},
     {r:'teacher/daysheet',ic:'sun',k:'nav_daysheet'},
     {r:'teacher/activities',ic:'palette',k:'nav_activities'},
     {r:'teacher/homework',ic:'file',k:'nav_homework'},
@@ -2384,7 +2556,10 @@ const NAV = {
     {r:'admin/subjects',ic:'book',k:'nav_subjects'},
     {r:'admin/ditari',ic:'book',k:'nav_ditari'},
     {r:'admin/attendance',ic:'clipboard',k:'nav_attendance'},
+    {r:'admin/absences',ic:'info',k:'nav_absences'},
     {r:'admin/announcements',ic:'bell',k:'nav_announcements'},
+    {r:'admin/permissions',ic:'shield',k:'nav_permissions'},
+    {r:'admin/documents',ic:'file',k:'nav_documents'},
     {r:'admin/menu',ic:'utensils',k:'nav_menu'},
     {r:'admin/transport',ic:'bus',k:'nav_transport'},
     {r:'admin/calendar',ic:'calendar',k:'nav_calendar'},
@@ -2421,12 +2596,32 @@ function onRoute(){
   render();
   window.scrollTo(0,0);
 }
+/* The register and the timetable do not exist before grade 1, so a guardian
+   of a kindergarten child should not be given a menu entry that leads to an
+   apology. The menu follows the selected child. */
+const EARLY_HIDDEN=['parent/ditari','parent/timetable'];
+function navFor(role){
+  const items=NAV[role]||[];
+  if(role!=='parent') return items;
+  const st=(typeof activeChild==='function')? activeChild() : null;
+  const early=st && isEarlyYears(st);
+  return items
+    .filter(n=>!early || EARLY_HIDDEN.indexOf(n.r)<0)
+    /* the same screen is marks for a schoolchild and development for a
+       kindergarten child, so it should not carry one name for both */
+    .map(n=>n.r==='parent/academics'
+      ? {r:n.r, ic:n.ic, k: early? 'nav_development' : 'nav_marks'}
+      : n);
+}
+
 function routeTitle(){
-  const item = (NAV[state.session.role]||[]).find(n=>n.r===state.route);
+  const item = navFor(state.session.role).find(n=>n.r===state.route)
+            || (NAV[state.session.role]||[]).find(n=>n.r===state.route);
   if(item) return t(item.k);
   const map={
     'parent/report':t('daily_report'), 'teacher/class':t('class'), 'teacher/student':t('student'),
-    'parent/messages':t('messages'), 'parent/setup':t('complete_profile'), 'parent/more':t('more'), 'admin/import':t('import_csv'),
+    'parent/messages':t('messages'), 'parent/setup':t('complete_profile'), 'parent/more':t('more'),
+    'parent/academics':t('nav_marks'), 'admin/import':t('import_csv'),
     'teacher/reportcard':t('report_card'), 'admin/staff':t('teaching_staff'), 'admin/invites':t('nav_invites'), 'admin/fees':t('fee_plans'), 'admin/finance':t('nav_finance')
   };
   return map[state.route] || t('nav_dashboard');
@@ -2451,7 +2646,7 @@ function render(){
   paintOverlay();
 }
 function sidebarView(){
-  const role=state.session.role, items=NAV[role]||[];
+  const role=state.session.role, items=navFor(role);
   const school=DB.schools[0];
   return '<aside class="sidebar'+(state.sidebarOpen?' open':'')+'">'+
     '<div class="brandmark stacked"><span class="logo-mark" role="img" aria-label="'+esc(school.name)+'"></span>'+
@@ -2480,12 +2675,15 @@ function topbarView(){
   return '<header class="topbar">'+
     (showMenu?'<button class="iconbtn menubtn" data-act="toggle-sidebar" aria-label="Menu">'+icon('menu',20)+'</button>':'')+
     (typeof sbStatusHTML==='function'? sbStatusHTML() : '')+
+    (state.session.role!=='parent'? '<button class="btn sm ghost" data-act="srch-open" title="'+t('search')+'">'+
+      icon('search',16)+'<span class="reset-label">'+t('search')+'</span></button>' : '')+
     '<div><h1>'+esc(routeTitle())+'</h1></div>'+
     '<div class="spacer"></div>'+
     '<button class="btn sm ghost" data-act="toggle-lang" title="'+t('language')+'">'+icon('globe',16)+(state.lang==='sq'?'SQ':'EN')+'</button>'+
     '<a class="iconbtn" href="#/'+state.session.role+'/'+(state.session.role==='parent'?'notifications':'messages')+'" aria-label="'+t('notifications')+'">'+
       icon('bell',19)+(unreadCount()?'<span class="badge" style="position:absolute;top:2px;right:2px">'+unreadCount()+'</span>':'')+'</a>'+
-    '<button class="btn sm ghost" data-act="reset-demo" title="'+t('reset_demo')+'">'+icon('sparkle',16)+'</button>'+
+    '<button class="btn sm ghost" data-act="reset-ask" title="'+t('reset_demo')+'" aria-label="'+t('reset_demo')+'">'+
+      icon('sparkle',16)+'<span class="reset-label">'+t('reset_demo')+'</span></button>'+
   '</header>';
 }
 function bottomBarView(){
@@ -2493,7 +2691,7 @@ function bottomBarView(){
   const tabs=parentTabs();
   const map={'parent/home':'home','parent/reports':'sun','parent/academics':'cap','parent/photos':'image',
     'parent/ditari':'book','parent/messages':'message','parent/more':'menu'};
-  const labels={'parent/home':'nav_home','parent/reports':'nav_reports','parent/academics':'nav_academics',
+  const labels={'parent/home':'nav_home','parent/reports':'nav_reports','parent/academics':'nav_marks',
     'parent/photos':'nav_photos','parent/ditari':'nav_ditari','parent/messages':'nav_messages','parent/more':'more'};
   const unread=(typeof unreadCount==='function')? unreadCount() : 0;
   return '<nav class="bottombar">'+tabs.map(r=>{
@@ -2702,8 +2900,9 @@ function ParentHome(){
 
   return childHeroCard(st)+
     profilePromptCard(st)+
-    absenceCard(st)+
-    (absenceFor(st.id,d)? '' :
+    absenceCard2(st)+
+    (typeof permissionPrompt==='function'? permissionPrompt() : '')+
+    (absenceForDay(st.id,d)? '' :
       '<div class="row wrap" style="gap:8px;margin-top:16px">'+
         '<button class="btn" data-act="abs-open" data-s="'+st.id+'">'+icon('alert',16)+t('report_absence')+'</button>'+
         '<button class="btn" data-act="msg-new">'+icon('send',16)+t('new_message')+'</button>'+
@@ -2778,6 +2977,7 @@ function ParentChild(){
         '<span class="tiny muted">'+esc(tf('profile_confirmed_on',{d:fmtDate(st.profileConfirmedAt.slice(0,10))}))+'</span></div>'+
         '<a class="btn sm" href="#/parent/setup?s='+st.id+'&step=health">'+icon('edit',15)+t('edit')+'</a>'+
       '</div></div></div>' : '')+
+    (typeof childDocsCard==='function'? childDocsCard(st) : '')+
     '<div class="grid g2" style="margin-top:18px">'+
       '<div class="card"><div class="card-h"><h3>'+t('profile')+'</h3></div><div class="card-b">'+
         '<dl style="margin:0">'+
@@ -2933,6 +3133,8 @@ function ParentAcademics(){
         '<div class="progress '+(p>=80?'ok':(p>=60?'teal':'warn'))+'" style="margin-top:11px"><i style="width:'+p+'%"></i></div>'+
       '</div></button>';
     }).join('')+'</div>'+
+    sectionHead(t('nav_matrix'), '<a class="btn sm" href="#/parent/ditari?v=matrica">'+t('view_all')+'</a>')+
+    matrixPanel(classOf(st), {students:[st], readonly:true})+
     sectionHead(t('recent_grades'))+
     '<div class="card"><div class="card-b" style="padding-top:6px">'+grades.slice(0,8).map(g=>{
       const sj=byId(DB.subjects,g.subjectId);
@@ -3154,6 +3356,7 @@ function ParentProfile(){
         myChildren().map(c=>'<button class="btn ghost" data-act="data-delete" data-s="'+c.id+'">'+
           icon('trash',16)+t('data_delete')+' · '+esc(c.firstName)+'</button>').join('')+
       '</div></div></div>'+
+    '<div style="margin-top:16px">'+(typeof prefsCard==='function'? prefsCard() : '')+'</div>'+
     '<div style="margin-top:16px">'+storageCard()+'</div>'+
     '<div style="margin-top:16px"><button class="btn block" data-act="logout">'+icon('logout',16)+t('switch_role')+'</button></div>';
 }
@@ -3331,6 +3534,7 @@ function TeacherStudent(){
       (early? '' : '<a class="btn sm" href="#/teacher/reportcard?s='+st.id+'">'+icon('award',15)+t('report_card')+'</a>')+
       '<button class="btn sm" data-act="kidphoto-open" data-s="'+st.id+'">'+icon('camera',15)+
         (st.photoUrl? t('change_photo') : t('child_photo'))+'</button></div></div>'+
+    (typeof childDocsCard==='function'? childDocsCard(st) : '')+
     '<div class="card"><div class="card-b">'+
       '<div class="rowb wrap" style="gap:14px"><div class="row" style="gap:13px">'+avatar(st.fullName,54,st.id)+
         '<div><h2>'+esc(st.fullName)+'</h2><div class="small muted">'+esc(classOf(st).name)+' · '+st.age+' '+t('years_old')+' · '+esc(fmtDate(st.dob))+'</div></div></div>'+
@@ -3384,7 +3588,7 @@ function TeacherAttendance(){
       '<div class="card-h"><h3>'+t('attendance')+' · '+esc(fmtDate(today(),'long'))+'</h3>'+
         '<span class="chip '+(marked===st.length?'ok':'warn')+'">'+marked+'/'+st.length+'</span></div>'+
       '<div class="card-b">'+
-        (function(){ const rep=absencesForClass(c.id,d);
+        (function(){ const rep=absencesForClassDay(c.id,d);
           if(!rep.length) return '';
           return '<div class="notice" style="margin-bottom:14px">'+icon('info',16)+'<span><b>'+t('absences_today')+':</b> '+
             esc(rep.map(a=>byId(DB.students,a.studentId).firstName+' ('+reasonLabel(a.reason)+')').join(' · '))+'</span></div>';
@@ -3397,7 +3601,7 @@ function TeacherAttendance(){
           return '<div class="list-row"><div class="row" style="gap:10px;flex:1;min-width:0">'+avatar(s.fullName,36,s.id)+
             '<div style="min-width:0"><div style="font-weight:600;font-family:var(--ui);font-size:13.5px">'+esc(s.fullName)+'</div>'+
             '<div class="tiny muted">'+(a? (a.time||'')+' · '+t(ATT_STATUS[a.status].label) : t('pending'))+'</div>'+
-            (absenceFor(s.id,d)? '<span class="chip info" style="margin-top:4px">'+icon('info',11)+t('reported_by_parent')+'</span>':'')+
+            (absenceForDay(s.id,d)? '<span class="chip info" style="margin-top:4px">'+icon('info',11)+t('reported_by_parent')+'</span>':'')+
             '</div></div>'+
             '<div class="seg sm">'+Object.keys(ATT_STATUS).map(k=>
               '<button class="'+(cur===k?'on':'')+'" data-tone="'+ATT_STATUS[k].tone+'" data-act="att-set" data-st="'+s.id+'" data-v="'+k+'">'+t(ATT_STATUS[k].label)+'</button>').join('')+
@@ -3732,6 +3936,7 @@ function AdminStudents(){
   const pending=DB.students.filter(s=>!profileScore(s).complete).length;
   return adminTable([t('student'),t('class'),t('age'),t('guardians'),t('attendance_rate'),t('photo_consent'),t('profile_completion')], rows,
     '<div class="row" style="gap:8px">'+
+      (typeof exportButton==='function'? exportButton('students') : '')+
       '<a class="btn" href="#/admin/import">'+icon('download',16)+t('import_csv')+'</a>'+
       '<button class="btn primary" data-act="new-student">'+icon('plus',16)+t('add_student')+'</button></div>',
     DB.students.length+' '+t('students').toLowerCase()+(pending? ' · '+pending+' '+t('pending_profiles').toLowerCase() : ''));
@@ -3802,12 +4007,15 @@ function AdminAnnouncements(){
   return '<div class="rowb" style="margin-bottom:16px"><span class="small muted">'+DB.announcements.length+' '+t('announcements').toLowerCase()+'</span>'+
     '<button class="btn primary" data-act="new-announcement">'+icon('plus',16)+t('new_announcement')+'</button></div>'+
     '<div class="stack-sm">'+DB.announcements.map(a=>
-      '<div class="card"><div class="card-b">'+
-        '<div class="rowb"><b style="font-family:var(--ui);font-size:15px">'+esc(L(a.title))+'</b>'+
+      '<div class="card'+(a.urgency==='urgent'?' ann-urgent':'')+'"><div class="card-b">'+
+        '<div class="rowb"><div class="row" style="gap:8px">'+
+          (a.urgency==='urgent'? '<span class="chip err">'+icon('alert',12)+t('ann_urgent')+'</span>':'')+
+          '<b style="font-family:var(--ui);font-size:15px">'+esc(L(a.title))+'</b></div>'+
         '<span class="chip '+(a.audience.type==='school'?'brand':'teal')+'">'+
           (a.audience.type==='school'? t('whole_school') : esc(byId(DB.classes,a.audience.classId).name))+'</span></div>'+
         '<p class="small muted" style="margin-top:8px;max-width:78ch;line-height:1.6">'+esc(L(a.body))+'</p>'+
         '<div class="tiny faint" style="margin-top:9px">'+esc(relTime(a.publishedAt))+' · '+esc((byId(DB.users,a.authorId)||{}).name||'')+'</div>'+
+        (typeof annStatsRow==='function'? annStatsRow(a) : '')+
       '</div></div>').join('')+'</div>';
 }
 function AdminCalendar(){ return TeacherCalendar(); }
@@ -3865,6 +4073,7 @@ function AdminSettings(){
       '<span class="small muted" style="flex:1">'+esc(desc)+'</span></div>').join('')+
   '</div></div>'+
   sectionHead(t('privacy_title'))+
+  (typeof prefsCard==='function'? prefsCard()+'<div style="height:16px"></div>' : '')+
   storageCard()+
   '<div class="card" style="margin-top:16px"><div class="card-b">'+
     '<div class="notice warn">'+icon('alert',16)+'<span>'+
@@ -4040,7 +4249,14 @@ function modalAnnouncement(){
     '<div class="field"><label class="fl">'+(state.lang==='sq'?'Teksti':'Body')+'</label><textarea id="anBody" style="min-height:110px"></textarea></div>'+
     '<div class="field"><label class="fl">'+t('audience')+'</label><select id="anAudience">'+
       '<option value="school">'+t('whole_school')+'</option>'+
-      DB.classes.map(c=>'<option value="'+c.id+'">'+esc(c.name)+'</option>').join('')+'</select></div>',
+      DB.classes.map(c=>'<option value="'+c.id+'">'+esc(c.name)+'</option>').join('')+'</select></div>'+
+    '<div class="field"><label class="fl">'+t('ann_kind')+'</label><div class="seg">'+
+      '<button class="on" id="anNormal" data-act="ann-kind" data-v="normal">'+t('ann_normal')+'</button>'+
+      '<button id="anUrgent" data-act="ann-kind" data-v="urgent">'+icon('alert',14)+t('ann_urgent')+'</button>'+
+      '</div><input type="hidden" id="anUrgency" value="normal"></div>'+
+    '<label class="row" style="gap:8px;align-items:flex-start;cursor:pointer">'+
+      '<input type="checkbox" id="anAck"><span class="small">'+t('ann_require_ack')+'</span></label>'+
+    '<p class="tiny faint" style="margin-top:6px">'+t('ann_urgent_hint')+'</p>',
     footer:'<button class="btn" data-act="close-modal">'+t('cancel')+'</button>'+
            '<button class="btn primary" data-act="save-announcement">'+t('publish')+'</button>'});
 }
@@ -5014,7 +5230,7 @@ Object.assign(ACTIONS, {
     modalMedia(d.c);
   },
   'save-media':(d)=>{
-    if(!canAccessClass(d.c)){ toast(t('no_access'),'lock'); return; }
+    if(!canWriteClass(d.c)){ toast(t('no_access'),'lock'); return; }
     const capEl=document.getElementById('phCap');
     const cap=(capEl? capEl.value.trim():'') || state.ui.uploadCap || t('caption_default');
     const kindEl=document.getElementById('phKind');
@@ -5437,7 +5653,7 @@ Object.assign(ACTIONS, {
   /* broadcast to a whole class */
   'bc-open':(d)=>modalBroadcast(d.c),
   'bc-send':(d)=>{
-    if(!canAccessClass(d.c)){ toast(t('no_access'),'lock'); return; }
+    if(!canWriteClass(d.c)){ toast(t('no_access'),'lock'); return; }
     const v=id=>{ const e=document.getElementById(id); return e? e.value.trim():''; };
     const title=v('bcTitle'), body=v('bcBody');
     if(!body){ toast(t('row_error_fields'),'alert'); return; }
@@ -5529,11 +5745,26 @@ function ParentDitari(){
   if(isEarlyYears(st)) return childHeroCard(st)+
     '<div class="card" style="margin-top:16px"><div class="card-b">'+
     emptyState('nothing_here','ditari_early_hint','sun')+'</div></div>';
+
+  /* the same two faces the staff register has, so a guardian who has seen the
+     school's book recognises it immediately */
+  const view=state.params.v==='matrica' ? 'matrica' : 'ore';
+  const viewTabs='<div class="seg" style="margin:14px 0">'+
+    [['ore','lesson_log','clock'],['matrica','nav_matrix','chart']].map(([k,lbl,ic])=>
+      '<a class="'+(view===k?'on':'')+'" href="#/parent/ditari'+(k==='matrica'?'?v=matrica':'')+'" '+
+      'style="padding:9px 14px;font-size:13px;font-weight:600;font-family:var(--ui);text-decoration:none;'+
+      (view===k?'background:var(--brand);color:#fff':'color:var(--muted)')+'">'+icon(ic,15)+t(lbl)+'</a>').join('')+'</div>';
+
+  if(view==='matrica'){
+    return childHeroCard(st)+viewTabs+
+      matrixPanel(cls, {students:[st], readonly:true});
+  }
+
   const days=registerDays(st.id, 8);
-  if(!days.length) return childHeroCard(st)+'<div class="card" style="margin-top:16px"><div class="card-b">'+
+  if(!days.length) return childHeroCard(st)+viewTabs+'<div class="card"><div class="card-b">'+
     emptyState('nothing_here','nothing_here_hint','book')+'</div></div>';
-  return childHeroCard(st)+
-    '<p class="small muted" style="margin-top:14px">'+t('ditari_intro')+'</p>'+
+  return childHeroCard(st)+viewTabs+
+    '<p class="small muted">'+t('ditari_intro')+'</p>'+
     days.map(d=>{
       const att=attendanceFor(st.id,d.date);
       const missed=att && (att.status==='absent'||att.status==='excused');
@@ -5574,8 +5805,15 @@ function ditariClasses(){
 /* the register has two faces: the day's lessons, and the marks for the year */
 function DitariView(){
   const classes=ditariClasses();
-  if(!classes.length) return '<div class="card"><div class="card-b">'+
-    emptyState('nothing_here','ditari_early_hint','book')+'</div></div>';
+  if(!classes.length){
+    const kg=(typeof myClasses==='function'? myClasses():[]).filter(c=>c.stage==='early');
+    return '<div class="card"><div class="card-b">'+
+      emptyState('nothing_here','ditari_early_hint','book')+
+      (kg.length? '<div class="row" style="justify-content:center;gap:8px;margin-top:4px">'+
+        kg.map(c=>'<a class="btn primary" href="#/teacher/daysheet?c='+c.id+'">'+icon('sun',16)+
+          t('day_sheet')+' · '+esc(c.shortName||c.name)+'</a>').join('')+'</div>' : '')+
+    '</div></div>';
+  }
   const c=classes.find(x=>x.id===state.params.c) || classes[0];
   if(!canAccessClass(c.id) && state.session.role!=='admin') return noAccessView();
   const role=state.session.role;
@@ -5687,7 +5925,7 @@ Object.assign(VIEWS, {'parent/ditari':ParentDitari, 'teacher/ditari':DitariView,
 
 Object.assign(ACTIONS, {
   'lesson-open':(d)=>{
-    if(!canAccessClass(d.c)){ toast(t('no_access'),'lock'); return; }
+    if(!canWriteClass(d.c)){ toast(t('no_access'),'lock'); return; }
     modalLesson(d.c, d.p, d.d);
   },
   'lesson-absent':(d,e)=>{
@@ -5700,7 +5938,7 @@ Object.assign(ACTIONS, {
     if(btn) btn.classList.toggle('err', i<0);
   },
   'lesson-save':(d)=>{
-    if(!canAccessClass(d.c)){ toast(t('no_access'),'lock'); return; }
+    if(!canWriteClass(d.c)){ toast(t('no_access'),'lock'); return; }
     const v=id=>{ const el=document.getElementById(id); return el? el.value.trim():''; };
     const topic=v('lsTopic');
     if(!topic){ toast(t('lesson_topic_required'),'alert'); return; }
@@ -5787,22 +6025,27 @@ function matrixRowTerm(key){
   return key==='t1' ? DB.terms[0].id : (key==='t2' ? DB.terms[1].id : 'final');
 }
 
-function matrixPanel(c){
-  const kids=studentsOfClass(c.id);
+/* The same grid serves the staff view of a whole class and a guardian's view of
+   one child. A guardian gets exactly one row set and no way to edit — the shape
+   is what makes it recognisable, the scope is what keeps it private. */
+function matrixPanel(c, opts){
+  opts=opts||{};
+  const kids=opts.students || studentsOfClass(c.id);
+  const readonly=!!opts.readonly;
   const rows=classSubjectRows(c.id);
   const subs=rows.map(r=>byId(DB.subjects,r.subjectId)).filter(Boolean);
   const areas=DB.areas.slice().sort((a,b)=>a.ordinal-b.ordinal)
     .map(a=>({area:a, subs:subs.filter(s=>s.areaId===a.id)}))
     .filter(g=>g.subs.length);
-  const canEdit = state.session.role==='admin' || canAccessClass(c.id);
+  const canEdit = !readonly && canWriteClass(c.id);
   const filled = kids.length*subs.length? Math.round(
     kids.reduce((n,k)=>n+subs.filter(s=>termGrade(k.id,s.id,DB.terms[0].id)).length,0) / (kids.length*subs.length)*100) : 0;
 
   const head =
     '<thead>'+
       '<tr>'+
-        '<th class="mx-stick mx-no" rowspan="2">'+t('nr')+'</th>'+
-        '<th class="mx-stick mx-name" rowspan="2">'+t('student_and_parent')+'</th>'+
+        (readonly? '' : '<th class="mx-stick mx-no" rowspan="2">'+t('nr')+'</th>')+
+        '<th class="mx-stick mx-name" rowspan="2">'+t(readonly? 'student' : 'student_and_parent')+'</th>'+
         '<th class="mx-stick mx-term" rowspan="2"></th>'+
         areas.map(g=>'<th colspan="'+g.subs.length+'" class="mx-area">'+esc(L(g.area.name))+'</th>').join('')+
         '<th colspan="3" class="mx-area">'+t('summary')+'</th>'+
@@ -5824,11 +6067,12 @@ function matrixPanel(c){
       const avg=isFinal? null : studentTermAverage(st.id,c.id,termId);
       const cond=isFinal? null : conductOf(st.id,termId);
       return '<tr class="mx-row'+(ri===2?' mx-last':'')+(i%2?' mx-alt':'')+'">'+
-        (ri===0? '<td class="mx-stick mx-no" rowspan="3"><div class="mono-num">'+(i+1)+'</div>'+
+        (ri===0 && !readonly? '<td class="mx-stick mx-no" rowspan="3"><div class="mono-num">'+(i+1)+'</div>'+
                  '<div class="tiny faint mono-num">'+esc(st.registerNo||'')+'</div></td>' : '')+
         (ri===0? '<td class="mx-stick mx-name" rowspan="3">'+
-                 '<div style="font-family:var(--ui);font-weight:600;font-size:13px">'+esc(registerName(st.id))+'</div>'+
-                 '<div class="tiny faint">'+esc(guardianNames(st.id))+'</div></td>' : '')+
+                 '<div style="font-family:var(--ui);font-weight:600;font-size:13px">'+
+                   esc(readonly? st.fullName : registerName(st.id))+'</div>'+
+                 '<div class="tiny faint">'+esc(readonly? (st.registerNo? t('nr')+' '+st.registerNo : '') : guardianNames(st.id))+'</div></td>' : '')+
         '<td class="mx-stick mx-term">'+r.label+'</td>'+
         flatSubs.map(s=>{
           if(isFinal){
@@ -5852,21 +6096,34 @@ function matrixPanel(c){
     }).join('')
   ).join('')+'</tbody>';
 
-  return '<div class="rowb" style="margin-bottom:12px;gap:9px;flex-wrap:wrap">'+
-      '<div class="row" style="gap:9px;flex-wrap:wrap">'+
-        '<span class="chip brand">'+esc(c.name)+'</span>'+
-        '<span class="chip">'+kids.length+' '+t('students').toLowerCase()+'</span>'+
-        '<span class="chip">'+subs.length+' '+t('subjects').toLowerCase()+'</span>'+
-        '<span class="chip '+(filled>90?'ok':'warn')+'">'+filled+'% '+t('filled').toLowerCase()+'</span>'+
-      '</div>'+
-      '<div class="row" style="gap:8px">'+
-        (canEdit? '<button class="btn" data-act="mx-fill" data-c="'+c.id+'">'+icon('edit',15)+t('fill_column')+'</button>':'')+
-        (state.session.role==='admin'? '<a class="btn" href="#/admin/subjects?c='+c.id+'">'+icon('layers',15)+t('manage_subjects')+'</a>':'')+
-        '<button class="btn" data-act="print-page">'+icon('download',15)+t('print')+'</button>'+
-      '</div>'+
-    '</div>'+
-    '<p class="tiny faint" style="margin-bottom:10px">'+t('matrix_hint')+'</p>'+
-    '<div class="card"><div class="mx-wrap"><table class="mx">'+head+body+'</table></div></div>';
+  const bar = readonly
+    ? '<div class="rowb" style="margin-bottom:10px;gap:9px;flex-wrap:wrap">'+
+        '<div class="row" style="gap:8px;flex-wrap:wrap">'+
+          '<span class="chip brand">'+esc(c.name)+'</span>'+
+          '<span class="chip">'+subs.length+' '+t('subjects').toLowerCase()+'</span>'+
+        '</div>'+
+        '<a class="btn sm" href="#/parent/reportcard">'+icon('award',15)+t('report_card')+'</a>'+
+      '</div>'
+    : '<div class="rowb" style="margin-bottom:12px;gap:9px;flex-wrap:wrap">'+
+        '<div class="row" style="gap:9px;flex-wrap:wrap">'+
+          '<span class="chip brand">'+esc(c.name)+'</span>'+
+          '<span class="chip">'+kids.length+' '+t('students').toLowerCase()+'</span>'+
+          '<span class="chip">'+subs.length+' '+t('subjects').toLowerCase()+'</span>'+
+          '<span class="chip '+(filled>90?'ok':'warn')+'">'+filled+'% '+t('filled').toLowerCase()+'</span>'+
+        '</div>'+
+        '<div class="row" style="gap:8px">'+
+          (canEdit? '<button class="btn" data-act="mx-fill" data-c="'+c.id+'">'+icon('edit',15)+t('fill_column')+'</button>':'')+
+          (state.session.role==='admin'? '<a class="btn" href="#/admin/subjects?c='+c.id+'">'+icon('layers',15)+t('manage_subjects')+'</a>':'')+
+          '<button class="btn" data-act="print-page">'+icon('download',15)+t('print')+'</button>'+
+        '</div>'+
+      '</div>';
+  return bar+
+    '<p class="tiny faint" style="margin-bottom:10px">'+t(readonly? 'matrix_parent_hint' : 'matrix_hint')+'</p>'+
+    '<div class="card"><div class="mx-wrap"><table class="mx'+(readonly?' single':'')+'">'+head+body+'</table></div></div>'+
+    (readonly? '<div class="row wrap" style="gap:14px;margin-top:10px">'+
+      [['I','term_one'],['II','term_two'],['N.P','final_mark']].map(function(p){
+        return '<span class="tiny muted"><b style="font-family:var(--ui);color:var(--text)">'+p[0]+'</b> · '+t(p[1])+'</span>';
+      }).join('')+'</div>' : '');
 }
 
 /* the paper register writes the child, then the parent's name, then the surname */
@@ -5985,10 +6242,10 @@ function modalSubject(subjectId){
 Object.assign(VIEWS, {'admin/subjects':AdminSubjectsManage});
 
 Object.assign(ACTIONS, {
-  'mx-cell':(d)=>{ if(!canAccessClass(d.c) && state.session.role!=='admin'){ toast(t('no_access'),'lock'); return; }
+  'mx-cell':(d)=>{ if(!canWriteClass(d.c)){ toast(t('no_access'),'lock'); return; }
     modalCell(d.s,d.sub,d.t,d.c); },
   'mx-set':(d)=>{
-    if(!canAccessClass(d.c) && state.session.role!=='admin'){ toast(t('no_access'),'lock'); return; }
+    if(!canWriteClass(d.c)){ toast(t('no_access'),'lock'); return; }
     const v=Number(d.v);
     let g=termGrade(d.s,d.sub,d.t);
     if(g) g.value=v;
@@ -6000,12 +6257,16 @@ Object.assign(ACTIONS, {
     render();
   },
   'mx-clear':(d)=>{
+    const g0=DB.termGrades.find(g=>g.studentId===d.s && g.subjectId===d.sub && g.termId===d.t);
+    if(g0 && !canWriteClass(g0.classId)){ toast(t('no_access'),'lock'); return; }
     const i=DB.termGrades.findIndex(g=>g.studentId===d.s && g.subjectId===d.sub && g.termId===d.t);
     if(i>=0) DB.termGrades.splice(i,1);
     audit('termgrade.clear', d.s+' '+d.sub);
     closeModal(); render();
   },
   'mx-conduct':(d)=>{
+    const s0=byId(DB.students,d.s);
+    if(!s0 || !canWriteClass(s0.classId)){ toast(t('no_access'),'lock'); return; }
     const cur=conductOf(d.s,d.t);
     const idx=CONDUCT_LEVELS.findIndex(x=>cur && x.key===cur.value);
     const next=CONDUCT_LEVELS[(idx+1) % CONDUCT_LEVELS.length];
@@ -6013,7 +6274,8 @@ Object.assign(ACTIONS, {
     else DB.conduct.push({id:uuid('cd'+Date.now()+d.s), studentId:d.s, termId:d.t, value:next.key});
     render();
   },
-  'mx-fill':(d)=>{ state.ui.mxSubject=null; state.ui.mxTerm=null; modalFillColumn(d.c); },
+  'mx-fill':(d)=>{ if(!canWriteClass(d.c)){ toast(t('no_access'),'lock'); return; }
+    state.ui.mxSubject=null; state.ui.mxTerm=null; modalFillColumn(d.c); },
   'mx-ctx':(d)=>{
     const s=document.getElementById('mxSub'), t2=document.getElementById('mxTerm');
     state.ui.mxSubject=s? s.value : null;
@@ -7030,7 +7292,19 @@ function storageCard(){
     '</div></div>';
 }
 
+/* It restores the original demo data and throws away everything entered since,
+   so it asks first and says exactly that. */
+function modalResetDemo(){
+  openModal({title:t('reset_demo'), body:
+    '<p class="small" style="line-height:1.6">'+t('reset_explain')+'</p>'+
+    '<div class="notice warn" style="margin-top:13px">'+icon('alert',16)+'<span>'+t('reset_warning')+'</span></div>',
+    footer:'<button class="btn" data-act="close-modal">'+t('cancel')+'</button>'+
+      '<button class="btn primary" data-act="reset-confirm">'+icon('sparkle',16)+t('reset_demo')+'</button>'});
+}
+
 Object.assign(ACTIONS, {
+  'reset-ask':()=>modalResetDemo(),
+  'reset-confirm':()=>{ closeModal(); ACTIONS['reset-demo'](); },
   'store-clear':()=>{
     clearStore();
     DB=seed(); state.ui={}; state.childId=null;
@@ -7131,7 +7405,8 @@ const SB_MAP = [
   ['attendance','attendance',{id:'id',schoolId:'school_id',studentId:'student_id',classId:'class_id',
     date:'date',status:'status',time:'time',note:'note',recordedBy:'recorded_by'}],
   ['absences','absence_report',{id:'id',schoolId:'school_id',studentId:'student_id',classId:'class_id',
-    date:'date',reason:'reason',note:'note',reportedBy:'reported_by',status:'status'}],
+    date:'date',endDate:'end_date',reason:'reason',note:'note',reportedBy:'reported_by',
+    status:'status',handledBy:'handled_by',handledAt:'handled_at'}],
   ['meals','meal',{id:'id',schoolId:'school_id',studentId:'student_id',classId:'class_id',date:'date',
     type:'type',consumption:'consumption',menu:'menu',time:'time',recordedBy:'recorded_by'}],
   ['menus','weekly_menu',{id:'id',schoolId:'school_id',weekStart:'week_start',days:'days',
@@ -7169,6 +7444,29 @@ const SB_MAP = [
 
 /* three tables whose shape differs enough to be worth writing out */
 const SB_CUSTOM = {
+  receipts:{
+    table:'receipt',
+    toRow:r=>({id:r.id, school_id:r.schoolId, kind:r.kind, subject_id:r.subjectId,
+      user_id:sbActorToUser(sbParseActor(r.actor)), sent_at:r.sentAt,
+      read_at:r.readAt||null, ack_at:r.ackAt||null}),
+    fromRow:r=>({id:r.id, schoolId:r.school_id, kind:r.kind, subjectId:r.subject_id,
+      actor:sbActorKey(r.user_id), sentAt:r.sent_at, readAt:r.read_at, ackAt:r.ack_at})
+  },
+  permissions:{
+    table:'permission_request',
+    toRow:p=>({id:p.id, school_id:p.schoolId, kind:p.kind, title:p.title, body:p.body,
+      instructions:p.instructions||null, audience_type:(p.audience&&p.audience.type)||'school',
+      audience_ref:(p.audience&&p.audience.classId)||null, date:p.date||null,
+      deadline:p.deadline||null, created_by:p.createdBy||null, created_at:p.createdAt}),
+    fromRow:r=>({id:r.id, schoolId:r.school_id, kind:r.kind, title:r.title, body:r.body,
+      instructions:r.instructions, audience:{type:r.audience_type, classId:r.audience_ref},
+      date:r.date, deadline:r.deadline, createdBy:r.created_by, createdAt:r.created_at})
+  },
+  notifPrefs:{
+    table:'notification_preference',
+    toRow:p=>({user_id:sbActorToUser(sbParseActor(p.actor)), muted:p.off||[]}),
+    fromRow:r=>({id:r.user_id, actor:sbActorKey(r.user_id), off:r.muted||[]})
+  },
   busRoutes:{
     table:'bus_route',
     toRow:r=>({id:r.id, school_id:r.schoolId, key:r.key, name:r.name, sub:r.sub||null,
@@ -7199,10 +7497,12 @@ const SB_CUSTOM = {
     toRow:a=>({id:a.id, school_id:a.schoolId, title:a.title, body:a.body,
       audience_type:(a.audience&&a.audience.type)||'school',
       audience_ref:(a.audience&&(a.audience.classId||a.audience.gradeLevelId))||null,
-      author_id:a.authorId||null, published_at:a.publishedAt, pinned:!!a.pinned}),
+      author_id:a.authorId||null, published_at:a.publishedAt, pinned:!!a.pinned,
+      urgency:a.urgency||'normal', requires_ack:!!a.requiresAck}),
     fromRow:r=>({id:r.id, schoolId:r.school_id, title:r.title, body:r.body,
       audience:{type:r.audience_type, classId:r.audience_ref}, authorId:r.author_id,
-      publishedAt:r.published_at, pinned:r.pinned})
+      publishedAt:r.published_at, pinned:r.pinned,
+      urgency:r.urgency||'normal', requiresAck:!!r.requires_ack})
   },
   conversations:{
     table:'conversation',
@@ -7634,7 +7934,7 @@ if(SB.enabled){
 function ParentMore(){
   const st=activeChild();
   const tabs=parentTabs();
-  const items=(NAV.parent||[]).filter(n=>tabs.indexOf(n.r)<0);
+  const items=navFor('parent').filter(n=>tabs.indexOf(n.r)<0);
   const unread=unreadCount();
   const row=(href,ic,label,extra)=>
     '<a class="more-row" href="'+href+'">'+
@@ -8151,72 +8451,136 @@ function reportCardData2(studentId, termId){
   return d;
 }
 
+/* drawn against the sheet itself, outside the content wrapper */
+function pageDecor(){
+  const logo=logoDataURL('logo-full');
+  return '<div class="rc-rule-top"></div>'+
+    '<div class="rc-frame"><i></i><i></i><i></i><i></i></div>'+
+    (logo? '<div class="rc-watermark" style="background-image:url('+logo+')"></div>' : '');
+}
 function reportSheetHTML(studentId, termId, forPrint){
   const d=reportCardData2(studentId, termId);
-  const st=d.st, cls=d.cls;
+  const st=d.st, cls=d.cls, school=DB.schools[0], year=DB.schoolYears[0];
   const logo=logoDataURL('logo-full');
-  const head=
-    '<div class="rc-head">'+
-      (logo? '<img class="rc-logo" src="'+logo+'" alt="">'
-           : '<div class="rc-word">'+esc(DB.schools[0].name)+'</div>')+
-      '<div class="rc-school">'+
-        '<div class="rc-name">'+esc(DB.schools[0].name)+'</div>'+
-        '<div class="rc-sub">'+esc(DB.schools[0].address || DB.schools[0].city || '')+'</div>'+
-        '<div class="rc-sub">'+esc(DB.schoolYears[0].name)+' · '+esc(L(d.term.name))+'</div>'+
-      '</div>'+
-      '<div class="rc-title">'+t(d.kind==='early'?'dev_report':'report_card')+'</div>'+
-    '</div>'+
-    '<div class="rc-student">'+
-      '<div class="rc-field"><span>'+t('student')+'</span><b>'+esc(st.fullName)+'</b></div>'+
-      '<div class="rc-field"><span>'+t('class')+'</span><b>'+esc(cls.name)+'</b></div>'+
-      '<div class="rc-field"><span>'+t('date_of_birth')+'</span><b>'+esc(fmtDate(st.dob))+'</b></div>'+
-      '<div class="rc-field"><span>'+t('nr')+'</span><b>'+esc(st.registerNo||'—')+'</b></div>'+
-      '<div class="rc-field"><span>'+staffWord(cls)+'</span><b>'+esc(teacherName(cls.homeroomTeacherId))+'</b></div>'+
-    '</div>';
+  const descriptive=assessmentMode(cls)==='descriptive';
+  const docNo=(st.registerNo||'0000')+'/'+String(DB.terms.indexOf(d.term)+1)+'-'+year.name.split(' ')[0].slice(2);
 
-  const body = d.kind==='early'
-    ? '<table class="rc-table"><thead><tr><th>'+t('dev_area')+'</th><th>'+t('final_assessment')+'</th></tr></thead><tbody>'+
-        d.areas.map(a=>'<tr><td>'+esc(state.lang==='sq'?a.area.sq:a.area.en)+'</td>'+
-          '<td class="rc-mark">'+esc(descriptiveFor(a.value)[state.lang==='sq'?'sq':'en'])+'</td></tr>').join('')+
-      '</tbody></table>'+
-      '<div class="rc-stats">'+
-        '<div><span>'+t('attendance_pct')+'</span><b>'+d.att.rate+'%</b></div>'+
-        '<div><span>'+t('absences_count')+'</span><b>'+d.att.absent+'</b></div>'+
-        '<div><span>'+t('days_reported')+'</span><b>'+d.days+'</b></div>'+
-      '</div>'
-    : '<table class="rc-table"><thead><tr><th>'+t('subject_col')+'</th><th>'+t('marks_count')+'</th>'+
-        '<th>'+(assessmentMode(cls)==='descriptive'?'':t('term_average'))+'</th>'+
-        '<th>'+(assessmentMode(cls)==='descriptive'? t('final_assessment') : t('final_mark'))+'</th></tr></thead><tbody>'+
-        d.rows.map(r=>'<tr><td>'+esc(L(r.subject.name))+'</td>'+
-          '<td class="rc-num">'+r.count+'</td>'+
-          '<td class="rc-num">'+(r.avg==null||assessmentMode(cls)==='descriptive'?'—':r.avg.toFixed(2))+'</td>'+
-          '<td class="rc-mark">'+(r.mark==null?'—':esc(markLabel(cls,r.mark)))+'</td></tr>').join('')+
-      '</tbody></table>'+
-      '<div class="rc-stats">'+
-        '<div><span>'+t('general_average')+'</span><b>'+
-          (d.overall==null?'—':(assessmentMode(cls)==='descriptive'? esc(markLabel(cls,d.overall)) : d.overall.toFixed(2)))+'</b></div>'+
-        '<div><span>'+t('attendance_pct')+'</span><b>'+d.att.rate+'%</b></div>'+
-        '<div><span>'+t('absences_count')+'</span><b>'+d.att.absent+'</b></div>'+
-        '<div><span>'+t('conduct')+'</span><b>'+esc(d.conduct? conductLabel(d.conduct.value) : '—')+'</b></div>'+
-      '</div>';
+  const head=
+    '<header class="rc-head">'+
+      '<div class="rc-brand">'+
+        (logo? '<img class="rc-logo" src="'+logo+'" alt="">' : '')+
+        '<div>'+
+          '<div class="rc-name">'+esc(school.name)+'</div>'+
+          '<div class="rc-sub">'+esc(
+            (school.address && school.city && school.address.indexOf(school.city)>=0)
+              ? school.address
+              : [school.address, school.city].filter(Boolean).join(', '))+'</div>'+
+          '<div class="rc-sub">'+esc([school.phone, school.email].filter(Boolean).join(' · '))+'</div>'+
+        '</div>'+
+      '</div>'+
+      '<div class="rc-doc">'+
+        '<div class="rc-meta"><span>'+t('doc_no')+'</span><b>'+esc(docNo)+'</b></div>'+
+        '<div class="rc-meta"><span>'+t('issued_on')+'</span><b>'+esc(fmtDate(today()))+'</b></div>'+
+      '</div>'+
+    '</header>'+
+    '<div class="rc-titlebar">'+
+      '<i></i><h1>'+t(d.kind==='early'?'dev_report':'report_card')+'</h1><i></i>'+
+    '</div>'+
+    '<div class="rc-titlesub">'+esc(year.name)+' · '+esc(L(d.term.name))+'</div>'+
+    '<section class="rc-student">'+
+      [[t('student'), st.fullName],
+       [t('nr'), st.registerNo||'—'],
+       [t('date_of_birth'), fmtDate(st.dob)],
+       [t('class'), cls.name],
+       [staffWord(cls), teacherName(cls.homeroomTeacherId)]
+      ].map(f=>'<div class="rc-field"><span>'+esc(f[0])+'</span><b>'+esc(f[1])+'</b></div>').join('')+
+    '</section>';
+
+  let body, legend;
+  if(d.kind==='early'){
+    body='<table class="rc-table"><thead><tr>'+
+        '<th class="rc-i">#</th><th>'+t('dev_area')+'</th><th class="rc-r">'+t('final_assessment')+'</th>'+
+      '</tr></thead><tbody>'+
+      d.areas.map((a,i)=>'<tr><td class="rc-i">'+(i+1)+'</td>'+
+        '<td>'+esc(state.lang==='sq'?a.area.sq:a.area.en)+'</td>'+
+        '<td class="rc-r"><span class="rc-pill">'+esc(descriptiveFor(a.value)[state.lang==='sq'?'sq':'en'])+'</span></td></tr>').join('')+
+      '</tbody></table>';
+    legend=DESCRIPTIVE.map(x=>state.lang==='sq'?x.sq:x.en).join(' · ');
+  } else {
+    const t1=DB.terms[0].id, t2=DB.terms[1].id;
+    const cell=g=>g? esc(markLabel(cls,g.value)) : '—';
+    body='<table class="rc-table"><thead><tr>'+
+        '<th class="rc-i">#</th><th>'+t('subject_col')+'</th>'+
+        '<th class="rc-c">'+t('marks_count')+'</th>'+
+        '<th class="rc-c'+(termId===t1?' rc-on':'')+'">I</th>'+
+        '<th class="rc-c'+(termId===t2?' rc-on':'')+'">II</th>'+
+        '<th class="rc-r">'+(descriptive? t('term_assessment') : t('term_mark'))+'</th>'+
+      '</tr></thead><tbody>'+
+      d.rows.map((r,i)=>{
+        const a=termGrade(st.id,r.subject.id,t1), b=termGrade(st.id,r.subject.id,t2);
+        const own = termId===t2 ? b : a;   /* a per-term certificate carries that term's mark */
+        return '<tr><td class="rc-i">'+(i+1)+'</td>'+
+          '<td>'+esc(L(r.subject.name))+'</td>'+
+          '<td class="rc-c rc-dim">'+r.count+'</td>'+
+          '<td class="rc-c'+(termId===t1?' rc-on':'')+'">'+cell(a)+'</td>'+
+          '<td class="rc-c'+(termId===t2?' rc-on':'')+'">'+cell(b)+'</td>'+
+          '<td class="rc-r">'+(!own? '<span class="rc-dim">—</span>'
+            : '<span class="rc-pill">'+esc(markLabel(cls,own.value))+'</span>')+'</td></tr>';
+      }).join('')+
+      '</tbody></table>';
+    legend=descriptive
+      ? DESCRIPTIVE.map(x=>state.lang==='sq'?x.sq:x.en).join(' · ')
+      : [5,4,3,2,1].map(v=>v+' — '+(state.lang==='sq'?descriptiveFor(v).sq:descriptiveFor(v).en)).join(' · ');
+  }
+
+  const att=d.att;
+  const yearDone = d.kind!=='early' && d.rows.length &&
+    d.rows.every(r=>finalMark(st.id,r.subject.id).value!=null);
+  const yearAvg = yearDone
+    ? d.rows.reduce((a2,r)=>a2+finalMark(st.id,r.subject.id).value,0)/d.rows.length : null;
+  const stats=[
+    [t('general_average'), d.kind==='early' ? '—'
+      : (d.overall==null? '—' : (descriptive? markLabel(cls,d.overall) : d.overall.toFixed(2)))],
+    [t('success'), d.kind==='early'? '—' : successLabel(d.overall).text],
+    [t('conduct'), d.kind==='early'? '—' : (d.conduct? conductLabel(d.conduct.value) : '—')],
+    [t('attendance_pct'), att.rate+'%']
+  ].concat(yearDone? [[t('final_mark'),
+    descriptive? markLabel(cls,yearAvg) : String(Math.round(yearAvg))]] : []);
+  const attRow=[
+    [t('school_days'), att.total],
+    [t('present'), att.present],
+    [t('absences_count'), att.absent],
+    [t('late'), att.late],
+    [t('excused_count'), att.excused]
+  ];
 
   const comment = d.kind==='early'
     ? (state.lang==='sq'
-        ? st.firstName+' ndjek me interes aktivitetet e grupit dhe ndihet mirë me shokët. Vazhdojmë punën për pavarësinë gjatë ditës.'
-        : st.firstName+' takes part in the group\u2019s activities with interest and is settled with the other children. We keep working on independence during the day.')
+        ? st.firstName+' merr pjesë me interes në aktivitetet e grupit dhe ndihet mirë me shokët. Puna vazhdon në drejtim të pavarësisë gjatë ditës.'
+        : st.firstName+' takes part in the group\u2019s activities with interest and is settled with the other children. Work continues on independence during the day.')
     : homeroomComment(d);
+  const note = d.kind==='early' ? t('early_report_note') : (descriptive? t('descriptive_note') : '');
 
-  const note = d.kind==='early' ? t('early_report_note')
-    : (assessmentMode(cls)==='descriptive' ? t('descriptive_note') : '');
-  return head+body+
-    (note? '<p class="rc-note">'+esc(note)+'</p>' : '')+
-    '<div class="rc-comment"><span>'+t(d.kind==='early'?'educator_comment':'homeroom_comment')+'</span>'+
-      '<p>'+esc(comment)+'</p></div>'+
-    '<div class="rc-sign">'+
-      '<div><i></i><span>'+staffWord(cls)+'</span></div>'+
-      '<div><i></i><span>'+t('principal')+'</span></div>'+
-      '<div class="rc-issued">'+t('issued_on')+' '+esc(fmtDate(today(),'long'))+'</div>'+
-    '</div>';
+  return head+
+    '<section class="rc-body">'+body+'</section>'+
+    '<section class="rc-grid">'+
+      '<div class="rc-box"><h4>'+t('summary')+'</h4><dl>'+
+        stats.map(s=>'<div><dt>'+esc(s[0])+'</dt><dd>'+esc(String(s[1]))+'</dd></div>').join('')+
+      '</dl></div>'+
+      '<div class="rc-box"><h4>'+t('attendance')+'</h4><dl>'+
+        attRow.map(s=>'<div><dt>'+esc(s[0])+'</dt><dd>'+esc(String(s[1]))+'</dd></div>').join('')+
+      '</dl></div>'+
+    '</section>'+
+    '<section class="rc-comment"><h4>'+t(d.kind==='early'?'educator_comment':'homeroom_comment')+'</h4>'+
+      '<p>'+esc(comment)+'</p></section>'+
+    '<p class="rc-legend"><b>'+t('scale')+':</b> '+esc(legend)+(note? ' · '+esc(note) : '')+
+      (d.kind!=='early' && !yearDone ? '<br>'+esc(t('final_at_year_end')) : '')+'</p>'+
+    '<footer class="rc-sign">'+
+      '<div class="rc-sig"><i></i><span>'+staffWord(cls)+'</span></div>'+
+      '<div class="rc-stamp"><em></em><span>'+t('stamp')+'</span></div>'+
+      '<div class="rc-sig"><i></i><span>'+t('principal')+'</span></div>'+
+    '</footer>'+
+    '<p class="rc-foot"><i></i>'+esc(school.name)+' · '+esc(t('doc_no'))+' '+esc(docNo)+'<i></i></p>';
 }
 
 function ReportCardView(){
@@ -8228,14 +8592,17 @@ function ReportCardView(){
     '<a class="'+(x.id===termId?'on':'')+'" href="#/'+state.session.role+'/reportcard?s='+st.id+'&t='+x.id+'" '+
     'style="padding:8px 13px;font-size:12.5px;font-weight:600;font-family:var(--ui);text-decoration:none;'+
     (x.id===termId?'background:var(--brand);color:#fff':'color:var(--muted)')+'">'+esc(L(x.name))+'</a>').join('')+'</div>';
-  return '<div class="rowb" style="margin-bottom:14px;gap:9px;flex-wrap:wrap">'+terms+
+  return '<style>'+REPORT_CSS+'</style>'+
+    '<div class="rowb" style="margin-bottom:14px;gap:9px;flex-wrap:wrap">'+terms+
       '<div class="row" style="gap:8px">'+
         '<button class="btn" data-act="print-page">'+icon('file',15)+t('print')+'</button>'+
         '<button class="btn primary" data-act="report-download" data-s="'+st.id+'" data-t="'+termId+'">'+
           icon('download',15)+t('download')+'</button>'+
       '</div></div>'+
-    '<div class="card sheet-print"><div class="card-b"><div class="report-sheet">'+
-      reportSheetHTML(st.id, termId)+'</div></div></div>';
+    '<div class="a4-frame" id="a4Frame"><div class="report-sheet a4-page">'+
+      pageDecor()+
+      '<div class="a4-inner">'+reportSheetHTML(st.id, termId)+'</div></div></div>'+
+    '<p class="tiny faint" style="text-align:center;margin-top:10px">'+t('a4_note')+'</p>';
 }
 
 /* the downloadable document: its own window, its own styles, ready to print
@@ -8245,13 +8612,19 @@ function downloadReport(studentId, termId){
   const w=window.open('','_blank');
   if(!w){ toast(t('popup_blocked'),'alert'); return; }
   const css=
-   'body{margin:0;padding:26px;background:#fff;color:#101828;'+
+   "@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap');"+
+   ':root{--body:\'Inter\',system-ui,sans-serif;--serif:\'Source Serif 4\',Georgia,serif}'+
+   'body{margin:0;padding:18px;background:#EFEDF3;color:#1A1626;'+
    "font-family:'Inter',system-ui,-apple-system,sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}"+
-   '.report-sheet{max-width:760px;margin:0 auto}'+
+   '.report-sheet{margin:0 auto;box-shadow:0 10px 30px -12px rgba(26,22,38,.35)}'+
+   '@media print{body{background:#fff;padding:0}.report-sheet{box-shadow:none;margin:0}}'+
    REPORT_CSS;
   w.document.write('<!doctype html><meta charset="utf-8">'+
     '<title>'+esc(t('report_card')+' — '+st.fullName)+'</title>'+
-    '<style>'+css+'</style><div class="report-sheet">'+reportSheetHTML(studentId, termId, true)+'</div>');
+    '<style>'+css+'</style>'+
+    '<div class="report-sheet a4-page">'+pageDecor()+'<div class="a4-inner">'+
+      reportSheetHTML(studentId, termId, true)+'</div></div>'+
+    '<script>'+A4_FIT_SCRIPT+'<\/script>');
   w.document.close();
   audit('reportcard.download', st.fullName);
   setTimeout(()=>{ try{ w.print(); }catch(e){} }, 300);
@@ -8259,38 +8632,140 @@ function downloadReport(studentId, termId){
 
 /* shared by the screen and the printed document, so they cannot drift */
 const REPORT_CSS =
- '.rc-head{display:flex;align-items:flex-start;gap:18px;padding-bottom:16px;border-bottom:2px solid #101828}'+
- '.rc-logo{width:132px;height:auto;flex:none}'+
- '.rc-word{font-weight:800;font-size:17px}'+
- '.rc-school{flex:1;min-width:0}'+
- '.rc-name{font-weight:800;font-size:16px;letter-spacing:-.01em}'+
- '.rc-sub{font-size:11.5px;color:#667085;margin-top:2px}'+
- '.rc-title{font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:.12em;'+
- '  border:1.5px solid #101828;border-radius:6px;padding:7px 11px;white-space:nowrap}'+
- '.rc-student{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px 18px;margin:16px 0 18px}'+
- '.rc-field span{display:block;font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:#667085}'+
- '.rc-field b{font-size:14px}'+
- '.rc-table{width:100%;border-collapse:collapse;font-size:13px}'+
- '.rc-table th{text-align:left;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:#667085;'+
- '  border-bottom:1.5px solid #101828;padding:7px 8px}'+
- '.rc-table td{padding:8px;border-bottom:1px solid #E4E7EC}'+
- '.rc-table td:first-child{font-weight:600}'+
- '.rc-num{text-align:center;color:#667085;font-variant-numeric:tabular-nums}'+
- '.rc-mark{text-align:right;font-weight:700}'+
- '.rc-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-top:18px;'+
- '  padding:14px;background:#F5F6F8;border-radius:10px}'+
- '.rc-stats span{display:block;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:#667085}'+
- '.rc-stats b{font-size:17px;font-weight:800}'+
- '.rc-note{margin:14px 0 0;font-size:11.5px;color:#667085;line-height:1.5}'+
- '.rc-comment{margin-top:18px}'+
- '.rc-comment span{display:block;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:#667085;margin-bottom:5px}'+
- '.rc-comment p{margin:0;font-size:13.5px;line-height:1.6;border-left:3px solid #57489F;padding-left:12px}'+
- '.rc-sign{display:flex;gap:34px;align-items:flex-end;margin-top:38px;flex-wrap:wrap}'+
- '.rc-sign>div{flex:1;min-width:150px}'+
- '.rc-sign i{display:block;border-top:1px solid #101828;margin-bottom:5px}'+
- '.rc-sign span{font-size:11px;color:#667085}'+
- '.rc-issued{flex:none;font-size:11px;color:#98A2B3;min-width:0}'+
- '@media print{@page{margin:14mm}body{padding:0}}';
+ /* A certificate, not a table. Warm paper, a hairline frame, one accent, and
+    a serif that carries the weight the interface never needs. */
+ ".a4-frame{position:relative;overflow:hidden;width:100%}"+
+ ".a4-page{width:210mm;height:297mm;padding:14mm 15mm 12mm;box-sizing:border-box;overflow:hidden;"+
+ "  transform-origin:top left;margin:0 auto}"+
+ ".a4-inner{transform-origin:top left;width:100%}"+
+ ".report-sheet{position:relative;color:#1A1626;background:#FDFCF9;"+
+ "  border:1px solid #E7E3F0;border-radius:2px;box-shadow:0 8px 26px -14px rgba(26,22,38,.28);overflow:hidden;"+
+ "  font-variant-numeric:tabular-nums;font-family:var(--body),system-ui,sans-serif}"+
+ ".rc-rule-top{position:absolute;left:0;right:0;top:0;height:4px;"+
+ "  background:linear-gradient(90deg,#2F2560,#57489F 45%,#6D58A7 70%,#F058A1)}"+
+ ".rc-frame{position:absolute;inset:9mm 9mm 8mm;border:1px solid #E9E5F1;pointer-events:none;border-radius:1px}"+
+ ".rc-frame i{position:absolute;width:13px;height:13px;border:1.5px solid #57489F;opacity:.5}"+
+ ".rc-frame i:nth-child(1){left:-1px;top:-1px;border-right:0;border-bottom:0}"+
+ ".rc-frame i:nth-child(2){right:-1px;top:-1px;border-left:0;border-bottom:0}"+
+ ".rc-frame i:nth-child(3){left:-1px;bottom:-1px;border-right:0;border-top:0}"+
+ ".rc-frame i:nth-child(4){right:-1px;bottom:-1px;border-left:0;border-top:0}"+
+ ".rc-watermark{position:absolute;left:50%;top:52%;width:min(420px,72%);aspect-ratio:400/170;"+
+ "  transform:translate(-50%,-50%);background-repeat:no-repeat;background-size:contain;"+
+ "  background-position:center;opacity:.045;pointer-events:none}"+
+ ".a4-inner{position:relative;z-index:1}"+
+ ".rc-rule-top,.rc-frame,.rc-watermark{z-index:0}"+
+
+ ".rc-head{display:flex;justify-content:space-between;align-items:flex-start;gap:24px}"+
+ ".rc-brand{display:flex;align-items:center;gap:14px;min-width:0}"+
+ ".rc-logo{width:78px;height:auto;flex:none}"+
+ ".rc-name{font-family:var(--serif);font-weight:700;font-size:16px;letter-spacing:.005em;line-height:1.2}"+
+ ".rc-sub{font-size:10px;color:#7A7490;margin-top:3px;line-height:1.5;letter-spacing:.01em}"+
+ ".rc-doc{text-align:right;flex:none}"+
+ ".rc-meta{font-size:9.5px;color:#9A93AE;letter-spacing:.05em;text-transform:uppercase;margin-bottom:3px}"+
+ ".rc-meta b{display:block;color:#1A1626;font-size:12px;letter-spacing:0;text-transform:none;"+
+ "  font-family:var(--serif);font-weight:600}"+
+
+ ".rc-titlebar{display:flex;align-items:center;gap:16px;margin:20px 0 3px}"+
+ ".rc-titlebar i{flex:1;height:1px;background:linear-gradient(90deg,transparent,#D8D2E6)}"+
+ ".rc-titlebar i:last-child{background:linear-gradient(90deg,#D8D2E6,transparent)}"+
+ ".rc-titlebar h1{margin:0;font-family:var(--serif);font-weight:600;font-size:20px;"+
+ "  letter-spacing:.26em;text-transform:uppercase;color:#2F2560;white-space:nowrap}"+
+ ".rc-titlesub{text-align:center;font-size:10.5px;color:#8A83A0;letter-spacing:.12em;"+
+ "  text-transform:uppercase;margin-bottom:16px}"+
+
+ ".rc-student{display:grid;grid-template-columns:repeat(auto-fit,minmax(124px,1fr));gap:14px 20px;"+
+ "  padding:13px 0;border-top:1px solid #EDEAF4;border-bottom:1px solid #EDEAF4;margin-bottom:17px}"+
+ ".rc-field span{display:block;font-size:8.5px;text-transform:uppercase;letter-spacing:.13em;color:#A29BB5;margin-bottom:3px}"+
+ ".rc-field b{font-family:var(--serif);font-size:14px;font-weight:600;letter-spacing:.005em}"+
+
+ ".rc-table{width:100%;border-collapse:collapse;font-size:12.5px}"+
+ ".rc-table th{text-align:left;font-size:8.5px;text-transform:uppercase;letter-spacing:.13em;color:#A29BB5;"+
+ "  border-bottom:1px solid #1A1626;padding:0 9px 9px;font-weight:600}"+
+ ".rc-table td{padding:8px 9px;border-bottom:1px solid #F0EDF6}"+
+ ".rc-table tbody tr:last-child td{border-bottom:1px solid #1A1626}"+
+ ".rc-table td:nth-child(2){font-family:var(--serif);font-weight:600;font-size:13.5px}"+
+ ".rc-i{width:24px;text-align:center;color:#B8B2C6;font-size:10.5px}"+
+ ".rc-c{width:54px;text-align:center;color:#4B4460}"+
+ ".rc-r{text-align:right;white-space:nowrap;width:132px}"+
+ ".rc-dim{color:#B8B2C6}"+
+ ".rc-c.rc-on{color:#1A1626;font-weight:700}"+
+ ".rc-table th.rc-on{color:#57489F}"+
+ ".rc-pill{display:inline-block;min-width:34px;padding:4px 11px;border:1px solid #D8D2E6;border-radius:999px;"+
+ "  font-family:var(--serif);font-weight:700;font-size:13px;background:#fff}"+
+
+ ".rc-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:18px}"+
+ ".rc-box h4{margin:0 0 10px;font-size:8.5px;text-transform:uppercase;letter-spacing:.13em;color:#A29BB5;font-weight:600}"+
+ ".rc-box dl{margin:0;display:grid;gap:7px}"+
+ ".rc-box dl>div{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-size:12px;"+
+ "  border-bottom:1px dotted #E7E3F0;padding-bottom:5px}"+
+ ".rc-box dt{color:#7A7490}"+
+ ".rc-box dd{margin:0;font-family:var(--serif);font-weight:700;font-size:13.5px}"+
+
+ ".rc-comment{margin-top:18px;padding:14px 16px;background:#F8F6FC;border-radius:4px}"+
+ ".rc-comment h4{margin:0 0 6px;font-size:8.5px;text-transform:uppercase;letter-spacing:.13em;color:#A29BB5;font-weight:600}"+
+ ".rc-comment p{margin:0;font-family:var(--serif);font-size:13.5px;line-height:1.7;color:#2A2438}"+
+
+ ".rc-legend{margin:16px 0 0;font-size:9.5px;color:#8A83A0;line-height:1.6;letter-spacing:.01em}"+
+ ".rc-legend b{color:#4B4460;letter-spacing:.06em;text-transform:uppercase;font-size:8.5px}"+
+
+ ".rc-sign{display:flex;align-items:flex-end;gap:30px;margin-top:32px}"+
+ ".rc-sig{flex:1;min-width:0;text-align:center}"+
+ ".rc-sig i{display:block;border-top:1px solid #1A1626;margin-bottom:7px}"+
+ ".rc-sig span{font-size:9px;color:#8A83A0;text-transform:uppercase;letter-spacing:.13em}"+
+ ".rc-stamp{position:relative;flex:none;width:88px;height:88px;display:grid;place-items:center}"+
+ ".rc-stamp em{position:absolute;inset:0;border:1px dashed #DDD8E8;border-radius:50%}"+
+ ".rc-stamp span{font-size:8.5px;color:#C4BED2;text-transform:uppercase;letter-spacing:.15em}"+
+
+ ".rc-foot{display:flex;align-items:center;gap:14px;margin-top:18px;font-size:9px;color:#B0A9C0;"+
+ "  letter-spacing:.1em;text-transform:uppercase;justify-content:center}"+
+ ".rc-foot i{flex:1;max-width:90px;height:1px;background:#EDEAF4}"+
+
+ "@media print{@page{size:A4;margin:0}body{padding:0;background:#fff}"+
+ "  .a4-frame{overflow:visible;height:auto !important}"+
+ "  .a4-page{transform:none !important;box-shadow:none;border:0;width:210mm;height:297mm;margin:0;"+
+ "    page-break-after:avoid;page-break-inside:avoid}"+
+ "  .rc-table{page-break-inside:avoid}.rc-sign{page-break-inside:avoid}}";
+
+/* Scale the A4 page down to whatever width it has been given, rather than
+   re-flowing it. What a parent sees on a phone is then exactly the page that
+   comes out of the printer, at a quarter of the size. */
+/* A report card is one sheet of paper. A class with thirteen subjects must not
+   spill onto a second page, so the content is scaled down to fit the page —
+   never re-flowed, never cut. */
+const A4_FIT_SCRIPT = "(function(){function f(){var p=document.querySelector('.a4-page');"+
+  "var i=p&&p.querySelector('.a4-inner');if(!i)return;i.style.transform='none';i.style.width='100%';"+
+  "var cs=getComputedStyle(p);var av=p.clientHeight-parseFloat(cs.paddingTop)-parseFloat(cs.paddingBottom);"+
+  "var h=i.scrollHeight;if(h>av){var k=Math.max(0.55,av/h);i.style.transform='scale('+k+')';"+
+  "i.style.width=(100/k)+'%';}}f();window.addEventListener('resize',f);"+
+  "window.addEventListener('beforeprint',f);})();";
+
+function fitPageContent(page){
+  const inner=page && page.querySelector('.a4-inner');
+  if(!inner) return;
+  inner.style.transform='none';
+  inner.style.width='100%';
+  const cs=window.getComputedStyle(page);
+  const avail=page.clientHeight - parseFloat(cs.paddingTop||0) - parseFloat(cs.paddingBottom||0);
+  const h=inner.scrollHeight;
+  if(avail>0 && h>avail){
+    const k=Math.max(0.55, avail/h);
+    inner.style.transform='scale('+k+')';
+    inner.style.width=(100/k)+'%';
+  }
+}
+function fitA4(){
+  const frame=document.getElementById('a4Frame');
+  if(!frame) return;
+  const page=frame.querySelector('.a4-page');
+  if(!page) return;
+  page.style.transform='none';
+  fitPageContent(page);
+  const w=frame.clientWidth, pw=page.offsetWidth, ph=page.offsetHeight;
+  if(!w || !pw) return;
+  const k=Math.min(1, w/pw);
+  page.style.transform='scale('+k+')';
+  frame.style.height=(ph*k)+'px';
+}
 
 /* =========================================================================
    WIRING
@@ -8299,6 +8774,10 @@ Object.assign(VIEWS, {
   'parent/menu':MenuView2, 'admin/menu':MenuView2, 'teacher/menu':MenuView2,
   'parent/reportcard':ReportCardView, 'teacher/reportcard':ReportCardView
 });
+
+const renderBeforeA4 = render;
+render = function(){ renderBeforeA4.apply(null, arguments); fitA4(); };
+window.addEventListener('resize', fitA4);
 ACTIONS['report-download']=(d)=>{
   if(!canAccessStudent(d.s)){ toast(t('no_access'),'lock'); return; }
   downloadReport(d.s, d.t);
@@ -8734,6 +9213,1162 @@ Object.assign(ACTIONS, {
     render();
   }
 });
+
+
+/* =========================================================================
+   V1 — FAZA 1: MUNGESAT      (extends what already exists, nothing replaced)
+        FAZA 2: KONFIRMIMET   (one receipt table, shared by every feature
+                               that needs to know whether a message landed)
+   ========================================================================= */
+
+/* ---------------------------------------------------------------- absences */
+const ABS_STATUS={
+  reported:    {tone:'warn', label:'abs_reported'},
+  acknowledged:{tone:'info', label:'abs_acknowledged'},
+  resolved:    {tone:'ok',   label:'abs_resolved'}
+};
+/* a report can now cover a range; a single day is a range of one */
+function absenceCovers(a, date){
+  return date >= a.date && date <= (a.endDate || a.date);
+}
+function absenceForDay(studentId, date){
+  return DB.absences.find(a=>a.studentId===studentId && absenceCovers(a,date)) || null;
+}
+function absencesForClassDay(classId, date){
+  const ids=studentsOfClass(classId).map(s=>s.id);
+  return DB.absences.filter(a=>ids.indexOf(a.studentId)>=0 && absenceCovers(a,date));
+}
+function absenceDays(a){
+  const out=[]; let d=new Date(a.date), end=new Date(a.endDate||a.date);
+  while(d<=end){ if(!isWeekend(d)) out.push(ymd(d)); d=addDays(d,1); }
+  return out.length? out : [a.date];
+}
+function absencesOfStudent(studentId){
+  return DB.absences.filter(a=>a.studentId===studentId).sort((x,y)=>y.date.localeCompare(x.date));
+}
+
+/* the guardian's form, now with an optional end date */
+function modalAbsence2(studentId){
+  const st=getStudentGuarded(studentId); if(!st) return;
+  const d0=ymd(today());
+  openModal({title:t('report_absence'), body:
+    '<div class="row" style="gap:10px;margin-bottom:14px">'+avatar(st.fullName,38,st.id)+
+      '<div><div style="font-family:var(--ui);font-weight:700">'+esc(st.fullName)+'</div>'+
+      '<div class="tiny muted">'+esc(classOf(st).name)+'</div></div></div>'+
+    '<div class="grid g2" style="gap:12px">'+
+      '<div class="field" style="margin:0"><label class="fl">'+t('abs_from')+'</label>'+
+        '<input type="date" id="abDate" value="'+d0+'"></div>'+
+      '<div class="field" style="margin:0"><label class="fl">'+t('abs_to')+'</label>'+
+        '<input type="date" id="abEnd" value="'+d0+'"></div>'+
+    '</div>'+
+    '<p class="tiny faint" style="margin-top:5px">'+t('abs_range_hint')+'</p>'+
+    '<div class="field" style="margin-top:12px"><label class="fl">'+t('absence_reason')+'</label>'+
+      '<select id="abReason">'+ABSENCE_REASONS.map(r=>
+        '<option value="'+r.key+'">'+esc(t(r.label))+'</option>').join('')+'</select></div>'+
+    '<div class="field" style="margin-bottom:0"><label class="fl">'+t('absence_note')+'</label>'+
+      '<textarea id="abNote" rows="3" placeholder="'+t('absence_note_ph')+'"></textarea></div>'+
+    '<div class="notice" style="margin-top:13px">'+icon('info',16)+'<span>'+t('abs_not_official')+'</span></div>',
+    footer:'<button class="btn" data-act="close-modal">'+t('cancel')+'</button>'+
+      '<button class="btn primary" data-act="abs-save2" data-s="'+st.id+'">'+t('report_absence')+'</button>'});
+}
+
+/* what the guardian sees afterwards: their report and where it got to */
+function absenceCard2(st){
+  const list=absencesOfStudent(st.id).filter(a=>(a.endDate||a.date) >= ymd(addDays(today(),-7)));
+  if(!list.length) return '';
+  return list.map(a=>{
+    const s=ABS_STATUS[a.status]||ABS_STATUS.reported;
+    const days=absenceDays(a);
+    return '<div class="card" style="margin-top:16px;border-color:var(--info-50)"><div class="card-b">'+
+      '<div class="rowb" style="gap:12px;flex-wrap:wrap">'+
+        '<div class="row" style="gap:11px">'+
+          '<span class="chip '+s.tone+'">'+t(s.label)+'</span>'+
+          '<div><div style="font-family:var(--ui);font-weight:700;font-size:14px">'+esc(reasonLabel(a.reason))+'</div>'+
+          '<div class="tiny muted">'+esc(days.length>1
+              ? fmtDate(a.date)+' — '+fmtDate(a.endDate)+' · '+tf('abs_n_days',{n:days.length})
+              : fmtDate(a.date))+'</div>'+
+          (L(a.note)? '<div class="tiny muted">'+esc(L(a.note))+'</div>':'')+'</div>'+
+        '</div>'+
+        (a.status==='reported'
+          ? '<button class="btn sm ghost" data-act="abs-cancel" data-v="'+a.id+'">'+t('remove')+'</button>'
+          : '<span class="tiny faint">'+esc(a.handledAt? relTime(a.handledAt):'')+'</span>')+
+      '</div>'+
+      (a.status!=='reported'? '<div class="notice" style="margin-top:11px">'+icon('check',16)+
+        '<span>'+t(a.status==='resolved'?'abs_resolved_note':'abs_ack_note')+'</span></div>':'')+
+    '</div></div>';
+  }).join('');
+}
+
+/* the staff side: acknowledge, and excuse the day in one action */
+function absenceRow(a){
+  const st=byId(DB.students,a.studentId);
+  const s=ABS_STATUS[a.status]||ABS_STATUS.reported;
+  const days=absenceDays(a);
+  return '<tr><td><div class="row" style="gap:9px">'+avatar(st.fullName,28,st.id)+
+      '<div><b style="font-family:var(--ui)">'+esc(st.fullName)+'</b>'+
+      '<div class="tiny muted">'+esc(classOf(st).name)+'</div></div></div></td>'+
+    '<td class="muted">'+esc(reasonLabel(a.reason))+
+      (L(a.note)? '<div class="tiny faint">'+esc(L(a.note))+'</div>':'')+'</td>'+
+    '<td class="muted small">'+esc(days.length>1? fmtDate(a.date)+' — '+fmtDate(a.endDate) : fmtDate(a.date))+
+      (days.length>1? '<div class="tiny faint">'+esc(tf('abs_n_days',{n:days.length}))+'</div>':'')+'</td>'+
+    '<td><span class="chip '+s.tone+'">'+t(s.label)+'</span></td>'+
+    '<td><div class="row" style="gap:6px">'+
+      (a.status==='reported'
+        ? '<button class="btn sm" data-act="abs-ack" data-v="'+a.id+'">'+icon('check',14)+t('abs_acknowledge')+'</button>'
+        : '')+
+      '<button class="btn sm primary" data-act="abs-excuse" data-v="'+a.id+'">'+icon('checkcircle',14)+t('abs_excuse')+'</button>'+
+    '</div></td></tr>';
+}
+function AdminAbsences(){
+  const list=DB.absences.slice()
+    .filter(a=>state.session.role==='admin' || canAccessClass(a.classId))
+    .sort((x,y)=>y.at.localeCompare(x.at));
+  const open=list.filter(a=>a.status==='reported').length;
+  if(!list.length) return '<div class="card"><div class="card-b">'+
+    emptyState('absence_none','abs_none_hint','info')+'</div></div>';
+  return '<div class="notice" style="margin-bottom:14px">'+icon('info',16)+'<span>'+t('abs_admin_hint')+'</span></div>'+
+    adminTable([t('student'),t('absence_reason'),t('date'),t('status'),''], list.map(absenceRow),
+      '', open+' '+t('abs_reported').toLowerCase());
+}
+
+/* =========================================================================
+   RECEIPTS — sent / read / acknowledged, in one place
+   ========================================================================= */
+function receiptsFor(kind, id){ return DB.receipts.filter(r=>r.kind===kind && r.subjectId===id); }
+function receiptOf(kind, id, actor){
+  return DB.receipts.find(r=>r.kind===kind && r.subjectId===id && r.actor===(actor||currentActorKey())) || null;
+}
+/* the audience of a communication, resolved to guardians */
+function audienceGuardians(aud){
+  const out={};
+  DB.students.forEach(st=>{
+    if(aud.type==='class' && st.classId!==aud.classId) return;
+    DB.parentStudent.filter(r=>r.studentId===st.id).forEach(r=>{ out['parent:'+r.parentId]=1; });
+  });
+  return Object.keys(out);
+}
+function markSent(kind, id, targets){
+  targets.forEach(a=>{
+    if(receiptOf(kind,id,a)) return;
+    DB.receipts.push({id:uuid('rc'+kind+id+a), schoolId:DB._ref.SCHOOL, kind, subjectId:id,
+      actor:a, sentAt:nowISO(), readAt:null, ackAt:null});
+  });
+}
+function markRead(kind, id){
+  const r=receiptOf(kind,id);
+  if(r && !r.readAt){ r.readAt=nowISO(); }
+}
+function receiptStats(kind, id){
+  const rows=receiptsFor(kind,id);
+  return {sent:rows.length, read:rows.filter(r=>r.readAt).length,
+          ack:rows.filter(r=>r.ackAt).length,
+          pending:rows.filter(r=>!r.readAt).length};
+}
+function receiptBar(kind, id, requiresAck){
+  const s=receiptStats(kind,id);
+  if(!s.sent) return '';
+  const cell=(n,lab,tone)=>'<div class="rcpt"><b class="'+(tone||'')+'">'+n+'</b><span>'+t(lab)+'</span></div>';
+  return '<div class="rcpt-bar">'+
+    cell(s.sent,'rc_sent')+cell(s.read,'rc_read','ok')+
+    (requiresAck? cell(s.ack,'rc_ack','ok') : '')+
+    cell(requiresAck? s.sent-s.ack : s.pending,'rc_pending', (requiresAck? s.sent-s.ack : s.pending)?'warn':'')+
+  '</div>';
+}
+function pendingNames(kind, id, requiresAck){
+  return receiptsFor(kind,id)
+    .filter(r=>requiresAck? !r.ackAt : !r.readAt)
+    .map(r=>{ const p=byId(DB.parents,String(r.actor).split(':')[1]); return p? p.name : ''; })
+    .filter(Boolean);
+}
+
+/* ---------- urgent broadcasts ---------- */
+function urgentOpen(){
+  if(!state.session || state.session.role!=='parent') return null;
+  const a=DB.announcements.find(x=>x.urgency==='urgent' &&
+    announcementVisible(x) && !(receiptOf('announcement',x.id)||{}).ackAt);
+  return a||null;
+}
+function announcementVisible(a){
+  const s=state.session; if(!s) return false;
+  if(a.audience.type==='school') return true;
+  if(a.audience.type==='class'){
+    if(s.role==='parent') return myChildren().some(c=>c.classId===a.audience.classId);
+    if(s.role==='teacher') return teacherClasses(s.teacherId).some(c=>c.id===a.audience.classId);
+    return true;
+  }
+  return true;
+}
+function urgentBanner(){
+  const a=urgentOpen();
+  if(!a) return '';
+  return '<div class="urgent-bar">'+
+    '<span class="ic">'+icon('alert',18)+'</span>'+
+    '<div style="flex:1;min-width:0"><b>'+esc(L(a.title))+'</b>'+
+      '<div>'+esc(L(a.body))+'</div></div>'+
+    '<button class="btn sm" data-act="ann-ack" data-v="'+a.id+'">'+t('rc_acknowledge')+'</button>'+
+  '</div>';
+}
+
+/* =========================================================================
+   WIRING
+   ========================================================================= */
+Object.assign(VIEWS, {'admin/absences':AdminAbsences, 'teacher/absences':AdminAbsences});
+
+Object.assign(ACTIONS, {
+  'abs-open':(d)=>modalAbsence2(d.s),
+  'abs-save2':(d)=>{
+    const st=getStudentGuarded(d.s); if(!st){ toast(t('no_access'),'lock'); return; }
+    const v=id=>{ const e=document.getElementById(id); return e? e.value.trim():''; };
+    const from=v('abDate')||ymd(today());
+    let to=v('abEnd')||from;
+    if(to<from) to=from;
+    if(DB.absences.some(a=>a.studentId===st.id && !(to<a.date || from>(a.endDate||a.date)))){
+      toast(t('already_reported'),'alert'); closeModal(); return;
+    }
+    const reason=v('abReason')||'illness', note=v('abNote');
+    const rec={id:uuid('abs'+st.id+from+Date.now()), schoolId:DB._ref.SCHOOL, studentId:st.id,
+      classId:st.classId, date:from, endDate: to!==from? to : null, reason,
+      note: note? bi(note) : null, reportedBy:state.session.parentId, at:nowISO(),
+      status:'reported', handledBy:null, handledAt:null};
+    DB.absences.push(rec);
+    const cls=classOf(st);
+    if(cls && cls.homeroomTeacherId){
+      pushNotification('teacher:'+cls.homeroomTeacherId,'absence',
+        st.firstName+' mungon '+fmtDate(from)+(rec.endDate? ' — '+fmtDate(rec.endDate):'')+' · '+reasonLabel(reason),
+        st.firstName+' will be absent '+fmtDate(from)+(rec.endDate? ' — '+fmtDate(rec.endDate):'')+' · '+reasonLabel(reason),
+        '#/teacher/absences');
+    }
+    audit('absence.report', st.fullName+' '+from+'..'+to+' '+reason);
+    closeModal(); toast(t('absence_reported'),'checkcircle'); render();
+  },
+  'abs-ack':(d)=>{
+    const a=DB.absences.find(x=>x.id===d.v); if(!a) return;
+    if(!canWriteClass(a.classId)){ toast(t('no_access'),'lock'); return; }
+    a.status='acknowledged'; a.handledBy=state.session.userId||state.session.teacherId; a.handledAt=nowISO();
+    DB.parentStudent.filter(r=>r.studentId===a.studentId).forEach(r=>
+      pushNotification('parent:'+r.parentId,'absence',
+        'Mungesa u konfirmua nga shkolla','The school has seen the absence','#/parent/home'));
+    audit('absence.acknowledge', a.id);
+    toast(t('saved'),'checkcircle'); render();
+  },
+  /* the one action that turns a parent's report into an official record — and
+     it is a teacher's decision, never automatic */
+  'abs-excuse':(d)=>{
+    const a=DB.absences.find(x=>x.id===d.v); if(!a) return;
+    if(!canWriteClass(a.classId)){ toast(t('no_access'),'lock'); return; }
+    const st=byId(DB.students,a.studentId);
+    let n=0;
+    absenceDays(a).forEach(date=>{
+      let rec=DB.attendance.find(x=>x.studentId===st.id && x.date===date);
+      if(rec){ rec.status='excused'; }
+      else DB.attendance.push({id:uuid('att'+st.id+date), schoolId:DB._ref.SCHOOL, studentId:st.id,
+        classId:st.classId, date, status:'excused', time:null, note:a.note||null,
+        recordedBy:state.session.teacherId||null, created_at:nowISO()});
+      n++;
+    });
+    a.status='resolved'; a.handledBy=state.session.userId||state.session.teacherId; a.handledAt=nowISO();
+    audit('absence.excused', a.id+' days='+n);
+    toast(tf('abs_excused_n',{n:n}),'checkcircle'); render();
+  },
+
+  /* receipts */
+  'ann-ack':(d)=>{
+    const r=receiptOf('announcement',d.v);
+    if(r){ r.readAt=r.readAt||nowISO(); r.ackAt=nowISO(); }
+    else DB.receipts.push({id:uuid('rc'+d.v+currentActorKey()), schoolId:DB._ref.SCHOOL,
+      kind:'announcement', subjectId:d.v, actor:currentActorKey(),
+      sentAt:nowISO(), readAt:nowISO(), ackAt:nowISO()});
+    audit('announcement.ack', d.v);
+    toast(t('rc_acknowledged'),'checkcircle'); render();
+  },
+  'ann-read':(d)=>{ markRead('announcement', d.v); render(); }
+});
+
+/* the urgent bar rides above every screen until it is acknowledged */
+const renderBeforeUrgent = render;
+render = function(){
+  renderBeforeUrgent.apply(null, arguments);
+  const bar=urgentBanner();
+  if(bar){
+    const c=document.querySelector('.content');
+    if(c) c.insertAdjacentHTML('afterbegin', bar);
+  }
+};
+
+
+/* ---------- urgent announcements: composer, delivery, tracking ---------- */
+const plainSaveAnnouncement = ACTIONS['save-announcement'];
+ACTIONS['ann-kind']=(d,e)=>{
+  const box=document.getElementById('anUrgency'); if(box) box.value=d.v;
+  ['anNormal','anUrgent'].forEach(id=>{ const el=document.getElementById(id); if(el) el.classList.remove('on'); });
+  const btn=e && e.target && e.target.closest? e.target.closest('button') : null;
+  if(btn) btn.classList.add('on');
+};
+ACTIONS['save-announcement']=()=>{
+  /* read the extra fields first: the original closes the dialog */
+  const u=document.getElementById('anUrgency');
+  const ack=document.getElementById('anAck');
+  const urgency=(u && u.value==='urgent')? 'urgent':'normal';
+  const wantAck=!!(ack && ack.checked);
+  const before=DB.announcements.length;
+  plainSaveAnnouncement();
+  if(DB.announcements.length===before) return;           /* validation refused it */
+  const a=DB.announcements[0];
+  a.urgency=urgency;
+  a.requiresAck=wantAck || urgency==='urgent';
+  const targets=audienceGuardians(a.audience);
+  markSent('announcement', a.id, targets);
+  if(a.urgency==='urgent'){
+    targets.forEach(k=>pushNotification(k,'urgent', L(a.title), L(a.title), '#/parent/calendar'));
+  }
+  audit('announcement.publish', a.urgency+' → '+targets.length);
+};
+
+/* the same for a class broadcast from a teacher */
+const plainBroadcast = ACTIONS['bc-send'];
+ACTIONS['bc-send']=(d)=>{
+  const before=DB.announcements.length;
+  plainBroadcast(d);
+  if(DB.announcements.length===before) return;
+  const a=DB.announcements[0];
+  a.urgency=a.urgency||'normal'; a.requiresAck=!!a.requiresAck;
+  markSent('announcement', a.id, audienceGuardians(a.audience));
+};
+
+/* the administration's view of who got it */
+function annStatsRow(a){
+  if(!receiptsFor('announcement',a.id).length) return '';
+  const pend=pendingNames('announcement',a.id,a.requiresAck);
+  return receiptBar('announcement',a.id,a.requiresAck)+
+    (pend.length? '<div class="tiny faint" style="margin-top:7px">'+t('rc_not_responded')+': '+
+      esc(pend.slice(0,6).join(', '))+(pend.length>6? ' …':'')+'</div>' : '');
+}
+
+/* a guardian opening an announcement marks it read */
+const plainOpenAnn = ACTIONS['open-announcement'];
+ACTIONS['open-announcement']=(d)=>{
+  if(state.session && state.session.role==='parent') markRead('announcement', d.id);
+  plainOpenAnn(d);
+};
+
+
+/* =========================================================================
+   V1 — FAZA 3 LEJET · FAZA 4 DOKUMENTET · FAZA 5 KËRKIMI
+        FAZA 6 EKSPORTET · FAZA 7 PREFERENCAT
+   Everything here is additive. Photo consent is untouched: it is a standing
+   consent, not a dated request, and merging the two would put the one rule
+   that protects children's photos at risk.
+   ========================================================================= */
+
+/* =============================================================== PERMISSIONS */
+const PERM_KINDS=[
+  {key:'trip',     sq:'Ekskursion',          en:'Field trip'},
+  {key:'activity', sq:'Aktivitet',           en:'Activity'},
+  {key:'medical',  sq:'Leje mjekësore',      en:'Medical permission'},
+  {key:'event',    sq:'Ngjarje shkollore',   en:'School event'},
+  {key:'other',    sq:'Tjetër',              en:'Other'}
+];
+function permKind(k){ const x=PERM_KINDS.find(p=>p.key===k); return x? (state.lang==='sq'?x.sq:x.en) : k; }
+
+function permStudents(p){
+  return DB.students.filter(s=>p.audience.type==='school' || s.classId===p.audience.classId);
+}
+function permVisible(p){
+  const s=state.session; if(!s) return false;
+  if(s.role==='admin') return true;
+  if(s.role==='teacher') return p.audience.type==='school' || canAccessClass(p.audience.classId);
+  return permStudents(p).some(st=>canAccessStudent(st.id));
+}
+function permResponse(pid, studentId){
+  return DB.permissionResponses.find(r=>r.permissionId===pid && r.studentId===studentId) || null;
+}
+function permStats(p){
+  const kids=permStudents(p);
+  const rows=kids.map(k=>permResponse(p.id,k.id));
+  return {total:kids.length,
+    approved:rows.filter(r=>r && r.answer==='approve').length,
+    declined:rows.filter(r=>r && r.answer==='decline').length,
+    pending:rows.filter(r=>!r).length};
+}
+function permOpenForParent(){
+  return DB.permissions.filter(p=>permVisible(p) && state.session.role==='parent' &&
+    myChildren().some(c=>permStudents(p).some(s=>s.id===c.id) && !permResponse(p.id,c.id)));
+}
+function permOverdue(p){ return p.deadline && p.deadline < ymd(today()); }
+
+/* the card a guardian cannot miss */
+function permissionPrompt(){
+  if(!state.session || state.session.role!=='parent') return '';
+  const open=permOpenForParent();
+  if(!open.length) return '';
+  return '<div class="card" style="margin-top:16px;border-color:var(--warn)"><div class="card-b">'+
+    '<div class="rowb" style="gap:12px;flex-wrap:wrap">'+
+      '<div class="row" style="gap:12px"><span class="chip warn">'+icon('shield',13)+open.length+'</span>'+
+      '<div><div style="font-family:var(--ui);font-weight:700;font-size:15px">'+t('perm_waiting')+'</div>'+
+      '<div class="tiny muted">'+esc(open.map(p=>L(p.title)).slice(0,2).join(' · '))+
+        (open.length>2? ' …':'')+'</div></div></div>'+
+      '<a class="btn primary" href="#/parent/permissions">'+t('perm_respond')+'</a>'+
+    '</div></div></div>';
+}
+
+function ParentPermissions(){
+  const kids=myChildren();
+  const list=DB.permissions.filter(permVisible).sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  if(!list.length) return '<div class="card"><div class="card-b">'+
+    emptyState('perm_none','perm_none_hint','shield')+'</div></div>';
+  return list.map(p=>{
+    const mine=kids.filter(c=>permStudents(p).some(s=>s.id===c.id));
+    if(!mine.length) return '';
+    const late=permOverdue(p);
+    return '<div class="card" style="margin-bottom:14px'+(late?';border-color:var(--warn)':'')+'"><div class="card-b">'+
+      '<div class="rowb" style="gap:10px;flex-wrap:wrap">'+
+        '<div class="row" style="gap:8px;flex-wrap:wrap">'+
+          '<span class="chip brand">'+esc(permKind(p.kind))+'</span>'+
+          (p.date? '<span class="chip">'+icon('calendar',12)+esc(fmtDate(p.date))+'</span>':'')+
+          (p.deadline? '<span class="chip '+(late?'err':'warn')+'">'+t('perm_deadline')+' '+esc(fmtDate(p.deadline))+'</span>':'')+
+        '</div></div>'+
+      '<h3 style="margin-top:10px;font-family:var(--ui);font-size:16px">'+esc(L(p.title))+'</h3>'+
+      '<p class="small muted" style="margin-top:6px;line-height:1.6">'+esc(L(p.body))+'</p>'+
+      (L(p.instructions)? '<div class="notice" style="margin-top:11px">'+icon('info',16)+
+        '<span>'+esc(L(p.instructions))+'</span></div>':'')+
+      '<div class="divider"></div>'+
+      mine.map(c=>{
+        const r=permResponse(p.id,c.id);
+        return '<div class="list-row"><div class="row" style="gap:10px;flex:1;min-width:0">'+avatar(c.fullName,32,c.id)+
+          '<div style="min-width:0"><div style="font-weight:600;font-family:var(--ui);font-size:13.5px">'+esc(c.fullName)+'</div>'+
+          (r? '<div class="tiny muted">'+esc(relTime(r.at))+(L(r.note)? ' · '+esc(L(r.note)):'')+'</div>'
+            : '<div class="tiny faint">'+t('perm_no_answer')+'</div>')+'</div></div>'+
+          (r
+            ? '<span class="chip '+(r.answer==='approve'?'ok':'err')+'">'+
+                icon(r.answer==='approve'?'check':'x',12)+t(r.answer==='approve'?'perm_approved':'perm_declined')+'</span>'+
+              '<button class="btn sm ghost" data-act="perm-open" data-v="'+p.id+'" data-s="'+c.id+'">'+t('edit')+'</button>'
+            : '<button class="btn sm primary" data-act="perm-open" data-v="'+p.id+'" data-s="'+c.id+'">'+t('perm_respond')+'</button>')+
+        '</div>';
+      }).join('')+
+    '</div></div>';
+  }).join('');
+}
+
+function modalPermResponse(pid, studentId){
+  const p=DB.permissions.find(x=>x.id===pid), st=byId(DB.students,studentId);
+  if(!p || !st || !canAccessStudent(studentId)) return;
+  const r=permResponse(pid,studentId);
+  openModal({title:esc(L(p.title)), body:
+    '<div class="row" style="gap:10px;margin-bottom:12px">'+avatar(st.fullName,36,st.id)+
+      '<div><div style="font-family:var(--ui);font-weight:700">'+esc(st.fullName)+'</div>'+
+      '<div class="tiny muted">'+esc(permKind(p.kind))+(p.date? ' · '+esc(fmtDate(p.date)):'')+'</div></div></div>'+
+    '<p class="small" style="line-height:1.6">'+esc(L(p.body))+'</p>'+
+    (L(p.instructions)? '<div class="notice" style="margin-top:11px">'+icon('info',16)+
+      '<span>'+esc(L(p.instructions))+'</span></div>':'')+
+    '<div class="field" style="margin-top:14px;margin-bottom:0"><label class="fl">'+t('perm_note')+'</label>'+
+      '<textarea id="pmNote" rows="2" placeholder="'+t('optional')+'">'+esc(r? L(r.note)||'' : '')+'</textarea></div>',
+    footer:'<button class="btn" data-act="close-modal">'+t('cancel')+'</button>'+
+      '<button class="btn ghost" data-act="perm-answer" data-v="'+pid+'" data-s="'+studentId+'" data-a="decline" '+
+        'style="color:var(--err)">'+icon('x',16)+t('perm_decline')+'</button>'+
+      '<button class="btn primary" data-act="perm-answer" data-v="'+pid+'" data-s="'+studentId+'" data-a="approve">'+
+        icon('check',16)+t('perm_approve')+'</button>'});
+}
+
+function AdminPermissions(){
+  const list=DB.permissions.filter(permVisible).sort((a,b)=>(b.createdAt||'').localeCompare(a.createdAt||''));
+  const head='<div class="rowb" style="margin-bottom:14px;gap:10px;flex-wrap:wrap">'+
+      '<div><h1 style="font-size:20px">'+t('nav_permissions')+'</h1>'+
+      '<div class="tiny muted">'+t('perm_admin_hint')+'</div></div>'+
+      (state.session.role==='admin'? '<button class="btn primary" data-act="perm-new">'+
+        icon('plus',16)+t('perm_new')+'</button>':'')+'</div>';
+  if(!list.length) return head+'<div class="card"><div class="card-b">'+
+    emptyState('perm_none','perm_none_hint','shield')+'</div></div>';
+  return head+list.map(p=>{
+    const s=permStats(p);
+    const pend=permStudents(p).filter(k=>!permResponse(p.id,k.id));
+    return '<div class="card" style="margin-bottom:14px"><div class="card-b">'+
+      '<div class="rowb" style="gap:10px;flex-wrap:wrap">'+
+        '<div class="row" style="gap:8px;flex-wrap:wrap"><span class="chip brand">'+esc(permKind(p.kind))+'</span>'+
+        '<b style="font-family:var(--ui);font-size:15px">'+esc(L(p.title))+'</b></div>'+
+        '<span class="chip">'+(p.audience.type==='school'? t('whole_school')
+          : esc((byId(DB.classes,p.audience.classId)||{}).name||''))+'</span></div>'+
+      '<p class="small muted" style="margin-top:7px;line-height:1.6;max-width:78ch">'+esc(L(p.body))+'</p>'+
+      '<div class="rcpt-bar">'+
+        '<div class="rcpt"><b>'+s.total+'</b><span>'+t('rc_sent')+'</span></div>'+
+        '<div class="rcpt"><b class="ok">'+s.approved+'</b><span>'+t('perm_approved')+'</span></div>'+
+        '<div class="rcpt"><b class="'+(s.declined?'warn':'')+'">'+s.declined+'</b><span>'+t('perm_declined')+'</span></div>'+
+        '<div class="rcpt"><b class="'+(s.pending?'warn':'')+'">'+s.pending+'</b><span>'+t('rc_pending')+'</span></div>'+
+      '</div>'+
+      (pend.length? '<div class="tiny faint" style="margin-top:8px">'+t('rc_not_responded')+': '+
+        esc(pend.slice(0,8).map(k=>k.fullName).join(', '))+(pend.length>8?' …':'')+'</div>':'')+
+      (state.session.role==='admin' && pend.length
+        ? '<button class="btn sm" style="margin-top:10px" data-act="perm-remind" data-v="'+p.id+'">'+
+          icon('bell',14)+t('send_reminders')+'</button>' : '')+
+    '</div></div>';
+  }).join('');
+}
+
+function modalPermNew(){
+  openModal({title:t('perm_new'), body:
+    '<div class="field"><label class="fl">'+t('title')+'</label><input type="text" id="pnTitle"></div>'+
+    '<div class="field"><label class="fl">'+t('description')+'</label><textarea id="pnBody" rows="3"></textarea></div>'+
+    '<div class="grid g2" style="gap:12px">'+
+      '<div class="field" style="margin:0"><label class="fl">'+t('perm_kind')+'</label><select id="pnKind">'+
+        PERM_KINDS.map(k=>'<option value="'+k.key+'">'+esc(state.lang==='sq'?k.sq:k.en)+'</option>').join('')+'</select></div>'+
+      '<div class="field" style="margin:0"><label class="fl">'+t('audience')+'</label><select id="pnAud">'+
+        '<option value="school">'+t('whole_school')+'</option>'+
+        DB.classes.map(c=>'<option value="'+c.id+'">'+esc(c.name)+'</option>').join('')+'</select></div>'+
+      '<div class="field" style="margin:0"><label class="fl">'+t('date')+'</label>'+
+        '<input type="date" id="pnDate" value="'+ymd(addDays(today(),14))+'"></div>'+
+      '<div class="field" style="margin:0"><label class="fl">'+t('perm_deadline')+'</label>'+
+        '<input type="date" id="pnDeadline" value="'+ymd(addDays(today(),7))+'"></div>'+
+    '</div>'+
+    '<div class="field" style="margin-top:12px;margin-bottom:0"><label class="fl">'+t('perm_instructions')+'</label>'+
+      '<input type="text" id="pnInstr" placeholder="'+t('optional')+'"></div>'+
+    '<div class="notice" style="margin-top:13px">'+icon('bell',16)+'<span>'+t('perm_send_note')+'</span></div>',
+    footer:'<button class="btn" data-act="close-modal">'+t('cancel')+'</button>'+
+      '<button class="btn primary" data-act="perm-save">'+t('publish')+'</button>'});
+}
+
+/* ================================================================ DOCUMENTS */
+const DOC_KINDS=[
+  {key:'report',   sq:'Dëftesa',      en:'Report card'},
+  {key:'cert',     sq:'Certifikatë',  en:'Certificate'},
+  {key:'form',     sq:'Formular',     en:'Form'},
+  {key:'policy',   sq:'Rregullore',   en:'Policy'},
+  {key:'invoice',  sq:'Faturë',       en:'Invoice'},
+  {key:'other',    sq:'Tjetër',       en:'Other'}
+];
+function docKind(k){ const x=DOC_KINDS.find(d=>d.key===k); return x? (state.lang==='sq'?x.sq:x.en) : k; }
+/* the whole security model of the document centre is this one function */
+function docVisible(doc){
+  const s=state.session; if(!s) return false;
+  if(s.role==='admin') return true;
+  if(doc.scope==='school') return true;
+  if(doc.scope==='class'){
+    if(s.role==='teacher') return canAccessClass(doc.classId);
+    return myChildren().some(c=>c.classId===doc.classId);
+  }
+  if(doc.scope==='student') return canAccessStudent(doc.studentId);
+  return false;
+}
+function docsVisible(){ return DB.documents.filter(docVisible)
+  .sort((a,b)=>(b.uploadedAt||'').localeCompare(a.uploadedAt||'')); }
+
+function docRow(d, canManage){
+  const owner = d.scope==='student' ? (byId(DB.students,d.studentId)||{}).fullName
+              : d.scope==='class' ? (byId(DB.classes,d.classId)||{}).name
+              : t('whole_school');
+  return '<div class="list-row">'+
+    '<div class="mood-badge" style="background:var(--brand-50);color:var(--brand)">'+icon('file',17)+'</div>'+
+    '<div style="flex:1;min-width:0"><div style="font-weight:600;font-family:var(--ui);font-size:13.5px">'+esc(L(d.title))+'</div>'+
+    '<div class="tiny muted">'+esc(docKind(d.kind))+' · '+esc(owner)+' · '+esc(relDay((d.uploadedAt||'').slice(0,10)))+'</div></div>'+
+    '<button class="btn sm" data-act="doc-open" data-v="'+d.id+'">'+icon('download',14)+t('open')+'</button>'+
+    (canManage? '<button class="btn sm ghost" data-act="doc-del" data-v="'+d.id+'">'+icon('trash',14)+'</button>':'')+
+  '</div>';
+}
+function DocumentsView(){
+  const manage=state.session.role==='admin';
+  const list=docsVisible();
+  const head='<div class="rowb" style="margin-bottom:14px;gap:10px;flex-wrap:wrap">'+
+      '<div><h1 style="font-size:20px">'+t('nav_documents')+'</h1>'+
+      '<div class="tiny muted">'+t('doc_hint')+'</div></div>'+
+      (manage? '<button class="btn primary" data-act="doc-new">'+icon('plus',16)+t('doc_add')+'</button>':'')+'</div>';
+  if(!list.length) return head+'<div class="card"><div class="card-b">'+
+    emptyState('doc_none','doc_none_hint','file')+'</div></div>';
+  const groups={};
+  list.forEach(d=>{ (groups[d.kind]=groups[d.kind]||[]).push(d); });
+  return head+Object.keys(groups).map(k=>
+    '<div class="card" style="margin-bottom:12px"><div class="card-h"><h3>'+esc(docKind(k))+'</h3>'+
+      '<span class="chip">'+groups[k].length+'</span></div>'+
+      '<div class="card-b" style="padding-top:6px">'+groups[k].map(d=>docRow(d,manage)).join('')+'</div></div>').join('');
+}
+function modalDocNew(){
+  openModal({title:t('doc_add'), body:
+    '<div class="field"><label class="fl">'+t('title')+'</label><input type="text" id="dcTitle"></div>'+
+    '<div class="grid g2" style="gap:12px">'+
+      '<div class="field" style="margin:0"><label class="fl">'+t('doc_kind')+'</label><select id="dcKind">'+
+        DOC_KINDS.map(k=>'<option value="'+k.key+'">'+esc(state.lang==='sq'?k.sq:k.en)+'</option>').join('')+'</select></div>'+
+      '<div class="field" style="margin:0"><label class="fl">'+t('doc_scope')+'</label>'+
+        '<select id="dcScope" data-act="doc-scope"><option value="school">'+t('whole_school')+'</option>'+
+        '<option value="class">'+t('class')+'</option><option value="student">'+t('student')+'</option></select></div>'+
+    '</div>'+
+    '<div class="field" id="dcTargetWrap" style="display:none"><label class="fl">'+t('doc_target')+'</label>'+
+      '<select id="dcTarget"></select></div>'+
+    '<label class="uploader" style="margin-top:12px">'+icon('file',20)+
+      '<span>'+t('doc_choose')+'</span><input type="file" id="dcFile"></label>'+
+    '<div class="notice privacy" style="margin-top:12px">'+icon('lock',16)+'<span>'+t('doc_privacy')+'</span></div>',
+    footer:'<button class="btn" data-act="close-modal">'+t('cancel')+'</button>'+
+      '<button class="btn primary" data-act="doc-save">'+t('save')+'</button>'});
+}
+
+/* =================================================================== SEARCH */
+/* Every result is filtered by the same predicates the screens use, so a
+   teacher cannot discover a child by typing a name. */
+function searchAll(q){
+  q=String(q||'').trim().toLowerCase();
+  if(q.length<2) return [];
+  const out=[], s=state.session;
+  const push=(kind,id,title,sub,href)=>out.push({kind,id,title,sub,href});
+  DB.students.forEach(st=>{
+    if(!canAccessStudent(st.id)) return;
+    if((st.fullName+' '+(st.registerNo||'')).toLowerCase().indexOf(q)<0) return;
+    push('student', st.id, st.fullName, classOf(st).name,
+      s.role==='admin'? '#/admin/students' : '#/teacher/student?s='+st.id);
+  });
+  DB.classes.forEach(c=>{
+    if(!(s.role==='admin' || canAccessClass(c.id))) return;
+    if(c.name.toLowerCase().indexOf(q)<0) return;
+    push('class', c.id, c.name, studentsOfClass(c.id).length+' '+t('students').toLowerCase(),
+      '#/'+(s.role==='admin'?'admin/classes':'teacher/class?c='+c.id));
+  });
+  DB.parents.forEach(p=>{
+    const kids=DB.parentStudent.filter(r=>r.parentId===p.id).map(r=>byId(DB.students,r.studentId)).filter(Boolean);
+    if(!kids.some(k=>canAccessStudent(k.id))) return;
+    if((p.name+' '+p.email+' '+(p.phone||'')).toLowerCase().indexOf(q)<0) return;
+    push('parent', p.id, p.name, kids.map(k=>k.firstName).join(', '),
+      s.role==='admin'? '#/admin/parents' : '#/teacher/students');
+  });
+  if(s.role==='admin'){
+    DB.teachers.forEach(tt=>{
+      const u=byId(DB.users,tt.userId);
+      if(!u || (u.name+' '+u.email).toLowerCase().indexOf(q)<0) return;
+      push('staff', tt.id, u.name, L(tt.title), '#/admin/staff?s='+tt.id);
+    });
+    /* administration accounts are staff too, and are not in the teacher table */
+    DB.users.filter(u=>u.role==='admin').forEach(u=>{
+      if((u.name+' '+u.email).toLowerCase().indexOf(q)<0) return;
+      push('staff', u.id, u.name, t('role_admin'), '#/admin/settings');
+    });
+  }
+  return out.slice(0,24);
+}
+function searchOverlay(){
+  if(!state.ui.searchOpen) return '';
+  const res=searchAll(state.ui.sq);
+  const ic={student:'child', class:'layers', parent:'users', staff:'cap'};
+  return '<div class="srch" data-act="srch-close"><div class="srch-box" onclick="event.stopPropagation()">'+
+    '<div class="srch-in">'+icon('search',18)+
+      '<input type="text" id="srchInput" autocomplete="off" placeholder="'+t('search_ph')+'" value="'+esc(state.ui.sq||'')+'">'+
+      '<button class="btn sm ghost" data-act="srch-close">'+t('close')+'</button></div>'+
+    (res.length
+      ? '<div class="srch-res">'+res.map(r=>
+          '<a class="srch-item" href="'+r.href+'" data-act="srch-go">'+
+          '<span class="more-ic">'+icon(ic[r.kind]||'file',17)+'</span>'+
+          '<span style="flex:1;min-width:0"><b>'+esc(r.title)+'</b><i>'+esc(r.sub||'')+'</i></span>'+
+          '<span class="chip">'+t('sr_'+r.kind)+'</span></a>').join('')+'</div>'
+      : '<p class="small faint" style="padding:18px 16px;margin:0">'+
+          t((state.ui.sq||'').length<2? 'search_min' : 'nothing_here')+'</p>')+
+  '</div></div>';
+}
+
+/* ================================================================== EXPORTS */
+function csvCell(v){
+  const s=(v===null||v===undefined)? '' : String(v);
+  return /[",;\n]/.test(s) ? '"'+s.replace(/"/g,'""')+'"' : s;
+}
+function downloadCSV(name, header, rows){
+  const body=[header].concat(rows).map(r=>r.map(csvCell).join(',')).join('\r\n');
+  const blob=new Blob(['\ufeff'+body],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=name+'-'+ymd(today())+'.csv';
+  document.body.appendChild(a); a.click(); a.remove();
+}
+/* an export only ever contains rows the user can already see on screen */
+const EXPORTS={
+  students:()=>({name:'nxenesit',
+    header:['Nr','Emri','Mbiemri','Nr. amë','Datëlindja','Klasa','Prindi','Email','Telefoni'],
+    rows:DB.students.filter(s=>canAccessStudent(s.id)).map((s,i)=>{
+      const g=DB.parentStudent.filter(r=>r.studentId===s.id).map(r=>byId(DB.parents,r.parentId)).filter(Boolean)[0];
+      return [i+1,s.firstName,s.lastName,s.registerNo||'',s.dob,classOf(s).name,
+        g?g.name:'', g?g.email:'', g?g.phone:''];
+    })}),
+  attendance:()=>({name:'prezenca',
+    header:['Data','Nxënësi','Klasa','Statusi','Ora'],
+    rows:DB.attendance.filter(a=>canAccessStudent(a.studentId)).map(a=>{
+      const s=byId(DB.students,a.studentId);
+      return [a.date, s.fullName, classOf(s).name, t(ATT_STATUS[a.status].label), a.time||''];
+    })}),
+  grades:()=>({name:'notat',
+    header:['Nxënësi','Klasa','Lënda','Semestri','Nota'],
+    rows:DB.termGrades.filter(g=>canAccessStudent(g.studentId)).map(g=>{
+      const s=byId(DB.students,g.studentId);
+      return [s.fullName, classOf(s).name, L(byId(DB.subjects,g.subjectId).name),
+        L((byId(DB.terms,g.termId)||{}).name||''), g.value];
+    })}),
+  contacts:()=>({name:'kontaktet',
+    header:['Prindi','Email','Telefoni','Fëmija','Klasa'],
+    rows:DB.parentStudent.filter(r=>canAccessStudent(r.studentId)).map(r=>{
+      const p=byId(DB.parents,r.parentId), s=byId(DB.students,r.studentId);
+      return [p.name,p.email,p.phone||'',s.fullName,classOf(s).name];
+    })}),
+  invoices:()=>({name:'faturat',
+    header:['Periudha','Nxënësi','Klasa','Pagesa','Shuma','Afati','Statusi','Paguar'],
+    rows:DB.invoices.filter(i=>canAccessStudent(i.studentId)).map(i=>{
+      const s=byId(DB.students,i.studentId), pl=planOf(i.planId);
+      return [i.period,s.fullName,classOf(s).name,pl?L(pl.name):'',i.amount,i.dueDate,
+        t(invoiceStatus(i)==='part'?'partly_paid':(invoiceStatus(i)==='open'?'unpaid':invoiceStatus(i))),
+        paidOn(i.id)];
+    })})
+};
+const SENSITIVE_EXPORTS=['contacts','invoices','grades'];
+function exportButton(kind){
+  return '<button class="btn sm" data-act="export-csv" data-v="'+kind+'">'+icon('download',15)+t('export_csv')+'</button>';
+}
+
+/* ============================================================== PREFERENCES */
+const PREF_TYPES=[
+  {key:'grade',   sq:'Notat e reja',        en:'New marks'},
+  {key:'homework',sq:'Detyrat e shtëpisë',  en:'Homework'},
+  {key:'photo',   sq:'Fotot e reja',        en:'New photos'},
+  {key:'report',  sq:'Raportet ditore',     en:'Daily reports'},
+  {key:'announcement', sq:'Njoftimet e zakonshme', en:'Normal announcements'},
+  {key:'message', sq:'Mesazhet',            en:'Messages'},
+  {key:'payment', sq:'Pagesat',             en:'Payments'}
+];
+/* these never obey a preference, and the screen says so */
+const PREF_ALWAYS=['urgent','absence','gdpr','permission','profile'];
+function prefsOf(actor){
+  actor=actor||currentActorKey();
+  let row=DB.notifPrefs.find(p=>p.actor===actor);
+  if(!row){ row={id:uuid('pref'+actor), actor, off:[]}; DB.notifPrefs.push(row); }
+  return row;
+}
+function prefAllows(actor, type){
+  if(PREF_ALWAYS.indexOf(type)>=0) return true;
+  const row=DB.notifPrefs.find(p=>p.actor===actor);
+  return !row || row.off.indexOf(type)<0;
+}
+function prefsCard(){
+  const row=prefsOf();
+  return '<div class="card"><div class="card-h"><h3>'+t('nav_prefs')+'</h3></div><div class="card-b">'+
+    '<p class="small muted" style="margin-bottom:12px">'+t('pref_hint')+'</p>'+
+    PREF_TYPES.map(p=>{
+      const on=row.off.indexOf(p.key)<0;
+      return '<div class="list-row"><span style="flex:1;min-width:0;font-family:var(--ui);font-weight:600;font-size:13.5px">'+
+        esc(state.lang==='sq'?p.sq:p.en)+'</span>'+
+        '<button class="chip '+(on?'ok':'')+'" data-act="pref-toggle" data-v="'+p.key+'" '+
+        'style="cursor:pointer;border:1px solid var(--border);min-width:64px;justify-content:center">'+
+        (on? icon('check',12)+t('on') : t('off'))+'</button></div>';
+    }).join('')+
+    '<div class="notice" style="margin-top:12px">'+icon('shield',16)+'<span>'+t('pref_critical')+'</span></div>'+
+  '</div></div>';
+}
+
+/* =========================================================================
+   WIRING
+   ========================================================================= */
+Object.assign(VIEWS, {
+  'parent/permissions':ParentPermissions, 'admin/permissions':AdminPermissions,
+  'teacher/permissions':AdminPermissions,
+  'parent/documents':DocumentsView, 'admin/documents':DocumentsView, 'teacher/documents':DocumentsView
+});
+
+Object.assign(ACTIONS, {
+  /* permissions */
+  'perm-new':()=>{ if(state.session.role!=='admin'){ toast(t('no_access'),'lock'); return; } modalPermNew(); },
+  'perm-save':()=>{
+    if(state.session.role!=='admin'){ toast(t('no_access'),'lock'); return; }
+    const v=id=>{ const e=document.getElementById(id); return e? e.value.trim():''; };
+    const title=v('pnTitle'), body=v('pnBody');
+    if(!title || !body){ toast(t('row_error_fields'),'alert'); return; }
+    const aud=v('pnAud');
+    const p={id:uuid('pm'+Date.now()), schoolId:DB._ref.SCHOOL, kind:v('pnKind')||'trip',
+      title:bi(title), body:bi(body), instructions: v('pnInstr')? bi(v('pnInstr')) : null,
+      audience: aud==='school'? {type:'school'} : {type:'class', classId:aud},
+      date:v('pnDate')||null, deadline:v('pnDeadline')||null,
+      createdBy:state.session.userId, createdAt:nowISO()};
+    DB.permissions.unshift(p);
+    let n=0;
+    permStudents(p).forEach(st=>DB.parentStudent.filter(r=>r.studentId===st.id).forEach(r=>{
+      pushNotification('parent:'+r.parentId,'permission', 'Kërkesë për leje: '+title,
+        'Permission request: '+title, '#/parent/permissions'); n++;
+    }));
+    audit('permission.create', title+' → '+n);
+    closeModal(); toast(t('perm_sent'),'checkcircle'); render();
+  },
+  'perm-open':(d)=>modalPermResponse(d.v, d.s),
+  'perm-answer':(d)=>{
+    if(!canAccessStudent(d.s)){ toast(t('no_access'),'lock'); return; }
+    const p=DB.permissions.find(x=>x.id===d.v); if(!p) return;
+    if(!permStudents(p).some(s=>s.id===d.s)){ toast(t('no_access'),'lock'); return; }
+    const el=document.getElementById('pmNote');
+    const note=el? el.value.trim() : '';
+    let r=permResponse(d.v,d.s);
+    if(r){ r.answer=d.a; r.note=note? bi(note):null; r.at=nowISO(); }
+    else DB.permissionResponses.push({id:uuid('pr'+d.v+d.s), schoolId:DB._ref.SCHOOL,
+      permissionId:d.v, studentId:d.s, answer:d.a, note:note? bi(note):null,
+      respondedBy:state.session.parentId, at:nowISO()});
+    audit('permission.answer', d.v+' '+d.s+' '+d.a);
+    closeModal(); toast(t(d.a==='approve'?'perm_approved':'perm_declined'),'checkcircle'); render();
+  },
+  'perm-remind':(d)=>{
+    if(state.session.role!=='admin'){ toast(t('no_access'),'lock'); return; }
+    const p=DB.permissions.find(x=>x.id===d.v); if(!p) return;
+    let n=0;
+    permStudents(p).filter(st=>!permResponse(p.id,st.id)).forEach(st=>
+      DB.parentStudent.filter(r=>r.studentId===st.id).forEach(r=>{
+        pushNotification('parent:'+r.parentId,'permission','Kujtesë: '+L(p.title),
+          'Reminder: '+L(p.title), '#/parent/permissions'); n++;
+      }));
+    audit('permission.remind', d.v+' n='+n);
+    toast(tf('reminders_sent',{n:n}),'bell'); render();
+  },
+
+  /* documents */
+  'doc-new':()=>{ if(state.session.role!=='admin'){ toast(t('no_access'),'lock'); return; } modalDocNew(); },
+  'doc-scope':()=>{
+    const sc=document.getElementById('dcScope'), wrap=document.getElementById('dcTargetWrap'),
+          sel=document.getElementById('dcTarget');
+    if(!sc||!wrap||!sel) return;
+    if(sc.value==='school'){ wrap.style.display='none'; return; }
+    wrap.style.display='';
+    sel.innerHTML = sc.value==='class'
+      ? DB.classes.map(c=>'<option value="'+c.id+'">'+esc(c.name)+'</option>').join('')
+      : DB.students.map(s=>'<option value="'+s.id+'">'+esc(s.fullName)+' · '+esc(classOf(s).name)+'</option>').join('');
+  },
+  'doc-save':()=>{
+    if(state.session.role!=='admin'){ toast(t('no_access'),'lock'); return; }
+    const v=id=>{ const e=document.getElementById(id); return e? e.value.trim():''; };
+    const title=v('dcTitle');
+    if(!title){ toast(t('row_error_fields'),'alert'); return; }
+    const scope=v('dcScope')||'school', target=v('dcTarget');
+    const f=state.ui.docFile||null;
+    DB.documents.unshift({id:uuid('doc'+Date.now()), schoolId:DB._ref.SCHOOL,
+      title:bi(title), kind:v('dcKind')||'other', scope,
+      classId: scope==='class'? target : null,
+      studentId: scope==='student'? target : null,
+      fileName: f? f.name : null, src: f? f.src : null, mime: f? f.mime : null,
+      uploadedBy:state.session.userId, uploadedAt:nowISO()});
+    state.ui.docFile=null;
+    audit('document.add', title+' ('+scope+')');
+    closeModal(); toast(t('saved'),'checkcircle'); render();
+  },
+  'doc-open':(d)=>{
+    const doc=DB.documents.find(x=>x.id===d.v);
+    if(!doc || !docVisible(doc)){ toast(t('no_access'),'lock'); return; }
+    audit('document.open', doc.id);
+    if(doc.src){
+      const a=document.createElement('a');
+      a.href=doc.src; a.download=doc.fileName||(L(doc.title)+'.pdf'); a.rel='noopener';
+      document.body.appendChild(a); a.click(); a.remove();
+    } else toast(t('doc_no_file'),'info');
+  },
+  'doc-del':(d)=>{
+    if(state.session.role!=='admin'){ toast(t('no_access'),'lock'); return; }
+    const i=DB.documents.findIndex(x=>x.id===d.v);
+    if(i>=0){ audit('document.delete', DB.documents[i].id); DB.documents.splice(i,1); }
+    render();
+  },
+
+  /* search */
+  'srch-open':()=>{ state.ui.searchOpen=true; state.ui.sq=''; render();
+    const el=document.getElementById('srchInput'); if(el) el.focus(); },
+  'srch-close':()=>{ state.ui.searchOpen=false; render(); },
+  'srch-go':()=>{ state.ui.searchOpen=false; },
+
+  /* exports */
+  'export-csv':(d)=>{
+    const s=state.session;
+    if(s.role!=='admin' && s.role!=='teacher'){ toast(t('no_access'),'lock'); return; }
+    if(SENSITIVE_EXPORTS.indexOf(d.v)>=0 && s.role!=='admin'){ toast(t('no_access'),'lock'); return; }
+    const build=EXPORTS[d.v]; if(!build) return;
+    const set=build();
+    downloadCSV(set.name, set.header, set.rows);
+    audit('export.'+d.v, set.rows.length+' rows');
+    toast(tf('export_rows',{n:set.rows.length}),'download');
+  },
+
+  /* preferences */
+  'pref-toggle':(d)=>{
+    const row=prefsOf();
+    const i=row.off.indexOf(d.v);
+    if(i>=0) row.off.splice(i,1); else row.off.push(d.v);
+    audit('prefs.change', d.v+' → '+(i>=0?'on':'off'));
+    render();
+  }
+});
+
+/* a preference silences the notification at the point it is created, so
+   nothing has to be filtered later — and the critical types ignore it */
+const plainPush = pushNotification;
+pushNotification = function(target, type, sq, en, link){
+  if(!prefAllows(target, type)) return;
+  return plainPush(target, type, sq, en, link);
+};
+
+/* the file picker for a document */
+document.addEventListener('change', e=>{
+  if(e.target.id!=='dcFile') return;
+  const f=e.target.files && e.target.files[0]; if(!f) return;
+  const fr=new FileReader();
+  fr.onload=()=>{ state.ui.docFile={name:f.name, mime:f.type, src:fr.result};
+    toast(f.name,'file'); };
+  fr.readAsDataURL(f);
+});
+
+/* the search overlay and the guardian's permission prompt */
+const renderBeforeV1 = render;
+render = function(){
+  renderBeforeV1.apply(null, arguments);
+  if(state.ui.searchOpen && state.session && state.session.role!=='parent'){
+    const root=document.getElementById('root');
+    if(root) root.insertAdjacentHTML('beforeend', searchOverlay());
+  }
+};
+document.addEventListener('input', e=>{
+  if(e.target.id!=='srchInput') return;
+  state.ui.sq=e.target.value;
+  const box=document.querySelector('.srch');
+  if(box){ box.outerHTML=searchOverlay();
+    const el=document.getElementById('srchInput');
+    if(el){ el.focus(); el.setSelectionRange(el.value.length,el.value.length); } }
+});
+document.addEventListener('keydown', e=>{
+  if(!state.session || state.session.role==='parent') return;
+  if(e.key==='Escape' && state.ui.searchOpen){ state.ui.searchOpen=false; render(); }
+  if((e.key==='k'||e.key==='K') && (e.metaKey||e.ctrlKey)){
+    e.preventDefault(); state.ui.searchOpen=true; state.ui.sq=''; render();
+    const el=document.getElementById('srchInput'); if(el) el.focus();
+  }
+});
+
+
+/* =========================================================================
+   DOKUMENTET E FËMIJËS
+   The papers a school asks for every September and chases on paper: the birth
+   certificate, an ID or passport, the vaccination record. A guardian uploads
+   them once from the child's profile; the office and the class staff can see
+   them; nobody else can.
+
+   These are the same `document` rows as the school's own document centre —
+   one model, one visibility rule — distinguished by `source` and `category`.
+   ========================================================================= */
+
+const CHILD_DOCS=[
+  {key:'birth',       sq:'Certifikata e lindjes',   en:'Birth certificate',  required:true,  expiry:false},
+  {key:'id',          sq:'Letërnjoftim / Pasaportë',en:'ID or passport',     required:false, expiry:true},
+  {key:'vaccination', sq:'Certifikata e vaksinimit',en:'Vaccination record', required:true,  expiry:false},
+  {key:'medicalDoc',  sq:'Raport mjekësor',         en:'Medical report',     required:false, expiry:false},
+  {key:'otherDoc',    sq:'Tjetër',                  en:'Other',              required:false, expiry:false}
+];
+function childDocMeta(k){ return CHILD_DOCS.find(d=>d.key===k) || CHILD_DOCS[CHILD_DOCS.length-1]; }
+function childDocLabel(k){ const m=childDocMeta(k); return state.lang==='sq'? m.sq : m.en; }
+
+function childDocs(studentId){
+  return DB.documents
+    .filter(d=>d.scope==='student' && d.studentId===studentId && d.category)
+    .sort((a,b)=>(b.uploadedAt||'').localeCompare(a.uploadedAt||''));
+}
+function childDocsOf(studentId, category){
+  return childDocs(studentId).filter(d=>d.category===category);
+}
+function docExpired(d){ return !!(d.expiresAt && d.expiresAt < ymd(today())); }
+function docExpiringSoon(d){
+  return !!(d.expiresAt && !docExpired(d) && d.expiresAt <= ymd(addDays(today(),60)));
+}
+function childDocsProgress(studentId){
+  const req=CHILD_DOCS.filter(d=>d.required);
+  const done=req.filter(d=>childDocsOf(studentId,d.key).some(x=>!docExpired(x))).length;
+  return {done, total:req.length, pct: req.length? Math.round(done/req.length*100) : 100};
+}
+function humanSize(bytes){
+  if(!bytes) return '';
+  if(bytes<1024) return bytes+' B';
+  if(bytes<1024*1024) return Math.round(bytes/1024)+' KB';
+  return (bytes/1048576).toFixed(1).replace('.0','')+' MB';
+}
+function docIsImage(d){ return String(d.mime||'').indexOf('image')===0; }
+
+/* ---------- the card on the child's profile ---------- */
+function childDocsCard(st){
+  const canUpload = state.session.role==='parent' && canAccessStudent(st.id);
+  const canSee = canAccessStudent(st.id) || state.session.role==='admin';
+  if(!canSee) return '';
+  const p=childDocsProgress(st.id);
+  return '<div class="card" style="margin-top:16px"><div class="card-h">'+
+      '<h3>'+t('cd_title')+'</h3>'+
+      '<span class="chip '+(p.done===p.total?'ok':'warn')+'">'+p.done+'/'+p.total+'</span>'+
+    '</div><div class="card-b">'+
+      '<div class="row" style="gap:14px;align-items:flex-start;flex-wrap:wrap;margin-bottom:14px">'+
+        ring(p.pct,{size:56,color:p.done===p.total?'var(--ok)':'var(--brand)'})+
+        '<div style="flex:1;min-width:180px">'+
+          '<div style="font-family:var(--ui);font-weight:600;font-size:14px">'+
+            t(p.done===p.total? 'cd_complete' : 'cd_incomplete')+'</div>'+
+          '<p class="small muted" style="margin-top:3px">'+t('cd_hint')+'</p>'+
+        '</div>'+
+      '</div>'+
+      CHILD_DOCS.map(meta=>{
+        const list=childDocsOf(st.id, meta.key);
+        const bad=list.filter(docExpired).length && !list.some(x=>!docExpired(x));
+        return '<div class="cd-group">'+
+          '<div class="cd-head">'+
+            '<span class="cd-ic '+(list.length? (bad?'err':'ok') : (meta.required?'warn':''))+'">'+
+              icon(list.length? (bad?'alert':'check') : 'file',15)+'</span>'+
+            '<div style="flex:1;min-width:0">'+
+              '<b>'+esc(childDocLabel(meta.key))+'</b>'+
+              (meta.required? '<span class="chip" style="margin-left:6px">'+t('cd_required')+'</span>':'')+
+              (!list.length? '<div class="tiny faint">'+t('cd_missing')+'</div>':'')+
+            '</div>'+
+            (canUpload? '<button class="btn sm '+(list.length?'':'primary')+'" data-act="cd-add" '+
+              'data-s="'+st.id+'" data-k="'+meta.key+'">'+icon('plus',14)+
+              t(list.length? 'cd_replace' : 'cd_upload')+'</button>':'')+
+          '</div>'+
+          list.map(d=>childDocRow(d, st)).join('')+
+        '</div>';
+      }).join('')+
+      '<div class="notice privacy" style="margin-top:12px">'+icon('lock',16)+'<span>'+t('cd_privacy')+'</span></div>'+
+    '</div></div>';
+}
+
+function childDocRow(d, st){
+  const mine = state.session.role==='parent' && d.source==='guardian';
+  const expired=docExpired(d), soon=docExpiringSoon(d);
+  return '<div class="cd-row'+(expired?' bad':'')+'" '+
+      (docIsImage(d)? 'data-act="cd-preview" data-v="'+d.id+'" role="button" tabindex="0"':'')+'>'+
+    '<span class="cd-thumb">'+(docIsImage(d) && d.src
+      ? '<img src="'+esc(d.src)+'" alt="">'
+      : icon('file',18))+'</span>'+
+    '<div style="flex:1;min-width:0">'+
+      '<div class="cd-name">'+esc(d.fileName || L(d.title))+'</div>'+
+      '<div class="tiny muted">'+esc(fmtDate((d.uploadedAt||'').slice(0,10)))+
+        (d.size? ' · '+esc(humanSize(d.size)) : '')+
+        (d.source==='school'? ' · '+t('cd_from_school') : '')+
+      '</div>'+
+      (d.expiresAt
+        ? '<div class="tiny '+(expired?'':'')+'" style="color:'+(expired?'var(--err)':(soon?'var(--warn)':'var(--faint)'))+'">'+
+          (expired? t('cd_expired') : t('cd_expires'))+' '+esc(fmtDate(d.expiresAt))+'</div>'
+        : '')+
+    '</div>'+
+    '<div class="row" style="gap:5px">'+
+      '<button class="btn sm ghost" data-act="cd-open" data-v="'+d.id+'" aria-label="'+t('download')+'">'+
+        icon('download',15)+'</button>'+
+      (mine? '<button class="btn sm ghost" data-act="cd-del" data-v="'+d.id+'" aria-label="'+t('remove')+'">'+
+        icon('trash',15)+'</button>':'')+
+    '</div>'+
+  '</div>';
+}
+
+/* ---------- upload ---------- */
+function modalChildDoc(studentId, category){
+  const st=byId(DB.students,studentId);
+  const meta=childDocMeta(category);
+  const staged=state.ui.cdFile;
+  openModal({title:childDocLabel(category), body:
+    '<div class="row" style="gap:10px;margin-bottom:13px">'+avatar(st.fullName,36,st.id)+
+      '<div><div style="font-family:var(--ui);font-weight:700">'+esc(st.fullName)+'</div>'+
+      '<div class="tiny muted">'+esc(classOf(st).name)+'</div></div></div>'+
+    '<label class="uploader">'+icon(staged? 'check':'file',20)+
+      '<span>'+esc(staged? staged.name : t('cd_choose'))+'</span>'+
+      '<span class="tiny faint">'+esc(staged? humanSize(staged.size) : t('cd_accept'))+'</span>'+
+      '<input type="file" id="cdFile" accept="application/pdf,image/*"></label>'+
+    (staged && String(staged.mime||'').indexOf('image')===0
+      ? '<div style="margin-top:12px;text-align:center"><img src="'+esc(staged.src)+'" '+
+        'style="max-width:100%;max-height:220px;border-radius:var(--r);border:1px solid var(--border)"></div>'
+      : '')+
+    (meta.expiry
+      ? '<div class="field" style="margin-top:13px;margin-bottom:0"><label class="fl">'+t('cd_expiry')+'</label>'+
+        '<input type="date" id="cdExp" value=""></div>'
+      : '')+
+    '<div class="notice privacy" style="margin-top:13px">'+icon('lock',16)+'<span>'+t('cd_privacy')+'</span></div>'+
+    '<div class="notice" style="margin-top:10px">'+icon('info',16)+'<span>'+t('media_session_note')+'</span></div>',
+    footer:'<button class="btn" data-act="close-modal">'+t('cancel')+'</button>'+
+      '<button class="btn primary" data-act="cd-save" data-s="'+studentId+'" data-k="'+category+'">'+t('save')+'</button>'});
+}
+
+/* a scanned page is worth looking at before downloading it */
+function childDocViewer(){
+  const id=state.ui.cdView;
+  if(!id) return '';
+  const d=DB.documents.find(x=>x.id===id);
+  if(!d || !docVisible(d) || !docIsImage(d)) return '';
+  return '<div class="viewer" data-act="cd-close"><div class="viewer-inner" onclick="event.stopPropagation()">'+
+    '<div class="viewer-media"><img src="'+esc(d.src)+'" alt="'+esc(d.fileName||'')+'"></div>'+
+    '<div class="viewer-bar"><div style="flex:1;min-width:0">'+
+      '<div style="font-family:var(--ui);font-weight:600;font-size:14px">'+esc(d.fileName||L(d.title))+'</div>'+
+      '<div class="tiny faint">'+esc(childDocLabel(d.category))+' · '+esc(fmtDate((d.uploadedAt||'').slice(0,10)))+
+        (d.size? ' · '+esc(humanSize(d.size)):'')+'</div></div>'+
+      '<button class="btn sm" data-act="cd-open" data-v="'+d.id+'">'+icon('download',15)+t('download')+'</button>'+
+      '<button class="btn sm ghost" data-act="cd-close">'+icon('x',15)+'</button>'+
+    '</div></div></div>';
+}
+
+/* =========================================================================
+   WIRING
+   ========================================================================= */
+Object.assign(ACTIONS, {
+  'cd-add':(d)=>{
+    if(!canAccessStudent(d.s) || state.session.role!=='parent'){ toast(t('no_access'),'lock'); return; }
+    state.ui.cdFile=null; state.ui.cdStudent=d.s; state.ui.cdKind=d.k;
+    modalChildDoc(d.s, d.k);
+  },
+  'cd-save':(d)=>{
+    if(!canAccessStudent(d.s) || state.session.role!=='parent'){ toast(t('no_access'),'lock'); return; }
+    const f=state.ui.cdFile;
+    if(!f){ toast(t('cd_pick_first'),'alert'); return; }
+    const exp=document.getElementById('cdExp');
+    /* a replacement supersedes the previous one rather than piling up */
+    const prev=childDocsOf(d.s, d.k).filter(x=>x.source==='guardian');
+    prev.forEach(x=>{ const i=DB.documents.indexOf(x); if(i>=0) DB.documents.splice(i,1); });
+    DB.documents.unshift({id:uuid('cdoc'+Date.now()), schoolId:DB._ref.SCHOOL,
+      title:bi(childDocLabel(d.k)), kind:'form', scope:'student', classId:null, studentId:d.s,
+      category:d.k, source:'guardian',
+      fileName:f.name, mime:f.mime, size:f.size, src:f.src,
+      expiresAt: exp && exp.value? exp.value : null,
+      uploadedBy:state.session.userId, uploadedAt:nowISO()});
+    state.ui.cdFile=null;
+    audit('childdoc.upload', d.s+' '+d.k);
+    /* the office is told, because these are the papers they chase */
+    DB.users.filter(u=>u.role==='admin').forEach(u=>
+      pushNotification('admin:'+u.id,'document',
+        'Dokument i ri nga prindi', 'New document from a guardian', '#/admin/documents'));
+    closeModal(); toast(t('cd_saved'),'checkcircle'); render();
+  },
+  'cd-del':(d)=>{
+    const doc=DB.documents.find(x=>x.id===d.v);
+    if(!doc) return;
+    /* a guardian removes only what they uploaded, never a school document */
+    if(!(state.session.role==='parent' && doc.source==='guardian' && canAccessStudent(doc.studentId))){
+      toast(t('no_access'),'lock'); return;
+    }
+    const i=DB.documents.indexOf(doc);
+    if(i>=0){ audit('childdoc.delete', doc.id); DB.documents.splice(i,1); }
+    toast(t('saved')); render();
+  },
+  'cd-open':(d)=>{
+    const doc=DB.documents.find(x=>x.id===d.v);
+    if(!doc || !docVisible(doc)){ toast(t('no_access'),'lock'); return; }
+    audit('document.open', doc.id);
+    if(!doc.src){ toast(t('doc_no_file'),'info'); return; }
+    const a=document.createElement('a');
+    a.href=doc.src; a.download=doc.fileName||(L(doc.title)+'.pdf'); a.rel='noopener';
+    document.body.appendChild(a); a.click(); a.remove();
+  },
+  'cd-preview':(d)=>{ state.ui.cdView=d.v; render(); },
+  'cd-close':()=>{ state.ui.cdView=null; render(); }
+});
+
+document.addEventListener('change', e=>{
+  if(e.target.id!=='cdFile') return;
+  const f=e.target.files && e.target.files[0]; if(!f) return;
+  const done=(src,size)=>{
+    state.ui.cdFile={name:f.name, mime:f.type, size:size||f.size, src};
+    modalChildDoc(state.ui.cdStudent, state.ui.cdKind);
+  };
+  if(String(f.type||'').indexOf('image')===0){
+    /* a phone photo of a certificate is 4 MB of nothing; 1600px is plenty */
+    readImageFile(f, 1600, false).then(m=>done(m.src, Math.round((m.src.length*3)/4)));
+  } else {
+    const fr=new FileReader();
+    fr.onload=()=>done(fr.result, f.size);
+    fr.readAsDataURL(f);
+  }
+});
+
+const renderBeforeCd = render;
+render = function(){
+  renderBeforeCd.apply(null, arguments);
+  if(state.ui.cdView){
+    const root=document.getElementById('root');
+    if(root) root.insertAdjacentHTML('beforeend', childDocViewer());
+  }
+};
 
 window.addEventListener('hashchange', onRoute);
 if(!SB.enabled) restore();
