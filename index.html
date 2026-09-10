@@ -7217,11 +7217,12 @@ function restore(){
     if(!parsed || parsed.v!==1 || !parsed.db || !parsed.db.students) return false;
     DB=parsed.db;
     backfill();
-    /* a session from the other portal must not be honoured here */
-    const s=parsed.session;
-    const fits = !s || (APP_VARIANT==='parent' ? s.role==='parent' : s.role!=='parent');
-    state.session = fits ? s : null;
-    state.childId = fits ? (parsed.childId||null) : null;
+    /* The data comes back; the session does not. Landing on the sign-in page is
+       the honest start for a demo, and it is what someone opening the link
+       expects to see. Once a real backend is configured, staying signed in is
+       Supabase Auth's own token rather than anything kept here. */
+    state.session = null;
+    state.childId = null;
     if(parsed.lang) state.lang=parsed.lang;
     rebuildAvatars();
     return true;
